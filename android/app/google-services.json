@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "365099961373",
+    "project_id": "matchplayhub-d9b10",
+    "storage_bucket": "matchplayhub-d9b10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365099961373:android:d127952314a15cd5db4af4",
+        "android_client_info": {
+          "package_name": "com.matchplayhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365099961373-sqn8ahm58lgbm4eb9tuuqtkasrd0hpak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqCwWTmi8Mz_XS1hofTtFXtA50_Z0puVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365099961373-sqn8ahm58lgbm4eb9tuuqtkasrd0hpak.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "365099961373-m7anbbavcvd6k4f7hn3a1trlmgpluk6h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.matchplayhub"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

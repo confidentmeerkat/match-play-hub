@@ -1,0 +1,6 @@
+
+<resources>
+    <color name="primary_dark">#000000</color>
+     <color name="loader">#2972FF</color>
+     <color name="loader1">#2972FF</color>
+</resources>
