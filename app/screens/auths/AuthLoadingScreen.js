@@ -1,21 +1,33 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import { Alert, Platform } from "react-native";
+import { Alert, Platform, StyleSheet, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../resources/constants";
 import * as globals from "../../utils/Globals";
-import {
-  doGetUser,
-  doGetUserExists,
-  doRefreshToken,
-  doSetCurrentUserData,
-} from "../../redux/actions/AuthActions";
+import { doGetUser, doGetUserExists, doRefreshToken, doSetCurrentUserData } from "../../redux/actions/AuthActions";
 import { CommonActions } from "@react-navigation/native";
 import { showErrorMessage } from "../../utils/helpers";
 import errors from "../../resources/languages/errors";
 import strings from "../../resources/languages/strings";
 import { EventRegister } from "react-native-event-listeners";
+import Video from "react-native-video";
+import { Text } from "react-native";
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "column",
+    backgroundColor: "white",
+    alignItems: "center",
+  },
+  logo: { width: "70%", aspectRatio: 3 / 1 },
+  description: {
+    fontSize: globals.font_17,
+    fontWeight: "700",
+  },
+});
 
 class AuthLoadingScreen extends PureComponent {
   constructor(props) {
@@ -36,12 +48,9 @@ class AuthLoadingScreen extends PureComponent {
       this.setState({ notificationData: this.props.notificationData });
     }
 
-    if (
-      prevProps.responseUserExistsdata !== this.props.responseUserExistsdata
-    ) {
+    if (prevProps.responseUserExistsdata !== this.props.responseUserExistsdata) {
       if (this.props.responseUserExistsdata !== undefined) {
-        const { success, message, status_code } =
-          this.props.responseUserExistsdata;
+        const { success, message, status_code } = this.props.responseUserExistsdata;
         if (status_code == 200 && success == true) {
           this.props.doGetUser();
         } else if (success == false) {
@@ -64,8 +73,7 @@ class AuthLoadingScreen extends PureComponent {
 
     if (prevProps.responseUserdata !== this.props.responseUserdata) {
       if (this.props.responseUserdata !== undefined) {
-        const { success, user, message, status_code } =
-          this.props.responseUserdata;
+        const { success, user, message, status_code } = this.props.responseUserdata;
 
         if (status_code == 200 && success == true) {
           this.doFinish("Home"); //Navigation - Go to the Dashboard
@@ -79,9 +87,7 @@ class AuthLoadingScreen extends PureComponent {
             this.props.navigation.navigate("AuthLoading");
           } else if (status_code == 500) {
             showErrorMessage(strings.somethingWrong);
-            const accessToken = await AsyncStorage.getItem(
-              prefEnum.TAG_API_TOKEN
-            );
+            const accessToken = await AsyncStorage.getItem(prefEnum.TAG_API_TOKEN);
             globals.access_token = accessToken;
 
             if (globals.isInternetConnected == false) {
@@ -100,12 +106,9 @@ class AuthLoadingScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           this.doFinish("Home"); //Navigation - Go to the Dashboard
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
@@ -203,10 +206,7 @@ class AuthLoadingScreen extends PureComponent {
             this.clearandresettoScreen("OnlyMatchDetail", upcomingMatch);
           } else if (targetScreen === "request_to_play") {
             const { upcomingMatch } = this.state.notificationData.data;
-            this.clearandresettoScreen(
-              "MatchDetailInterestedandConfirmPlayers",
-              upcomingMatch
-            );
+            this.clearandresettoScreen("MatchDetailInterestedandConfirmPlayers", upcomingMatch);
           } else if (targetScreen === "delete_match") {
             this.props.navigation.dispatch(
               CommonActions.navigate({
@@ -283,7 +283,20 @@ class AuthLoadingScreen extends PureComponent {
   };
 
   render() {
-    return <></>;
+    return (
+      <View style={styles.container}>
+        <Video
+          style={styles.logo}
+          source={require("../../components/Animation/logo_ani.mp4")} // Can be a URL or a local file.
+          resizeMode="cover"
+          hideShutterView
+          repeat
+          muted
+        />
+
+        <Text style={styles.description}>Match with your next opponent</Text>
+      </View>
+    );
   }
 }
 
@@ -299,10 +312,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...bindActionCreators(
-      { doGetUserExists, doGetUser, doSetCurrentUserData, doRefreshToken },
-      dispatch
-    ),
+    ...bindActionCreators({ doGetUserExists, doGetUser, doSetCurrentUserData, doRefreshToken }, dispatch),
   };
 }
 
