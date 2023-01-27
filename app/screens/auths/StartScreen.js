@@ -73,6 +73,7 @@ const StartScreen = () => {
             borderWidth={1}
             backgroundColor="rgba(255, 255, 255, 0.4)"
             height="12"
+            onPress={() => navigation.navigate("RegisterChoose")}
           >
             Create an account
           </Button>

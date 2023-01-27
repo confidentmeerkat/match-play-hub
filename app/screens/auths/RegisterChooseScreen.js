@@ -3,7 +3,7 @@ import { VStack, Text, Button, Box, HStack, Image } from "native-base";
 import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
 
-const LoginChooseScreen = () => {
+const RegisterChooseScreen = () => {
   const navigation = useNavigation();
 
   return (
@@ -35,9 +35,9 @@ const LoginChooseScreen = () => {
               alt="password"
             />
           }
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("SendCode")}
         >
-          <Text width="full">with phone or username</Text>
+          <Text width="full">with phone or email</Text>
         </Button>
 
         <Button
@@ -60,7 +60,7 @@ const LoginChooseScreen = () => {
             />
           }
         >
-          Login with google
+          Sign up with google
         </Button>
 
         <Button
@@ -83,7 +83,7 @@ const LoginChooseScreen = () => {
             />
           }
         >
-          Login with facebook
+          Sign up with facebook
         </Button>
       </VStack>
 
@@ -95,4 +95,4 @@ const LoginChooseScreen = () => {
   );
 };
 
-export default LoginChooseScreen;
+export default RegisterChooseScreen;
