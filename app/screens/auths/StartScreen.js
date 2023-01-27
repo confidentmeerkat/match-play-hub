@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { Button } from "native-base";
 import { VStack } from "native-base";
 import React from "react";
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
 });
 
 const StartScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -50,7 +53,16 @@ const StartScreen = () => {
         </View>
 
         <VStack space="10" px={30}>
-          <Button borderRadius={32} bgColor="primary" _text={{ fontSize: "md" }}>
+          <Button
+            borderRadius={32}
+            bgColor="primary"
+            _text={{ fontSize: "md" }}
+            height="12"
+            onPress={() => {
+              console.log("press login");
+              navigation.navigate("LoginChoose");
+            }}
+          >
             Login
           </Button>
 
@@ -60,6 +72,7 @@ const StartScreen = () => {
             borderColor="white"
             borderWidth={1}
             backgroundColor="rgba(255, 255, 255, 0.4)"
+            height="12"
           >
             Create an account
           </Button>

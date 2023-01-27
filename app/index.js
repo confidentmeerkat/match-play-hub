@@ -44,6 +44,7 @@ import ChatSearchFilterScreen from "./screens/chat/ChatSearchFilterScreen";
 import DeleteMyDataScreen from "./screens/hometabs/HubTab/DeleteMyDataScreen";
 import TermAndConditionScreen from "./screens/auths/TermAndConditionScreen";
 import StartScreen from "./screens/auths/StartScreen";
+import LoginChooseScreen from "./screens/auths/LoginChooseScreen";
 /**
  * Define your screen heres
  * @name is Route Name
@@ -57,6 +58,7 @@ function MyStack() {
     <Stack.Navigator initialRouteName="AuthLoading">
       <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />

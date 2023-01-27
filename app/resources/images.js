@@ -55,6 +55,9 @@ const images = {
   round_plus_img: require("../../assets/images/round_plus.png"),
   share_img: require("../../assets/images/share.png"),
   avatar_img: require("../../assets/images/avatar.png"),
+  phone_img: require("../../assets/images/phone.png"),
+  facebook_img: require("../../assets/images/facebook.png"),
+  google_img: require("../../assets/images/google.png"),
 };
 
 export default images;
