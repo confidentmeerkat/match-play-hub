@@ -59,13 +59,13 @@ class AuthLoadingScreen extends PureComponent {
           } else if (status_code == 402) {
             showErrorMessage(message);
             this.clearUserData();
-            this.doFinish("Login");
+            this.doFinish("Start");
           } else if (status_code == 500) {
             showErrorMessage(strings.somethingWrong);
             this.clearUserData();
-            this.doFinish("Login");
+            this.doFinish("Start");
           } else {
-            this.doFinish("Login"); //Navigation - Go to the login
+            this.doFinish("Start"); //Navigation - Go to the login
           }
         }
       }
@@ -93,14 +93,14 @@ class AuthLoadingScreen extends PureComponent {
             if (globals.isInternetConnected == false) {
               showErrorMessage(errors.no_internet);
               if (accessToken === null || accessToken === undefined) {
-                this.doFinish("Login");
+                this.doFinish("Start");
               } else {
                 this.doFinish("Home");
               }
               return;
             }
           } else {
-            this.doFinish("Login"); //Navigation - Go to the login
+            this.doFinish("Start"); //Navigation - Go to the login
           }
         }
       }
@@ -122,7 +122,7 @@ class AuthLoadingScreen extends PureComponent {
             this.clearUserData();
             this.props.navigation.navigate("AuthLoading");
           } else {
-            this.doFinish("Login"); //Navigation - Go to the login
+            this.doFinish("Start"); //Navigation - Go to the login
           }
         }
       }
@@ -142,7 +142,7 @@ class AuthLoadingScreen extends PureComponent {
     globals.access_token = accessToken;
     if (globals.isInternetConnected == true) {
       if (accessToken === null || accessToken === undefined) {
-        this.doFinish("Login");
+        this.doFinish("Start");
       } else {
         this.doNavigationAction();
       }
@@ -150,7 +150,7 @@ class AuthLoadingScreen extends PureComponent {
     } else {
       Alert.alert(globals.warning, globals.noInternet);
       if (accessToken === null || accessToken === undefined) {
-        this.doFinish("Login");
+        this.doFinish("Start");
       } else {
         this.doFinish("Home");
       }

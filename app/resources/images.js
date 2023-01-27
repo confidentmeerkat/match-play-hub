@@ -1,5 +1,6 @@
 const images = {
   logo_img: require("../../assets/images/logo.png"),
+  start_img: require("../../assets/images/startpage.png"),
   eye_hide_img: require("../../assets/images/eye_hide.png"),
   eye_show_img: require("../../assets/images/eye_show.png"),
   call_img: require("../../assets/images/call.png"),
@@ -53,7 +54,7 @@ const images = {
   logout_img: require("../../assets/images/logout.png"),
   round_plus_img: require("../../assets/images/round_plus.png"),
   share_img: require("../../assets/images/share.png"),
-	avatar_img: require("../../assets/images/avatar.png"),
+  avatar_img: require("../../assets/images/avatar.png"),
 };
 
 export default images;
