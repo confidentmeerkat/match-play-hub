@@ -47,6 +47,7 @@ import StartScreen from "./screens/auths/StartScreen";
 import LoginChooseScreen from "./screens/auths/LoginChooseScreen";
 import RegisterChooseScreen from "./screens/auths/RegisterChooseScreen";
 import SendCodeScreen from "./screens/auths/SendCodeScreen";
+import EnterCodeScreen from "./screens/auths/EnterCodeScreen";
 /**
  * Define your screen heres
  * @name is Route Name
@@ -63,6 +64,7 @@ function MyStack() {
       <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterChoose" component={RegisterChooseScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SendCode" component={SendCodeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="EnterCode" component={EnterCodeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />

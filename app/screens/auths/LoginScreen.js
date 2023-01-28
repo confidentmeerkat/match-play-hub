@@ -256,7 +256,7 @@ class LoginScreen extends PureComponent {
             repeat={true}
             hideShutterView={true}
             muted={true}
-            // resize={"cover"}
+            resize={"cover"}
           />
         </View>
 
