@@ -36,7 +36,7 @@ const EnterCodeScreen = ({ route: { phone } }) => {
       // TODO: validate code
       console.log("validating code");
 
-      // navigation.navigate("Register");
+      navigation.navigate("CreatePassword");
     }
   }, [code]);
 
