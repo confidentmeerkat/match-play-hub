@@ -46,9 +46,9 @@ import TermAndConditionScreen from "./screens/auths/TermAndConditionScreen";
 import StartScreen from "./screens/auths/StartScreen";
 import LoginChooseScreen from "./screens/auths/LoginChooseScreen";
 import RegisterChooseScreen from "./screens/auths/RegisterChooseScreen";
-import SendCodeScreen from "./screens/auths/SendCodeScreen";
 import EnterCodeScreen from "./screens/auths/EnterCodeScreen";
 import CreatePasswordScreen from "./screens/auths/CreatePasswordScreen";
+import CreateAccountScreen from "./screens/auths/CreateAcountScreen";
 /**
  * Define your screen heres
  * @name is Route Name
@@ -64,7 +64,7 @@ function MyStack() {
       <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterChoose" component={RegisterChooseScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SendCode" component={SendCodeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EnterCode" component={EnterCodeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreatePassword" component={CreatePasswordScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />

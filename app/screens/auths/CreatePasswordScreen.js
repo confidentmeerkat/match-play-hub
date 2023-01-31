@@ -31,7 +31,15 @@ export default function CreatePasswordScreen() {
             name="password"
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
-              <Input mt={10} px={4} variant="underlined" placeholder="Enter a Password" value={value} onChange={onChange} />
+              <Input
+                type="password"
+                mt={10}
+                px={4}
+                variant="underlined"
+                placeholder="Enter a Password"
+                value={value}
+                onChange={onChange}
+              />
             )}
           />
 
@@ -40,7 +48,15 @@ export default function CreatePasswordScreen() {
             name="confirm_password"
             rules={{ validate: { matchesPassword: (value) => value === getValues("password") } }}
             render={({ field: { value, onChange } }) => (
-              <Input mt={10} px={4} variant="underlined" placeholder="Re-enter Password" value={value} onChange={onChange} />
+              <Input
+                type="password"
+                mt={10}
+                px={4}
+                variant="underlined"
+                placeholder="Re-enter Password"
+                value={value}
+                onChange={onChange}
+              />
             )}
           />
         </VStack>

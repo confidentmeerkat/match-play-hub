@@ -9,8 +9,8 @@ const RegisterChooseScreen = () => {
   return (
     <Box flex={1} bgColor="white" flexDir="column" justifyContent="space-between">
       <VStack flex={1} alignItems="center" p={10} space={6}>
-        <Text italic fontSize="2xl" fontWeight={300} color="#232832">
-          More exciting after logging in
+        <Text italic fontSize="2xl" fontWeight="bold" color="#232832">
+          Sign up to play a Match
         </Text>
 
         <Text textAlign="center" fontSize="xs" color="#787B86">
@@ -35,7 +35,7 @@ const RegisterChooseScreen = () => {
               alt="password"
             />
           }
-          onPress={() => navigation.navigate("SendCode")}
+          onPress={() => navigation.navigate("CreateAccount")}
         >
           <Text width="full">with phone or email</Text>
         </Button>
