@@ -84,6 +84,33 @@
 		<string>ProximaNova-Bold.otf</string>
 		<string>ProximaNova-Extrabld.otf</string>
 		<string>ProximaNova-Semibold.otf</string>
+		<string>OpenSans_SemiCondensed-Bold.ttf</string>
+		<string>OpenSans_SemiCondensed-BoldItalic.ttf</string>
+		<string>OpenSans_SemiCondensed-ExtraBold.ttf</string>
+		<string>OpenSans_SemiCondensed-ExtraBoldItalic.ttf</string>
+		<string>OpenSans_SemiCondensed-Italic.ttf</string>
+		<string>OpenSans_SemiCondensed-Light.ttf</string>
+		<string>OpenSans_SemiCondensed-LightItalic.ttf</string>
+		<string>OpenSans_SemiCondensed-Medium.ttf</string>
+		<string>OpenSans_SemiCondensed-MediumItalic.ttf</string>
+		<string>OpenSans_SemiCondensed-Regular.ttf</string>
+		<string>OpenSans_SemiCondensed-SemiBold.ttf</string>
+		<string>OpenSans_SemiCondensed-SemiBoldItalic.ttf</string>
+		<string>OpenSans-Italic-VariableFont_wdth,wght.ttf</string>
+		<string>OpenSans-VariableFont_wdth,wght.ttf</string>
+		<string>OpenSan-Bold.ttf</string>
+		<string>OpenSans-BoldItalic.ttf</string>
+		<string>OpenSans-ExtraBold.ttf</string>
+		<string>OpenSans-ExtraBoldItalic.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
+		<string>OpenSans-Medium.ttf</string>
+		<string>OpenSans-MediumItalic.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-SemiBold.ttf</string>
+		<string>OpenSans-SemiBoldItalic.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

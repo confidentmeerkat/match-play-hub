@@ -4,6 +4,9 @@ import { VStack } from "native-base";
 import React from "react";
 
 import { StyleSheet, View, ImageBackground, Text, Image } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import images from "../../resources/images";
 import { font_17 } from "../../utils/Globals";
 
@@ -15,7 +18,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   logo: {
-    width: "70%",
+    width: wp(70),
     height: "auto",
     aspectRatio: 4 / 1,
   },
@@ -27,11 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-  },
-  loginButton: {
-    marginBottom: 40,
-    borderRadius: 32,
-    backgroundColor: "blue",
   },
 });
 
@@ -52,12 +50,12 @@ const StartScreen = () => {
           <Text style={styles.description}>Match with your next opponent</Text>
         </View>
 
-        <VStack space="10" px={30}>
+        <VStack space="10" px={`${wp(8)}px`}>
           <Button
-            borderRadius={32}
+            borderRadius="full"
             bgColor="primary"
-            _text={{ fontSize: "md" }}
-            height="12"
+            _text={{ fontSize: RFPercentage(2), lineHeight: RFPercentage(2.25) }}
+            py={`${hp(1.6)}px`}
             onPress={() => {
               console.log("press login");
               navigation.navigate("LoginChoose");
@@ -67,12 +65,12 @@ const StartScreen = () => {
           </Button>
 
           <Button
-            borderRadius={32}
-            _text={{ color: "#104378", fontSize: "md" }}
+            borderRadius="full"
+            _text={{ color: "#104378", fontSize: RFPercentage(2), lineHeight: RFPercentage(2.25) }}
             borderColor="white"
             borderWidth={1}
             backgroundColor="rgba(255, 255, 255, 0.4)"
-            height="12"
+            py={`${hp(1.6)}px`}
             onPress={() => navigation.navigate("RegisterChoose")}
           >
             Create an account

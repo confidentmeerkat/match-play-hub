@@ -1,8 +1,34 @@
 import React, { useCallback } from "react";
 
-import { Button, Input, Text, VStack } from "native-base";
+import { Box, Button, Input, Text, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm, Controller } from "react-hook-form";
+import { StyleSheet } from "react-native";
+import {
+  horizontalScale as hs,
+  verticalScale as vs,
+  moderateScale as ms,
+} from "../../utils/metrics";
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    flexDirection: "column",
+    paddingHorizontal: hs(30),
+    backgroundColor: "white",
+  },
+  headerText: {
+    fontSize: ms(24),
+    lineHeight: vs(32),
+    textAlign: "center",
+    fontStyle: "italic",
+    fontWeight: "300",
+    marginTop: vs(24),
+  },
+  input: {
+    fontSize: ms(15),
+  },
+});
 
 export default function CreatePasswordScreen() {
   const { control, getValues, handleSubmit } = useForm();
@@ -12,66 +38,59 @@ export default function CreatePasswordScreen() {
   }, []);
 
   return (
-    <VStack flex={1} p={8} bgColor="white">
-      <KeyboardAwareScrollView
-        contentContainerStyle={{
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          flex: 1,
-        }}
-      >
-        <VStack flex={1} alignItems="center">
-          <Text italic fontSize="2xl" fontWeight="light">
-            Create a Password
-          </Text>
+    <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <VStack alignItems="center" space={`${vs(45)}px`}>
+        <Text style={styles.headerText}>Create a Password</Text>
 
-          <Controller
-            control={control}
-            name="password"
-            rules={{ required: true }}
-            render={({ field: { value, onChange } }) => (
-              <Input
-                type="password"
-                mt={10}
-                px={4}
-                variant="underlined"
-                placeholder="Enter a Password"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
+        <Controller
+          control={control}
+          name="password"
+          rules={{ required: true }}
+          render={({ field: { value, onChange } }) => (
+            <Input
+              padding={0}
+              type="password"
+              variant="underlined"
+              placeholder="Enter a Password"
+              value={value}
+              style={styles.input}
+              onChange={onChange}
+            />
+          )}
+        />
 
-          <Controller
-            control={control}
-            name="confirm_password"
-            rules={{ validate: { matchesPassword: (value) => value === getValues("password") } }}
-            render={({ field: { value, onChange } }) => (
-              <Input
-                type="password"
-                mt={10}
-                px={4}
-                variant="underlined"
-                placeholder="Re-enter Password"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-        </VStack>
+        <Controller
+          control={control}
+          name="confirm_password"
+          rules={{
+            validate: {
+              matchesPassword: (value) => value === getValues("password"),
+            },
+          }}
+          render={({ field: { value, onChange } }) => (
+            <Input
+              padding={0}
+              type="password"
+              variant="underlined"
+              placeholder="Re-enter Password"
+              style={styles.input}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </VStack>
 
+      <Box marginTop={`${vs(85)}px`} width="full">
         <Button
           bgColor="primary"
+          borderRadius="full"
           width="full"
-          borderRadius="3xl"
-          _text={{ fontSize: "md" }}
-          height="12"
-          onPress={handleSubmit(handleCreatePassword)}
+          _text={{ fontSize: ms(15), lineHeight: vs(20) }}
         >
           Done
         </Button>
-      </KeyboardAwareScrollView>
-    </VStack>
+      </Box>
+    </KeyboardAwareScrollView>
   );
 }

@@ -8,6 +8,7 @@ const images = {
   alert_img: require("../../assets/images/alert.png"),
   user_img: require("../../assets/images/user.png"),
   rightsign_img: require("../../assets/images/rightsign.png"),
+  header_back_img: require("../../assets/images/header_back.png"),
   back_img: require("../../assets/images/back.png"),
   settings_img: require("../../assets/images/settings.png"),
   back_arrow_img: require("../../assets/images/back_arrow.png"),

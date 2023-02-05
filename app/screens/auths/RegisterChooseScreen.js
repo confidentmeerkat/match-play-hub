@@ -1,97 +1,142 @@
 import React from "react";
-import { VStack, Text, Button, Box, HStack, Image } from "native-base";
+import { VStack, Text, Button, HStack, Image } from "native-base";
 import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
+
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  headerText: {
+    fontSize: ms(24),
+    lineHeight: vs(32),
+    textAlign: "center",
+    fontFamily: "Open Sans",
+    fontStyle: "italic",
+    fontWeight: "700",
+    marginTop: vs(24),
+    color: "#232832",
+  },
+  headerDescription: {
+    fontFamily: "Open Sans",
+    fontSize: ms(12),
+    lineHeight: vs(20),
+    textAlign: "center",
+    marginTop: vs(21),
+    color: "#787B86",
+  },
+});
 
 const RegisterChooseScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <Box flex={1} bgColor="white" flexDir="column" justifyContent="space-between">
-      <VStack flex={1} alignItems="center" p={10} space={6}>
-        <Text italic fontSize="2xl" fontWeight="bold" color="#232832">
-          Sign up to play a Match
-        </Text>
+    <VStack flex={1} bgColor="white" justifyContent="space-between">
+      <VStack p={hs(30)}>
+        <Text style={styles.headerText}>Sign up to play a Match</Text>
 
-        <Text textAlign="center" fontSize="xs" color="#787B86">
+        <Text style={styles.headerDescription}>
           If you haven’t registered yet, and your account will be automatically registered
         </Text>
 
-        <Button
-          borderRadius={32}
-          borderWidth={1}
-          borderColor="dark.600"
-          height={12}
-          width="full"
-          _stack={{ flex: 1, justifyContent: "center" }}
-          startIcon={
-            <Image
-              source={images.phone_img}
-              resizeMode="contain"
-              position="absolute"
-              left="0"
-              size="xs"
-              height="80%"
-              alt="password"
-            />
-          }
-          onPress={() => navigation.navigate("CreateAccount")}
-        >
-          <Text width="full">with phone or email</Text>
-        </Button>
+        <VStack mt={`${vs(27.5)}px`} space={`${vs(25)}px`}>
+          <Button
+            py={`${vs(12.5)}px`}
+            px={`${hs(17.5)}px`}
+            borderRadius="full"
+            width="full"
+            justifyContent="flex-start"
+            borderWidth={1}
+            borderColor="dark.600"
+            _text={{
+              color: "coolGray.800",
+              fontSize: ms(15),
+              lineHeight: vs(20),
+              marginLeft: `${hs(35)}px`,
+            }}
+            startIcon={
+              <Image
+                source={images.phone_img}
+                resizeMode="center"
+                style={{
+                  width: hs(20),
+                  aspectRatio: 1,
+                }}
+                alt="password"
+              />
+            }
+            onPress={() => navigation.navigate("CreateAccount")}
+          >
+            with phone or Email
+          </Button>
 
-        <Button
-          borderRadius={32}
-          borderWidth={1}
-          borderColor="dark.600"
-          height={12}
-          width="full"
-          _stack={{ flex: 1, justifyContent: "center" }}
-          _text={{ color: "coolGray.800" }}
-          startIcon={
-            <Image
-              source={images.google_img}
-              alt="google"
-              resizeMode="contain"
-              position="absolute"
-              left="0"
-              size="xs"
-              height="80%"
-            />
-          }
-        >
-          Sign up with google
-        </Button>
+          <Button
+            py={`${vs(12.5)}px`}
+            px={`${hs(17.5)}px`}
+            borderRadius="full"
+            width="full"
+            justifyContent="flex-start"
+            borderWidth={1}
+            borderColor="dark.600"
+            _text={{
+              color: "coolGray.800",
+              fontSize: ms(15),
+              lineHeight: vs(20),
+              marginLeft: `${hs(35)}px`,
+            }}
+            startIcon={
+              <Image
+                source={images.google_img}
+                alt="google"
+                resizeMode="center"
+                style={{
+                  width: hs(20),
+                  aspectRatio: 1,
+                }}
+              />
+            }
+          >
+            Sign up with google
+          </Button>
 
-        <Button
-          borderRadius={32}
-          borderWidth={1}
-          borderColor="dark.600"
-          height={12}
-          width="full"
-          _stack={{ flex: 1, justifyContent: "center" }}
-          _text={{ color: "coolGray.800" }}
-          startIcon={
-            <Image
-              alt="facebook"
-              source={images.facebook_img}
-              resizeMode="contain"
-              position="absolute"
-              left="0"
-              size="xs"
-              height="80%"
-            />
-          }
-        >
-          Sign up with facebook
-        </Button>
+          <Button
+            py={`${vs(12.5)}px`}
+            px={`${hs(17.5)}px`}
+            borderRadius="full"
+            width="full"
+            justifyContent="flex-start"
+            borderWidth={1}
+            borderColor="dark.600"
+            _text={{
+              color: "coolGray.800",
+              fontSize: ms(15),
+              lineHeight: vs(20),
+              marginLeft: `${hs(35)}px`,
+            }}
+            startIcon={
+              <Image
+                alt="facebook"
+                source={images.facebook_img}
+                resizeMode="center"
+                style={{
+                  width: hs(20),
+                  aspectRatio: 1,
+                }}
+              />
+            }
+          >
+            Sign up with facebook
+          </Button>
+        </VStack>
       </VStack>
 
-      <HStack justifyContent="center" mb="32">
-        <Text color="gray.500">Sign in the representative to agree to the</Text>
-        <Text color="coolGray.800"> user agreement</Text>
+      <HStack justifyContent="center" mb={`${hs(102)}px`}>
+        <Text color="gray.500" textAlign="center" fontSize={ms(12)} lineHeight={vs(20)}>
+          Sign in the representative to agree to the
+          <Text color="coolGray.800"> the user agreement</Text>
+        </Text>
       </HStack>
-    </Box>
+    </VStack>
   );
 };
 

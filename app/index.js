@@ -49,6 +49,11 @@ import RegisterChooseScreen from "./screens/auths/RegisterChooseScreen";
 import EnterCodeScreen from "./screens/auths/EnterCodeScreen";
 import CreatePasswordScreen from "./screens/auths/CreatePasswordScreen";
 import CreateAccountScreen from "./screens/auths/CreateAcountScreen";
+import { Image } from "native-base";
+import images from "./resources/images";
+import Video from "react-native-video";
+import { StyleSheet } from "react-native";
+import { horizontalScale as hs } from "./utils/metrics";
 /**
  * Define your screen heres
  * @name is Route Name
@@ -57,16 +62,71 @@ import CreateAccountScreen from "./screens/auths/CreateAcountScreen";
  */
 const Stack = createStackNavigator();
 
+const styles = StyleSheet.create({
+  logo: {
+    width: hs(275),
+    aspectRatio: 700 / 250,
+  },
+});
+
 function MyStack() {
   return (
     <Stack.Navigator initialRouteName="AuthLoading">
       <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="RegisterChoose" component={RegisterChooseScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EnterCode" component={EnterCodeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CreatePassword" component={CreatePasswordScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="RegisterChoose"
+        component={RegisterChooseScreen}
+        options={{
+          headerShown: true,
+          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerTitle: () => (
+            <Video
+              style={styles.logo}
+              source={require("./components/Animation/logo_ani.mp4")} // Can be a URL or a local file.
+              resizeMode="cover"
+              hideShutterView
+              repeat
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CreateAccount"
+        component={CreateAccountScreen}
+        options={{
+          headerShown: true,
+          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerTitle: () => (
+            <Video
+              style={styles.logo}
+              source={require("./components/Animation/logo_ani.mp4")} // Can be a URL or a local file.
+              resizeMode="cover"
+              hideShutterView
+              repeat
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="EnterCode"
+        component={EnterCodeScreen}
+        options={{
+          headerShown: true,
+          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerTitle: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreatePassword"
+        component={CreatePasswordScreen}
+        options={{
+          headerShown: true,
+          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerTitle: false,
+        }}
+      />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
