@@ -53,7 +53,7 @@ import { Image } from "native-base";
 import images from "./resources/images";
 import Video from "react-native-video";
 import { StyleSheet } from "react-native";
-import { horizontalScale as hs } from "./utils/metrics";
+import { horizontalScale as hs, verticalScale as vs } from "./utils/metrics";
 /**
  * Define your screen heres
  * @name is Route Name
@@ -71,16 +71,39 @@ const styles = StyleSheet.create({
 
 function MyStack() {
   return (
-    <Stack.Navigator initialRouteName="AuthLoading">
-      <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
+    <Stack.Navigator
+      initialRouteName="AuthLoading"
+      screenOptions={{ headerStyle: { borderWidth: 1 } }}
+    >
+      <Stack.Screen
+        name="AuthLoading"
+        component={AuthLoadingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Start"
+        component={StartScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LoginChoose"
+        component={LoginChooseScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="RegisterChoose"
         component={RegisterChooseScreen}
         options={{
           headerShown: true,
-          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerBackImage: () => (
+            <Image
+              source={images.header_back_img}
+              resizeMode="center"
+              alt="logo"
+            />
+          ),
+          headerStatusBarHeight: 0,
+          headerStyle: { height: vs(70) },
           headerTitle: () => (
             <Video
               style={styles.logo}
@@ -97,7 +120,15 @@ function MyStack() {
         component={CreateAccountScreen}
         options={{
           headerShown: true,
-          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerBackImage: () => (
+            <Image
+              source={images.header_back_img}
+              resizeMode="center"
+              alt="logo"
+            />
+          ),
+          headerStatusBarHeight: 0,
+          headerStyle: { height: vs(70) },
           headerTitle: () => (
             <Video
               style={styles.logo}
@@ -114,7 +145,14 @@ function MyStack() {
         component={EnterCodeScreen}
         options={{
           headerShown: true,
-          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerBackImage: () => (
+            <Image
+              source={images.header_back_img}
+              resizeMode="center"
+              alt="logo"
+            />
+          ),
+          headerStatusBarHeight: 0,
           headerTitle: false,
         }}
       />
@@ -123,47 +161,114 @@ function MyStack() {
         component={CreatePasswordScreen}
         options={{
           headerShown: true,
-          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerBackImage: () => (
+            <Image
+              source={images.header_back_img}
+              resizeMode="center"
+              alt="logo"
+            />
+          ),
+          headerStatusBarHeight: 0,
           headerTitle: false,
         }}
       />
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TermAndCondition" component={TermAndConditionScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Setting" component={SettingScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TermAndCondition"
+        component={TermAndConditionScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="Barcode" component={BarcodeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="Barcode"
+        component={BarcodeScreen}
+        options={{ headerShown: false }}
+      />
 
-      <Stack.Screen name="PlayerDetail" component={PlayerDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PlayerDetail"
+        component={PlayerDetailScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="PendingConnectionDetail"
         component={PendingConnectionDetailScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="FindMatch" component={FindMatchScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="FindMatch"
+        component={FindMatchScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="CreateMatch"
         component={CreateMatchScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="GenrateQrCode" component={GenrateQrCodeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="GenrateQrCode"
+        component={GenrateQrCodeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="ListViewMatch"
         component={ListViewMatchScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="MapViewMatch" component={MapViewMatchScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="MapViewMatch"
+        component={MapViewMatchScreen}
+        options={{ headerShown: false }}
+      />
 
-      <Stack.Screen name="FindPlayer" component={FindPlayerScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="AllConnectionDetail" component={AllConnectionDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="MyPlayer" component={MyPlayerScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="InviteFriends" component={InviteFriendsScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="FindPlayer"
+        component={FindPlayerScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AllConnectionDetail"
+        component={AllConnectionDetailScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyPlayer"
+        component={MyPlayerScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="InviteFriends"
+        component={InviteFriendsScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="FindMatchFilter"
         component={FindMatchFilterScreen}
@@ -174,17 +279,41 @@ function MyStack() {
         component={MatchDetailUserInvitedScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="UserConfirmation" component={UserConfirmationScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="UserRequest" component={UserRequestScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CompletedMatch" component={CompletedMatchScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ReMatch" component={ReMatchScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="UserConfirmation"
+        component={UserConfirmationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserRequest"
+        component={UserRequestScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CompletedMatch"
+        component={CompletedMatchScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ReMatch"
+        component={ReMatchScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="MatchDetailInterestedandConfirmPlayers"
         component={MatchDetailInterestedandConfirmPlayersScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="EditorDeleteMatch" component={EditorDeleteMatchScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="OnlyMatchDetail" component={OnlyMatchDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="EditorDeleteMatch"
+        component={EditorDeleteMatchScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OnlyMatchDetail"
+        component={OnlyMatchDetailScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="EditMatch"
         component={EditMatchScreen}
@@ -195,18 +324,66 @@ function MyStack() {
         component={ChatDetailScreen}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <Stack.Screen name="ChatListing" component={ChatListingScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SearchFilters" component={SearchFiltersScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="MapView" component={MapViewScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="HelpCenter" component={HelpCenterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="MyProfile" component={MyProfileScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="MatchwithFilters" component={MatchwithFiltersScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SearchUser" component={SearchUserScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="NewAccount" component={NewAccountScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ChatFilter" component={ChatFilterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ChatSearchFilter" component={ChatSearchFilterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="DeleteMyData" component={DeleteMyDataScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="ChatListing"
+        component={ChatListingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SearchFilters"
+        component={SearchFiltersScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MapView"
+        component={MapViewScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HelpCenter"
+        component={HelpCenterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyProfile"
+        component={MyProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MatchwithFilters"
+        component={MatchwithFiltersScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SearchUser"
+        component={SearchUserScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NewAccount"
+        component={NewAccountScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChatFilter"
+        component={ChatFilterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChatSearchFilter"
+        component={ChatSearchFilterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DeleteMyData"
+        component={DeleteMyDataScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
