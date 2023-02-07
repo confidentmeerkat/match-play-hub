@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     fontSize: ms(24),
     lineHeight: vs(32),
     textAlign: "center",
-    // fontFamily: "OpenSans-LightItalic",
     marginTop: vs(24),
     color: "#232832",
   },
@@ -40,8 +39,7 @@ const LoginChooseScreen = () => {
 
         <VStack mt={`${vs(27.5)}px`} space={`${vs(25)}px`}>
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -49,8 +47,8 @@ const LoginChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={
@@ -70,8 +68,7 @@ const LoginChooseScreen = () => {
           </Button>
 
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -79,8 +76,8 @@ const LoginChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={
@@ -99,8 +96,7 @@ const LoginChooseScreen = () => {
           </Button>
 
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -108,8 +104,8 @@ const LoginChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={

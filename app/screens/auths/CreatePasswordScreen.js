@@ -4,11 +4,7 @@ import { Box, Button, Input, Text, VStack } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useForm, Controller } from "react-hook-form";
 import { StyleSheet } from "react-native";
-import {
-  horizontalScale as hs,
-  verticalScale as vs,
-  moderateScale as ms,
-} from "../../utils/metrics";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -21,8 +17,6 @@ const styles = StyleSheet.create({
     fontSize: ms(24),
     lineHeight: vs(32),
     textAlign: "center",
-    fontStyle: "italic",
-    fontWeight: "300",
     marginTop: vs(24),
   },
   input: {
@@ -40,7 +34,9 @@ export default function CreatePasswordScreen() {
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
       <VStack alignItems="center" space={`${vs(45)}px`}>
-        <Text style={styles.headerText}>Create a Password</Text>
+        <Text style={styles.headerText} fontFamily="heading" fontStyle="italic" fontWeight="light">
+          Create a Password
+        </Text>
 
         <Controller
           control={control}
@@ -82,12 +78,7 @@ export default function CreatePasswordScreen() {
       </VStack>
 
       <Box marginTop={`${vs(85)}px`} width="full">
-        <Button
-          bgColor="primary"
-          borderRadius="full"
-          width="full"
-          _text={{ fontSize: ms(15), lineHeight: vs(20) }}
-        >
+        <Button bgColor="primary" borderRadius="full" width="full" _text={{ fontSize: 15, lineHeight: 20 }} height={45}>
           Done
         </Button>
       </Box>

@@ -2,22 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { Box, Input, Text, VStack } from "native-base";
 
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from "react-native-confirmation-code-field";
+import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-native-confirmation-code-field";
 import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../../constants/Colors";
-import {
-  horizontalScale as hs,
-  verticalScale as vs,
-  moderateScale as ms,
-} from "../../utils/metrics";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -32,8 +23,6 @@ const styles = StyleSheet.create({
     fontSize: ms(24),
     lineHeight: vs(32),
     textAlign: "center",
-    fontStyle: "italic",
-    fontWeight: "300",
     marginTop: vs(24),
   },
   headerDescription: {
@@ -93,11 +82,11 @@ const EnterCodeScreen = ({ route: { phone } }) => {
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
       <VStack style={styles.content}>
-        <Text style={styles.headerText}>Enter 4-digit code</Text>
-
-        <Text style={styles.headerDescription}>
-          Your code was sent to +1 305-123-4567
+        <Text style={styles.headerText} fontWeight="light" fontStyle="italic" fontFamily="heading">
+          Enter 4-digit code
         </Text>
+
+        <Text style={styles.headerDescription}>Your code was sent to +1 305-123-4567</Text>
 
         <CodeField
           ref={ref}

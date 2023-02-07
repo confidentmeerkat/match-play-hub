@@ -7,11 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { StyleSheet } from "react-native";
-import {
-  horizontalScale as hs,
-  verticalScale as vs,
-  moderateScale as ms,
-} from "../../utils/metrics";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -38,20 +34,7 @@ const CreateAccountScreen = () => {
   const maskedInputProps = useMaskedInputProps({
     value: phoneNumber,
     onChangeText: (v) => setPhoneNumber(v),
-    mask: [
-      /\d/,
-      /\d/,
-      /\d/,
-      "-",
-      /\d/,
-      /\d/,
-      /\d/,
-      "-",
-      /\d/,
-      /\d/,
-      /\d/,
-      /\d/,
-    ],
+    mask: [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/],
     placeholderFillCharacter: "",
   });
 
@@ -64,11 +47,7 @@ const CreateAccountScreen = () => {
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
       <VStack width="full" alignItems="center">
-        <VStack
-          alignItems="center"
-          marginTop={`${vs(120)}px`}
-          space={`${vs(35)}px`}
-        >
+        <VStack alignItems="center" marginTop={`${vs(120)}px`} space={`${vs(35)}px`}>
           <Controller
             control={control}
             name="password"
@@ -110,6 +89,7 @@ const CreateAccountScreen = () => {
             variant="underlined"
             {...maskedInputProps}
             style={styles.input}
+            keyboardType="phone-pad"
             placeholder="Enter Phone number"
           />
         </VStack>
@@ -120,7 +100,8 @@ const CreateAccountScreen = () => {
             borderRadius="full"
             onPress={onSendCode}
             width="full"
-            _text={{ fontSize: ms(15), lineHeight: vs(20) }}
+            height={45}
+            _text={{ fontSize: 15, lineHeight: 20 }}
           >
             Next
           </Button>

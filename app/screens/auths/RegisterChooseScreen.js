@@ -41,8 +41,7 @@ const RegisterChooseScreen = () => {
 
         <VStack mt={`${vs(27.5)}px`} space={`${vs(25)}px`}>
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -50,8 +49,8 @@ const RegisterChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={
@@ -71,8 +70,7 @@ const RegisterChooseScreen = () => {
           </Button>
 
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -80,8 +78,8 @@ const RegisterChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={
@@ -100,8 +98,7 @@ const RegisterChooseScreen = () => {
           </Button>
 
           <Button
-            py={`${vs(12.5)}px`}
-            px={`${hs(17.5)}px`}
+            height={45}
             borderRadius="full"
             width="full"
             justifyContent="flex-start"
@@ -109,8 +106,8 @@ const RegisterChooseScreen = () => {
             borderColor="dark.600"
             _text={{
               color: "coolGray.800",
-              fontSize: ms(15),
-              lineHeight: vs(20),
+              fontSize: 15,
+              lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
             startIcon={

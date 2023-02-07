@@ -4,9 +4,7 @@ import { VStack } from "native-base";
 import React from "react";
 
 import { StyleSheet, View, ImageBackground, Text, Image } from "react-native";
-import { RFPercentage } from "react-native-responsive-fontsize";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import images from "../../resources/images";
 import { font_17 } from "../../utils/Globals";
 
@@ -54,8 +52,8 @@ const StartScreen = () => {
           <Button
             borderRadius="full"
             bgColor="primary"
-            _text={{ fontSize: RFPercentage(2), lineHeight: RFPercentage(2.25) }}
-            py={`${hp(1.6)}px`}
+            _text={{ color: "white", fontSize: 15, lineHeight: 20 }}
+            height={45}
             onPress={() => {
               console.log("press login");
               navigation.navigate("LoginChoose");
@@ -66,11 +64,11 @@ const StartScreen = () => {
 
           <Button
             borderRadius="full"
-            _text={{ color: "#104378", fontSize: RFPercentage(2), lineHeight: RFPercentage(2.25) }}
+            _text={{ color: "#104378", fontSize: 15, lineHeight: 20 }}
             borderColor="white"
             borderWidth={1}
             backgroundColor="rgba(255, 255, 255, 0.4)"
-            py={`${hp(1.6)}px`}
+            height={45}
             onPress={() => navigation.navigate("RegisterChoose")}
           >
             Create an account
