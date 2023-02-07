@@ -78,6 +78,10 @@ function MyStack() {
         headerStyle: {
           ...styles.noHeaderShadow,
         },
+        headerLeftContainerStyle: {
+          marginLeft: hs(22),
+        },
+        headerBackTitleVisible: false,
       }}
     >
       <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
@@ -142,6 +146,7 @@ function MyStack() {
           headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
           headerStatusBarHeight: 0,
           headerTitle: false,
+          headerBackTitleVisible: "",
         }}
       />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
