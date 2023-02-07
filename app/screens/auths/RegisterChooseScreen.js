@@ -11,14 +11,10 @@ const styles = StyleSheet.create({
     fontSize: ms(24),
     lineHeight: vs(32),
     textAlign: "center",
-    fontFamily: "Open Sans",
-    fontStyle: "italic",
-    fontWeight: "700",
     marginTop: vs(24),
     color: "#232832",
   },
   headerDescription: {
-    fontFamily: "Open Sans",
     fontSize: ms(12),
     lineHeight: vs(20),
     textAlign: "center",
@@ -33,7 +29,9 @@ const RegisterChooseScreen = () => {
   return (
     <VStack flex={1} bgColor="white" justifyContent="space-between">
       <VStack p={hs(30)}>
-        <Text style={styles.headerText}>Sign up to play a Match</Text>
+        <Text fontFamily="heading" fontStyle="italic" fontWeight="bold" style={styles.headerText}>
+          Sign up to play a Match
+        </Text>
 
         <Text style={styles.headerDescription}>
           If you haven’t registered yet, and your account will be automatically registered

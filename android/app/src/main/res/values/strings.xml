@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">matchplayhub</string>
+    <string name='facebook_app_id'>489511026675372</string>
+    <string name="facebook_client_token">857c896c7d1b9756533014cc8e871848</string>
 </resources>

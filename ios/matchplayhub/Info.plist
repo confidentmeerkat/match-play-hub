@@ -32,7 +32,19 @@
 				<string>matchplayhub</string>
 			</array>
 		</dict>
+		<dict>
+  		<key>CFBundleURLSchemes</key>
+  		<array>
+    		<string>489511026675372</string>
+  		</array>
+  	</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>489511026675372</string>
+	<key>FacebookClientToken</key>
+	<string>857c896c7d1b9756533014cc8e871848</string>
+	<key>FacebookDisplayName</key>
+	<string>Match Play Hub</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>

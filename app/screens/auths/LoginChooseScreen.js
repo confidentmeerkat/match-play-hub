@@ -1,9 +1,10 @@
 import React from "react";
-import { VStack, Text, Button, Box, HStack, Image } from "native-base";
+import { VStack, Text, Button, HStack, Image } from "native-base";
 import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
+import { LoginManager } from "react-native-fbsdk-next";
 
 const styles = StyleSheet.create({
   headerText: {
@@ -25,6 +26,20 @@ const styles = StyleSheet.create({
 
 const LoginChooseScreen = () => {
   const navigation = useNavigation();
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions(["public_profile", "email"]);
+
+      if (result.isCancelled) {
+        alert("Login Cancelled" + JSON.stringify(result));
+      } else {
+        alert("Login Success", result.toString());
+      }
+    } catch (error) {
+      console.log("Facebook login faild");
+    }
+  };
 
   return (
     <VStack flex={1} bgColor="white" justifyContent="space-between">
@@ -91,6 +106,7 @@ const LoginChooseScreen = () => {
                 }}
               />
             }
+            onPress={handleFacebookLogin}
           >
             Login with google
           </Button>
