@@ -1,5 +1,6 @@
 {
   "name": "matchplayhub",
   "displayName": "matchplayhub",
-  "userInterfaceStyle": "automatic"
+  "userInterfaceStyle": "automatic",
+  "bitcode": "Debug"
 }

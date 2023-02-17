@@ -26,6 +26,7 @@
 		42E910BEA6BB4F1BB495984A /* OpenSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 378F4CAB38984B5D9BDF7274 /* OpenSans-MediumItalic.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		94ABA8F98BA74DA98314AB9F /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 553C19F55CBE4B88B2B38CE6 /* OpenSans-Light.ttf */; };
+		A22B9F315BE65F527F55465D /* libPods-matchplayhub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558DE7264DB0D0CE77D61FE /* libPods-matchplayhub.a */; };
 		A4794D64BFB44F2D81971F57 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 993CAB36B7BB4322BF018247 /* OpenSans-Bold.ttf */; };
 		A6293A8337FD4AEEAF67388D /* OpenSan-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3777BF916D6B4DE289439A21 /* OpenSan-Bold.ttf */; };
 		C837D804AA13F0DB3EBB128A /* libPods-matchplayhub-matchplayhubTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C91BA2F0D8B65BD0AB9D7FED /* libPods-matchplayhub-matchplayhubTests.a */; };
@@ -141,6 +142,7 @@
 				2D76EBEB27FD6E140084E35A /* liblottie-react-native.a in Frameworks */,
 				2D76EBEA27FD6E140084E35A /* liblottie-ios.a in Frameworks */,
 				2DCBD1F127FD71E200567809 /* liblottie-ios.a in Frameworks */,
+				A22B9F315BE65F527F55465D /* libPods-matchplayhub.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +308,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				5A9E5C0A5E120AA92BDEC30D /* [CP] Copy Pods Resources */,
+				3F10D9D6E09FCA54D5854B16 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -329,6 +332,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				B4BD2003942CB5772E99B9EC /* [CP] Copy Pods Resources */,
 				807C9E81195FADF161A24545 /* [CP-User] [RNFB] Core Configuration */,
+				5AA3A82F0C434BCA006237C2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -427,6 +431,23 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
+		3F10D9D6E09FCA54D5854B16 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-matchplayhub-matchplayhubTests/Pods-matchplayhub-matchplayhubTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-matchplayhub-matchplayhubTests/Pods-matchplayhub-matchplayhubTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-matchplayhub-matchplayhubTests/Pods-matchplayhub-matchplayhubTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5A9E5C0A5E120AA92BDEC30D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -442,6 +463,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-matchplayhub-matchplayhubTests/Pods-matchplayhub-matchplayhubTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5AA3A82F0C434BCA006237C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-matchplayhub/Pods-matchplayhub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-matchplayhub/Pods-matchplayhub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-matchplayhub/Pods-matchplayhub-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		77B524E7598F13FCD6C93C02 /* [CP] Check Pods Manifest.lock */ = {
@@ -635,11 +673,12 @@
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = matchplayhub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.03;
+				MARKETING_VERSION = 1.13;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -665,14 +704,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 7KX4NL5J4W;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = matchplayhub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.03;
+				MARKETING_VERSION = 1.13;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -721,6 +762,7 @@
 				"DEVELOPMENT_TEAM[sdk=*]" = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;

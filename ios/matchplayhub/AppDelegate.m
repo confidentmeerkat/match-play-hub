@@ -35,36 +35,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyBC05hsLzrp3Xo0uC-v1Zf89kuBOLSpYD4"]; // add this line using the api key obtained from Google Console
-// #ifdef FB_SONARKIT_ENABLED
-//   // InitializeFlipper(application);
-// #endif
+[FIRApp configure];
+
+#ifdef FB_SONARKIT_ENABLED
+  InitializeFlipper(application);
+#endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"matchplayhub"
                                             initialProperties:nil];
 
-  if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-      rootView.backgroundColor = [UIColor whiteColor];
-  }
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
-  }
-   UNUserNotificationCenter *center =
-        [UNUserNotificationCenter currentNotificationCenter];
-    center.delegate = self;
-
   [FBSDKApplicationDelegate.sharedInstance initializeSDK];
-  
+
   return YES;
 }
 

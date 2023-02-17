@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     color: "#232832",
   },
   headerDescription: {
-    fontFamily: "OpenSans",
+    // fontFamily: "OpenSans",
     fontSize: ms(12),
     lineHeight: vs(20),
     textAlign: "center",
@@ -31,11 +31,11 @@ const LoginChooseScreen = () => {
     try {
       const result = await LoginManager.logInWithPermissions(["public_profile", "email"]);
 
-      if (result.isCancelled) {
-        alert("Login Cancelled" + JSON.stringify(result));
-      } else {
-        alert("Login Success", result.toString());
-      }
+        if (result.isCancelled) {
+          alert("Login Cancelled" + JSON.stringify(result));
+        } else {
+          alert("Login Success", result.toString());
+        }
     } catch (error) {
       console.log("Facebook login faild");
     }
@@ -124,6 +124,8 @@ const LoginChooseScreen = () => {
               lineHeight: 20,
               marginLeft: `${hs(35)}px`,
             }}
+            onPress={handleFacebookLogin}
+
             startIcon={
               <Image
                 alt="facebook"
