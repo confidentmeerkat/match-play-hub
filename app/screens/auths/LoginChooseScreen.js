@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { VStack, Text, Button, HStack, Image } from "native-base";
 import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
-import { LoginManager } from "react-native-fbsdk-next";
+import { AccessToken, GraphRequest, LoginManager } from "react-native-fbsdk-next";
+import messaging from "@react-native-firebase/messaging";
+import { useDispatch, useSelector } from "react-redux"
+import  { doFBLogin, doGetUser } from "../../redux/actions/AuthActions"
+import DeviceInfo from "react-native-device-info";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { prefEnum } from "../../resources/constants";
+import * as globals from "../../utils/Globals";
 
 const styles = StyleSheet.create({
   headerText: {
@@ -26,18 +33,44 @@ const styles = StyleSheet.create({
 
 const LoginChooseScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const responseLogin = useSelector((store) => store.auth.responseLogin);
+  const responseUserdata = useSelector((store) => store.auth.responseUserdata);
+
+  useEffect(() => {
+    const { status_code, token, success, error, message } = responseLogin || {};
+
+    if(status_code === 200 && success) {
+      AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
+      globals.access_token = token;
+      dispatch(doGetUser());
+    }
+  }, [responseLogin]);
+
+  useEffect(() => {
+      const { user, success, message, status_code } = responseUserdata || {};
+
+      if(user) {
+        AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));
+        navigation.navigate('Home', {from: 'login'})
+      }
+  }, [responseUserdata]);
 
   const handleFacebookLogin = async () => {
     try {
       const result = await LoginManager.logInWithPermissions(["public_profile", "email"]);
 
-        if (result.isCancelled) {
-          alert("Login Cancelled" + JSON.stringify(result));
-        } else {
-          alert("Login Success", result.toString());
-        }
+      if (result.isCancelled) {
+        alert("Login Cancelled" + JSON.stringify(result));
+      } else {
+        alert("Login Success", result.toString());
+        const { accessToken } = await AccessToken.getCurrentAccessToken();
+        let fcmToken = await messaging().getToken();
+        // postRequest(FBLOGIN, {fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken})
+        dispatch(doFBLogin({fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken}))
+      }
     } catch (error) {
-      console.log("Facebook login faild");
+      console.log("Facebook login failed");
     }
   };
 

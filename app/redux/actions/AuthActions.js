@@ -29,6 +29,23 @@ export const doLogin = (body) => {
   };
 };
 
+export const doFBLogin = (body) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: types.POST_LOGIN_REQUEST });
+      const result = await postRequest(ApiUrls.FBLOGIN, body);
+      dispatch({ type: types.POST_LOGIN_SUCCESS, payload: result });
+      return result;
+    } catch (error) {
+      dispatch({
+        type: types.POST_LOGIN_FAILURE,
+        payload: error,
+      });
+      throw error;
+    }
+  };
+};
+
 export const doSendOTP = (body) => {
   return async (dispatch) => {
     try {

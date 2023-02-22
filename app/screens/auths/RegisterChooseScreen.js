@@ -4,7 +4,12 @@ import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
 
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
+import { useDispatch } from "react-redux";
+import { doFBLogin } from "../../redux/actions/AuthActions";
+import messaging from "@react-native-firebase/messaging";
+import DeviceInfo from "react-native-device-info";
+import { LoginManager } from "react-native-fbsdk-next";
 
 const styles = StyleSheet.create({
   headerText: {
@@ -25,6 +30,32 @@ const styles = StyleSheet.create({
 
 const RegisterChooseScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleFacebookRegister = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions(["public_profile", "email"]);
+
+      if (result.isCancelled) {
+        alert("Login Cancelled" + JSON.stringify(result));
+      } else {
+        alert("Login Success", result.toString());
+        const { accessToken } = await AccessToken.getCurrentAccessToken();
+        let fcmToken = await messaging().getToken();
+        // postRequest(FBLOGIN, {fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken})
+        dispatch(
+          doFBLogin({
+            fbToken: accessToken,
+            device_id: DeviceInfo.getDeviceId(),
+            device_type: Platform.OS,
+            device_token: fcmToken,
+          })
+        );
+      }
+    } catch (error) {
+      console.log("Facebook login failed");
+    }
+  };
 
   return (
     <VStack flex={1} bgColor="white" justifyContent="space-between">
@@ -119,6 +150,7 @@ const RegisterChooseScreen = () => {
                 }}
               />
             }
+            onPress={handleFacebookRegister}
           >
             Sign up with facebook
           </Button>

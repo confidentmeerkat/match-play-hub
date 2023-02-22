@@ -86,7 +86,15 @@ function MyStack() {
     >
       <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Start" component={StartScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="LoginChoose" component={LoginChooseScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="LoginChoose"
+        component={LoginChooseScreen}
+        options={{
+          headerBackImage: () => <Image source={images.header_back_img} resizeMode="center" alt="logo" />,
+          headerStatusBarHeight: 0,
+          headerTitle: false,
+        }}
+      />
       <Stack.Screen
         name="RegisterChoose"
         component={RegisterChooseScreen}
