@@ -499,7 +499,7 @@ class HubTabScreen extends PureComponent {
                 ></FastImage>
               </View>
 
-              <CustomSlots titleText={percentage + " " + "COMPLETE"} />
+              <CustomSlots titleText={percentage + " " + "COMPLETE"} customstyle={{marginTop: wp(-5)}}/>
               {/* <TouchableOpacity onPress={() => this.doClickEditProfile()}>
                 <FastImage
                   style={[ProfileStyle.qrcodestyle]}

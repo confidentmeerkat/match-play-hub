@@ -13,10 +13,7 @@ import {
   BackHandler,
   PermissionsAndroid,
 } from "react-native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { DefaultOptions } from "../../../constants/DefaultOptions";
@@ -36,18 +33,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../../resources/constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import MediaModel from "../../../components/modals/MediaModel";
-import {
-  doUpdateProfile,
-  doGetSports,
-  doGetUserLocation,
-} from "../../../redux/actions/AppActions";
+import { doUpdateProfile, doGetSports, doGetUserLocation } from "../../../redux/actions/AppActions";
 import { doRefreshToken, doGetUser } from "../../../redux/actions/AuthActions";
-import {
-  showSuccessMessage,
-  isName,
-  showErrorMessage,
-  isUsername,
-} from "../../../utils/helpers";
+import { showSuccessMessage, isName, showErrorMessage, isUsername } from "../../../utils/helpers";
 import Loader from "../../../components/loaders/Loader";
 import BackgroundButton from "../../../components/buttons/BackgroundButton";
 import font_type from "../../../resources/fonts";
@@ -130,13 +118,7 @@ class EditProfileScreen extends PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.responseGetSportsdata !== this.props.responseGetSportsdata) {
       if (this.props.responseGetSportsdata !== undefined) {
-        const {
-          success,
-          message,
-          sportCategory,
-          status_code,
-          atleastonecheked,
-        } = this.props.responseGetSportsdata;
+        const { success, message, sportCategory, status_code, atleastonecheked } = this.props.responseGetSportsdata;
         if (status_code == 200 && success == true) {
           this.setSportsData(sportCategory, atleastonecheked);
         } else if (success == false) {
@@ -154,13 +136,9 @@ class EditProfileScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseBusyGetUserLocationdata !==
-      this.props.responseBusyGetUserLocationdata
-    ) {
+    if (prevProps.responseBusyGetUserLocationdata !== this.props.responseBusyGetUserLocationdata) {
       if (this.props.responseBusyGetUserLocationdata !== undefined) {
-        const { success, message, address, latLong, status_code } =
-          this.props.responseBusyGetUserLocationdata;
+        const { success, message, address, latLong, status_code } = this.props.responseBusyGetUserLocationdata;
         if (status_code == 200 && success == true) {
           showSuccessMessage(message);
           this.setAddressdata(address, latLong);
@@ -182,13 +160,9 @@ class EditProfileScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseUpdateProfiledata !==
-      this.props.responseUpdateProfiledata
-    ) {
+    if (prevProps.responseUpdateProfiledata !== this.props.responseUpdateProfiledata) {
       if (this.props.responseUpdateProfiledata !== undefined) {
-        const { error, success, message, status_code } =
-          this.props.responseUpdateProfiledata;
+        const { error, success, message, status_code } = this.props.responseUpdateProfiledata;
         if (status_code == 200 && success == true) {
           showSuccessMessage(message);
           this.props.doGetUser();
@@ -213,12 +187,9 @@ class EditProfileScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -237,8 +208,7 @@ class EditProfileScreen extends PureComponent {
 
     if (prevProps.responseUserdata !== this.props.responseUserdata) {
       if (this.props.responseUserdata !== undefined) {
-        const { user, success, message, status_code } =
-          this.props.responseUserdata;
+        const { user, success, message, status_code } = this.props.responseUserdata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));
 
@@ -267,6 +237,7 @@ class EditProfileScreen extends PureComponent {
   }
 
   async componentDidMount() {
+    console.log("edit profile screen");
     await this.getApiToken();
     // if (Platform.OS === "android") {
     //   await this.requestLocationServices();
@@ -287,15 +258,12 @@ class EditProfileScreen extends PureComponent {
     }
     this.getSports();
     if (Platform.OS == "android") {
-      this.backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        () => {
-          if (this.state.isGoBack == true) {
-            this.askbeforeLeave();
-            return true;
-          }
+      this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+        if (this.state.isGoBack == true) {
+          this.askbeforeLeave();
+          return true;
         }
-      );
+      });
     }
   }
 
@@ -422,9 +390,7 @@ class EditProfileScreen extends PureComponent {
 
   async requestLocationServices() {
     if (this.state.count) {
-      PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      ]).then((result) => {
+      PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION]).then((result) => {
         if (result["android.permission.ACCESS_FINE_LOCATION"] === "granted") {
           // setTimeout(() => this.gotToMyLocation(), 3000);
           this.setState({ isallowPermission: true });
@@ -605,15 +571,9 @@ class EditProfileScreen extends PureComponent {
       photoUrl: currentUser.profile_url,
       old_profile: currentUser.profile,
       genderPreference: currentUser.gender_preference,
-      age_preference: currentUser.age_preference
-        ? JSON.parse(formattedAge)
-        : [],
-      selectedMatchPreferenceItems: currentUser.match_structure
-        ? JSON.parse(formattedMatchPreference)
-        : [],
-      selectedAvailibilityItems: currentUser.availability
-        ? JSON.parse(finaltAvilibility)
-        : [],
+      age_preference: currentUser.age_preference ? JSON.parse(formattedAge) : [],
+      selectedMatchPreferenceItems: currentUser.match_structure ? JSON.parse(formattedMatchPreference) : [],
+      selectedAvailibilityItems: currentUser.availability ? JSON.parse(finaltAvilibility) : [],
       CrrntLong: currentUser.longitude ? currentUser.longitude : "",
       CrrntLat: currentUser.latitude ? currentUser.latitude : "",
       currentCity: currentUser.city ? currentUser.city : "",
@@ -653,9 +613,7 @@ class EditProfileScreen extends PureComponent {
       atleastonecheked,
     } = this.state;
     if (globals.isInternetConnected == true) {
-      const finalselectedSports = [
-        ...new Map(selectedSports.map((o) => [o.sports_id, o])).values(),
-      ];
+      const finalselectedSports = [...new Map(selectedSports.map((o) => [o.sports_id, o])).values()];
 
       if (username.trim() === "") {
         this.setState({ errUsername: errors.enter_username }, () => {
@@ -713,10 +671,7 @@ class EditProfileScreen extends PureComponent {
         age_preference: JSON.stringify(age_preference),
         match_structure: JSON.stringify(selectedMatchPreferenceItems),
         availability: JSON.stringify(selectedAvailibilityItems),
-        profile:
-          photoObj.uri == undefined || (photoObj.uri == "") != []
-            ? " "
-            : photoobject,
+        profile: photoObj.uri == undefined || (photoObj.uri == "") != [] ? " " : photoobject,
         latitude: CrrntLat,
         longitude: CrrntLong,
         city: currentCity,
@@ -758,10 +713,7 @@ class EditProfileScreen extends PureComponent {
   renderOptionsview = (item, index) => {
     return (
       <>
-        <TouchableOpacity
-          key={index}
-          onPress={() => this.onselectOptions(item)}
-        >
+        <TouchableOpacity key={index} onPress={() => this.onselectOptions(item)}>
           <View style={ProfileStyle.viewPopupStyle}>
             <FastImage
               style={[ProfileStyle.imagePopupStyle]}
@@ -790,18 +742,13 @@ class EditProfileScreen extends PureComponent {
   captureImage = async () => {
     if (Platform.OS == "android") {
       try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: "MatchPlayHub Camera Permission",
-            message:
-              "MatchPlayHub App needs access to your camera " +
-              "so you can take awesome pictures.",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+          title: "MatchPlayHub Camera Permission",
+          message: "MatchPlayHub App needs access to your camera " + "so you can take awesome pictures.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        });
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           // console.log("You can use the camera");
         } else {
@@ -901,8 +848,7 @@ class EditProfileScreen extends PureComponent {
   }
 
   getManallyEnterlocation = async () => {
-    const { CrrntLong, selectedSports, username, dob, zipcode, CrrntLat } =
-      this.state;
+    const { CrrntLong, selectedSports, username, dob, zipcode, CrrntLat } = this.state;
     // this.handleBlurZipcode();
     if (username.trim() === "") {
       this.setState({ errUsername: errors.enter_username }, () => {
@@ -1082,14 +1028,8 @@ class EditProfileScreen extends PureComponent {
       }
     }
     let finalSportsarr = [].concat(
-      this.state.selectedSports.filter((obj1) =>
-        tempsportsarray.every((obj2) => obj1.sports_id !== obj2.sports_id)
-      ),
-      tempsportsarray.filter((obj2) =>
-        this.state.selectedSports.every(
-          (obj1) => obj2.sports_id !== obj1.sports_id
-        )
-      )
+      this.state.selectedSports.filter((obj1) => tempsportsarray.every((obj2) => obj1.sports_id !== obj2.sports_id)),
+      tempsportsarray.filter((obj2) => this.state.selectedSports.every((obj1) => obj2.sports_id !== obj1.sports_id))
     );
 
     this.setState({
@@ -1135,17 +1075,13 @@ class EditProfileScreen extends PureComponent {
               <TouchableOpacity
                 key={index}
                 delayLongPress={800}
-                onLongPress={() =>
-                  this.onLongCkeckedSportsLevel(item, row, index, subrow)
-                }
+                onLongPress={() => this.onLongCkeckedSportsLevel(item, row, index, subrow)}
                 onPress={() => this.onCkeckedSportsLevel(item, row, index)}
                 style={[
                   ProfileStyle.roundedview,
                   {
                     borderWidth: subrow.isChecked ? 2 : 0,
-                    borderColor: subrow.isChecked
-                      ? Colors.PRIMARY
-                      : Colors.WHISPER,
+                    borderColor: subrow.isChecked ? Colors.PRIMARY : Colors.WHISPER,
                   },
                 ]}
               >
@@ -1154,12 +1090,8 @@ class EditProfileScreen extends PureComponent {
                   style={[
                     ProfileStyle.sportstitleview,
                     {
-                      fontFamily: subrow.isChecked
-                        ? font_type.FontExtraBold
-                        : font_type.FontRegular,
-                      color: subrow.isChecked
-                        ? Colors.BLACK
-                        : Colors.LITE_BLACK,
+                      fontFamily: subrow.isChecked ? font_type.FontExtraBold : font_type.FontRegular,
+                      color: subrow.isChecked ? Colors.BLACK : Colors.LITE_BLACK,
                       textAlign: "center",
                     },
                   ]}
@@ -1171,13 +1103,7 @@ class EditProfileScreen extends PureComponent {
           });
         }
         return (
-          <View
-            key={innerindex}
-            style={[
-              ProfileStyle.sportstitleviewbefore,
-              { marginHorizontal: wp(2) },
-            ]}
-          >
+          <View key={innerindex} style={[ProfileStyle.sportstitleviewbefore, { marginHorizontal: wp(2) }]}>
             <Text numberOfLines={1} style={[ProfileStyle.sportstitleview]}>
               {row.title}
             </Text>
@@ -1189,17 +1115,10 @@ class EditProfileScreen extends PureComponent {
 
     return (
       <>
-        <View
-          key={outerindex}
-          style={[ProfileStyle.headerTitleView, { marginHorizontal: wp(2) }]}
-        >
+        <View key={outerindex} style={[ProfileStyle.headerTitleView, { marginHorizontal: wp(2) }]}>
           <FastImage
             style={[ProfileStyle.calendarimg, { marginRight: wp(2) }]}
-            source={
-              item.sport_url === ""
-                ? images.global_img
-                : { uri: item.sport_url }
-            }
+            source={item.sport_url === "" ? images.global_img : { uri: item.sport_url }}
           ></FastImage>
           <Text numberOfLines={1} style={[ProfileStyle.headertext]}>
             {item.title}
@@ -1236,16 +1155,11 @@ class EditProfileScreen extends PureComponent {
     return (
       <>
         <View>
-          <MediaModel
-            modalVisible={isGalleryPicker}
-            onBackdropPress={() => this.displayGalleryPicker()}
-          >
+          <MediaModel modalVisible={isGalleryPicker} onBackdropPress={() => this.displayGalleryPicker()}>
             <View style={ProfileStyle.modelContainer}>
               <View style={[ProfileStyle.modelView]}>
                 <View style={ProfileStyle.titleviewstyle}>
-                  <Text style={[ProfileStyle.choosefilestyle]}>
-                    {strings.filetoupload}
-                  </Text>
+                  <Text style={[ProfileStyle.choosefilestyle]}>{strings.filetoupload}</Text>
                   <View style={ProfileStyle.lineStyle}></View>
                   <View
                     style={{
@@ -1255,9 +1169,7 @@ class EditProfileScreen extends PureComponent {
                     <FlatList
                       style={[ProfileStyle.onlyFlex]}
                       data={options}
-                      renderItem={({ item, index }) =>
-                        this.renderOptionsview(item, index)
-                      }
+                      renderItem={({ item, index }) => this.renderOptionsview(item, index)}
                       bounces={false}
                       showsVerticalScrollIndicator={false}
                       listKey={(item, index) => "D" + index.toString()}
@@ -1270,32 +1182,21 @@ class EditProfileScreen extends PureComponent {
           </MediaModel>
         </View>
 
-        <HeadingWithText
-          titleText={strings.myprofile}
-          marginVerticalview={hp(1.5)}
-          marginLeftview={wp(3)}
-        />
+        <HeadingWithText titleText={strings.myprofile} marginVerticalview={hp(1.5)} marginLeftview={wp(3)} />
 
         <View style={ProfileStyle.upadte_conatiner}>
           <View style={ProfileStyle.image_conatiner}>
             <TouchableOpacity onPress={() => this.displayGalleryPicker()}>
               <FastImage
                 style={ProfileStyle.imageStyle}
-                source={
-                  photoUrl === "" || photoUrl == undefined
-                    ? images.profile_img
-                    : { uri: photoUrl }
-                }
+                source={photoUrl === "" || photoUrl == undefined ? images.profile_img : { uri: photoUrl }}
               ></FastImage>
             </TouchableOpacity>
             <CustomSlots titleText={strings.uploadpicture} />
           </View>
 
           <KeyboardAwareScrollView
-            style={[
-              AuthStyle.scrollViewStyle,
-              { marginHorizontal: 0, marginVertical: 1 },
-            ]}
+            style={[AuthStyle.scrollViewStyle, { marginHorizontal: 0, marginVertical: 1 }]}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={AuthStyle.scrollContentStyle}
           >
@@ -1308,9 +1209,7 @@ class EditProfileScreen extends PureComponent {
             <View
               style={[
                 AuthStyle.usernameView,
-                errUsername !== ""
-                  ? AuthStyle.errorStyle
-                  : AuthStyle.noErrorStyle,
+                errUsername !== "" ? AuthStyle.errorStyle : AuthStyle.noErrorStyle,
                 {
                   borderColor: isFocused ? Colors.PRIMARY : Colors.LITE_GREY,
                   borderWidth: 1,
@@ -1331,8 +1230,7 @@ class EditProfileScreen extends PureComponent {
                   this.setState({
                     username: text,
                     isGoBack: currentUser.username == username ? false : true,
-                    errUsername:
-                      text.trim() === "" ? errors.enter_username : "",
+                    errUsername: text.trim() === "" ? errors.enter_username : "",
                   });
                 }}
                 placeholderTextColor={Colors.BLACK}
@@ -1344,21 +1242,10 @@ class EditProfileScreen extends PureComponent {
               />
             </View>
 
-            <LabelWithText
-              titleText={strings.gender}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.usernameView,
-                { marginTop: 0, marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.gender} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.usernameView, { marginTop: 0, marginBottom: 10 }]}>
               <CustomDropDownPicker
-                onSelect={(selectedItem) =>
-                  this.onSelectGenderDropDown(selectedItem)
-                }
+                onSelect={(selectedItem) => this.onSelectGenderDropDown(selectedItem)}
                 defaultButtonText={gender ? gender : "Select"}
                 data={["", "Female", "Male", "Anyone"]}
                 buttonTextAfterSelection={(selectedItem) => {
@@ -1383,10 +1270,7 @@ class EditProfileScreen extends PureComponent {
               <View style={[AuthStyle.calendarTextinputStyle]}>
                 <Text
                   numberOfLines={1}
-                  style={[
-                    AuthStyle.dateTextStyle,
-                    { color: Colors.BLACK, marginHorizontal: -2 },
-                  ]}
+                  style={[AuthStyle.dateTextStyle, { color: Colors.BLACK, marginHorizontal: -2 }]}
                 >
                   {dob ? dob : strings.dob}
                 </Text>
@@ -1395,9 +1279,7 @@ class EditProfileScreen extends PureComponent {
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode={"date"}
-                date={
-                  dob != "" ? moment(dob, "MM-DD-YYYY").toDate() : new Date()
-                }
+                date={dob != "" ? moment(dob, "MM-DD-YYYY").toDate() : new Date()}
                 onConfirm={this.handleConfirm}
                 onCancel={this.hideDatePicker}
                 maximumDate={new Date()}
@@ -1405,10 +1287,7 @@ class EditProfileScreen extends PureComponent {
               />
               <View style={[AuthStyle.hideShowView, { end: 10 }]}>
                 <TouchableOpacity
-                  style={[
-                    AuthStyle.calendarTextinputStyle,
-                    { marginRight: -10 },
-                  ]}
+                  style={[AuthStyle.calendarTextinputStyle, { marginRight: -10 }]}
                   onPress={() => this.showDatePicker()}
                 >
                   <FastImage
@@ -1421,18 +1300,12 @@ class EditProfileScreen extends PureComponent {
               </View>
             </View>
 
-            <LabelWithText
-              titleText={strings.aboutu}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
+            <LabelWithText titleText={strings.aboutu} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
             <View
               style={[
                 AuthStyle.aboutview,
                 {
-                  borderColor: isFocusedAboutYou
-                    ? Colors.PRIMARY
-                    : Colors.LITE_GREY,
+                  borderColor: isFocusedAboutYou ? Colors.PRIMARY : Colors.LITE_GREY,
                   marginTop: 0,
                   marginBottom: 10,
                 },
@@ -1481,13 +1354,9 @@ class EditProfileScreen extends PureComponent {
             <View
               style={[
                 AuthStyle.usernameView,
-                errZipcode !== ""
-                  ? AuthStyle.errorStyle
-                  : AuthStyle.noErrorStyle,
+                errZipcode !== "" ? AuthStyle.errorStyle : AuthStyle.noErrorStyle,
                 {
-                  borderColor: isFocusedZipcode
-                    ? Colors.PRIMARY
-                    : Colors.LITE_GREY,
+                  borderColor: isFocusedZipcode ? Colors.PRIMARY : Colors.LITE_GREY,
                   borderWidth: 1,
                   marginTop: 0,
                   marginBottom: 10,
@@ -1543,21 +1412,10 @@ class EditProfileScreen extends PureComponent {
               </View> */}
             </View>
 
-            <LabelWithText
-              titleText={strings.travelDistance}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.usernameView,
-                { marginTop: 0, marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.travelDistance} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.usernameView, { marginTop: 0, marginBottom: 10 }]}>
               <CustomDropDownPicker
-                onSelect={(selectedItem) =>
-                  this.onSelectDistanceDropDown(selectedItem)
-                }
+                onSelect={(selectedItem) => this.onSelectDistanceDropDown(selectedItem)}
                 defaultButtonText={distance ? distance + "mi" : "Select"}
                 data={["5mi", "10mi", "20mi", "30mi", "50mi", "100mi", "200mi"]}
                 buttonTextAfterSelection={(selectedItem) => {
@@ -1566,24 +1424,11 @@ class EditProfileScreen extends PureComponent {
               />
             </View>
 
-            <LabelWithText
-              titleText={strings.genderPreference}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.usernameView,
-                { marginTop: 0, marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.genderPreference} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.usernameView, { marginTop: 0, marginBottom: 10 }]}>
               <CustomDropDownPicker
-                onSelect={(selectedItem) =>
-                  this.onSelectGenderPrefrerenceDropDown(selectedItem)
-                }
-                defaultButtonText={
-                  genderPreference ? genderPreference : "Select"
-                }
+                onSelect={(selectedItem) => this.onSelectGenderPrefrerenceDropDown(selectedItem)}
+                defaultButtonText={genderPreference ? genderPreference : "Select"}
                 data={["", "Female", "Male", "Anyone"]}
                 buttonTextAfterSelection={(selectedItem) => {
                   return selectedItem;
@@ -1591,75 +1436,38 @@ class EditProfileScreen extends PureComponent {
               />
             </View>
 
-            <LabelWithText
-              titleText={strings.matchPreference}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.multiselectView,
-                { marginTop: hp(0), marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.matchPreference} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.multiselectView, { marginTop: hp(0), marginBottom: 10 }]}>
               <MultiSelectDropDown
                 Options={MatchPreference}
                 Icon={Icon}
-                onSelectedAvailibilityItemsChange={
-                  this.onSelectedMatchPreChange
-                }
+                onSelectedAvailibilityItemsChange={this.onSelectedMatchPreChange}
                 onSelectedRoomChange={this.onSelectedMatchPreRoomChange}
-                selectedItems={this.formatForMultiSelect(
-                  selectedMatchPreferenceItems
-                )}
+                selectedItems={this.formatForMultiSelect(selectedMatchPreferenceItems)}
                 selectText="Select"
                 subKey="children"
               />
             </View>
 
-            <LabelWithText
-              titleText={strings.availibility}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.multiselectView,
-                { marginTop: hp(0), marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.availibility} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.multiselectView, { marginTop: hp(0), marginBottom: 10 }]}>
               <MultiSelectDropDown
                 Options={AvailabilityOptions}
                 Icon={Icon}
-                onSelectedAvailibilityItemsChange={
-                  this.onSelectedAvailibilityItemsChange
-                }
+                onSelectedAvailibilityItemsChange={this.onSelectedAvailibilityItemsChange}
                 onSelectedRoomChange={this.onSelectedRoomChange}
-                selectedItems={this.formatForMultiSelect(
-                  selectedAvailibilityItems
-                )}
+                selectedItems={this.formatForMultiSelect(selectedAvailibilityItems)}
                 selectText="Select"
                 subKey="children"
               />
             </View>
 
-            <LabelWithText
-              titleText={strings.agePreference}
-              marginVerticalview={hp(1)}
-              marginLeftview={wp(2.5)}
-            />
-            <View
-              style={[
-                AuthStyle.multiselectView,
-                { marginTop: hp(0), marginBottom: 10 },
-              ]}
-            >
+            <LabelWithText titleText={strings.agePreference} marginVerticalview={hp(1)} marginLeftview={wp(2.5)} />
+            <View style={[AuthStyle.multiselectView, { marginTop: hp(0), marginBottom: 10 }]}>
               <MultiSelectDropDown
                 Options={AgeMultipleOptions}
                 Icon={Icon}
-                onSelectedAvailibilityItemsChange={
-                  this.onSelectedAgeItemsChange
-                }
+                onSelectedAvailibilityItemsChange={this.onSelectedAgeItemsChange}
                 onSelectedRoomChange={this.onSelectedAgeRoomChange}
                 selectedItems={this.formatForMultiSelectAge(age_preference)}
                 selectText="Select"
@@ -1668,14 +1476,8 @@ class EditProfileScreen extends PureComponent {
             </View>
           </KeyboardAwareScrollView>
         </View>
-        <HeadingWithText
-          titleText={strings.selectSports}
-          marginVerticalview={hp(1.5)}
-          marginLeftview={wp(0)}
-        />
-        <Text style={ProfileStyle.spoprtsheadertext}>
-          {strings.sportsLevel}
-        </Text>
+        <HeadingWithText titleText={strings.selectSports} marginVerticalview={hp(1.5)} marginLeftview={wp(0)} />
+        <Text style={ProfileStyle.spoprtsheadertext}>{strings.sportsLevel}</Text>
       </>
     );
   };
@@ -1685,9 +1487,7 @@ class EditProfileScreen extends PureComponent {
         <Text style={[AuthStyle.alreadyAccounttxt]}>{strings.dontseepost}</Text>
 
         <TouchableOpacity onPress={() => this.doClickContactUs()}>
-          <Text style={[AuthStyle.alreadyAccounttxtLink]}>
-            {strings.contactus}
-          </Text>
+          <Text style={[AuthStyle.alreadyAccounttxtLink]}>{strings.contactus}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -1695,9 +1495,7 @@ class EditProfileScreen extends PureComponent {
 
   renderListFooterComponent = () => {
     return (
-      <View
-        style={[AuthStyle.loginView, { marginTop: hp(1), marginBottom: hp(1) }]}
-      >
+      <View style={[AuthStyle.loginView, { marginTop: hp(1), marginBottom: hp(1) }]}>
         <TouchableOpacity onPress={() => this.doClickUpdateProfile()}>
           <BackgroundButton
             title={strings.saveprofile}
@@ -1736,19 +1534,12 @@ class EditProfileScreen extends PureComponent {
           isFrom={isFrom ? isFrom : "EditProfile"}
           isGoBack={isGoBack}
         />
-        <View
-          style={[
-            ProfileStyle.sportsview,
-            { marginTop: -hp(1), marginBottom: hp(0.5) },
-          ]}
-        >
+        <View style={[ProfileStyle.sportsview, { marginTop: -hp(1), marginBottom: hp(0.5) }]}>
           <FlatList
             style={{ flex: 1 }}
             data={sportCategory}
             extraData={sportCategory}
-            renderItem={({ item, index }) =>
-              this.renderSportCategoryview(item, index)
-            }
+            renderItem={({ item, index }) => this.renderSportCategoryview(item, index)}
             bounces={false}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={this.renderListFooter()}
@@ -1758,11 +1549,7 @@ class EditProfileScreen extends PureComponent {
           ></FlatList>
           {this.renderListFooterComponent()}
         </View>
-        {this.props.isBusyGetSports ||
-        this.props.isBusyUpdateProfile ||
-        this.state.isUsemylocation ? (
-          <Loader />
-        ) : null}
+        {this.props.isBusyGetSports || this.props.isBusyUpdateProfile || this.state.isUsemylocation ? <Loader /> : null}
       </View>
     );
   }

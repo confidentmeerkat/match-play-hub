@@ -1,14 +1,12 @@
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import { Text, TouchableOpacity, ScrollView, View } from "react-native";
+import { TouchableOpacity, ScrollView, View } from "react-native";
+import { Text } from "native-base";
 import { TabCommonStyle } from "../../../../assets/styles/TabCommonStyle";
 import Header from "../../../components/Header/Header";
 import images from "../../../resources/images";
 import { TabStyle } from "../../../../assets/styles/TabStyle";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import FastImage from "react-native-fast-image";
 import { ProfileStyle } from "../../../../assets/styles/ProfileStyle";
 import { EventRegister } from "react-native-event-listeners";
@@ -16,6 +14,10 @@ import Colors from "../../../constants/Colors";
 import BarcodeScreen from "./BarcodeScreen";
 import { getBarcodeSubKind } from "../../../constants/Barcode_helper";
 import CustomSlots from "../../../components/buttons/CustomSlots";
+import { RFPercentage } from "react-native-responsive-fontsize";
+import { HStack, VStack, Box, Button } from "native-base";
+import HeadingWithText from "../../../components/RenderFlatlistComponent/HeadingWithText";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 
 class MyProfileScreen extends PureComponent {
   constructor(props) {
@@ -85,23 +87,16 @@ class MyProfileScreen extends PureComponent {
       profile_url: currentUser.profile_url ? currentUser.profile_url : "",
       assign_sport: currentUser.assign_sport ? currentUser.assign_sport : [],
       location: thisLocation,
-      availibility: currentUser.availability_string
-        ? currentUser.availability_string
-        : "",
+      availibility: currentUser.availability_string ? currentUser.availability_string : "",
       aboutyou: currentUser.about_us ? currentUser.about_us : "",
       travelDistance: currentUser.distance ? currentUser.distance : "",
-      genderPreference: currentUser.gender_preference
-        ? currentUser.gender_preference
-        : "",
-      matchStructure: currentUser.match_structure_string
-        ? currentUser.match_structure_string
-        : "",
-      age_preference: currentUser.age_preference_string
-        ? currentUser.age_preference_string
-        : "",
+      genderPreference: currentUser.gender_preference ? currentUser.gender_preference : "",
+      matchStructure: currentUser.match_structure_string ? currentUser.match_structure_string : "",
+      age_preference: currentUser.age_preference_string ? currentUser.age_preference_string : "",
       is_request: currentUser.is_request ? currentUser.is_request : "",
       qr_url: currentUser.qr_url ? currentUser.qr_url : "",
       percentage: currentUser.percentage ? currentUser.percentage : "",
+      name: currentUser.name ? currentUser.name : "",
     });
   };
 
@@ -121,7 +116,7 @@ class MyProfileScreen extends PureComponent {
     this.props.navigation.navigate("Setting");
   };
   doClickEditProfile = () => {
-    this.props.navigation.navigate("EditProfile",{isFrom:''});
+    this.props.navigation.navigate("EditProfile", { isFrom: "" });
   };
 
   render() {
@@ -140,6 +135,7 @@ class MyProfileScreen extends PureComponent {
       availibility,
       currentUser,
       is_request,
+      name,
       percentage,
     } = this.state;
     let sportsDataBeginner = [];
@@ -147,18 +143,10 @@ class MyProfileScreen extends PureComponent {
     let sportsDataAdvance = [];
     let sportsDataIntermediate = [];
     if (currentUser.assign_sport) {
-      sportsDataBeginner = currentUser.assign_sport.filter(
-        (data) => data.status == "B"
-      );
-      sportsDataPro = currentUser.assign_sport.filter(
-        (data) => data.status == "P"
-      );
-      sportsDataAdvance = currentUser.assign_sport.filter(
-        (data) => data.status == "A"
-      );
-      sportsDataIntermediate = currentUser.assign_sport.filter(
-        (data) => data.status == "I"
-      );
+      sportsDataBeginner = currentUser.assign_sport.filter((data) => data.status == "B");
+      sportsDataPro = currentUser.assign_sport.filter((data) => data.status == "P");
+      sportsDataAdvance = currentUser.assign_sport.filter((data) => data.status == "A");
+      sportsDataIntermediate = currentUser.assign_sport.filter((data) => data.status == "I");
 
       sportsDataAdvance = sportsDataAdvance.map((data, index, currentUser) => {
         return (
@@ -169,16 +157,14 @@ class MyProfileScreen extends PureComponent {
         );
       });
 
-      sportsDataIntermediate = sportsDataIntermediate.map(
-        (data, index, currentUser) => {
-          return (
-            <Text key={index} style={[TabStyle.smalltextview]}>
-              {data.title}
-              {index != currentUser.length - 1 ? ", " : ""}
-            </Text>
-          );
-        }
-      );
+      sportsDataIntermediate = sportsDataIntermediate.map((data, index, currentUser) => {
+        return (
+          <Text key={index} style={[TabStyle.smalltextview]}>
+            {data.title}
+            {index != currentUser.length - 1 ? ", " : ""}
+          </Text>
+        );
+      });
 
       sportsDataPro = sportsDataPro.map((data, index, currentUser) => {
         return (
@@ -189,16 +175,14 @@ class MyProfileScreen extends PureComponent {
         );
       });
 
-      sportsDataBeginner = sportsDataBeginner.map(
-        (data, index, currentUser) => {
-          return (
-            <Text key={index} style={[TabStyle.smalltextview]}>
-              {data.title}
-              {index != currentUser.length - 1 ? ", " : ""}
-            </Text>
-          );
-        }
-      );
+      sportsDataBeginner = sportsDataBeginner.map((data, index, currentUser) => {
+        return (
+          <Text key={index} style={[TabStyle.smalltextview]}>
+            {data.title}
+            {index != currentUser.length - 1 ? ", " : ""}
+          </Text>
+        );
+      });
     }
     return (
       <View style={[TabCommonStyle.container]}>
@@ -230,22 +214,14 @@ class MyProfileScreen extends PureComponent {
                   <FastImage
                     resizeMethod="resize"
                     style={ProfileStyle.imageStyle}
-                    source={
-                      profile_url === ""
-                        ? images.dummy_user_img
-                        : { uri: profile_url }
-                    }
+                    source={profile_url === "" ? images.dummy_user_img : { uri: profile_url }}
                   ></FastImage>
                 </View>
 
-                <CustomSlots titleText={percentage + " " + "COMPLETE"} />
-                <TouchableOpacity onPress={() => this.doClickEditProfile()}>
-                  <FastImage
-                    style={[ProfileStyle.qrcodestyle]}
-                    source={images.edit_profile_img}
-                    resizeMode={FastImage.resizeMode.contain}
-                  />
-                </TouchableOpacity>
+                <CustomSlots
+                  titleText={percentage + " " + "COMPLETE"}
+                  customstyle={{ marginTop: wp(-4), width: "auto", paddingHorizontal: wp(1.75) }}
+                />
               </View>
 
               <View style={ProfileStyle.last_endview}>
@@ -270,130 +246,122 @@ class MyProfileScreen extends PureComponent {
             </View>
           </View>
           <View style={[ProfileStyle.middlecontainer, { marginBottom: hp(1) }]}>
-            <Text numberOfLines={1} style={ProfileStyle.headertext}>
-              {username}
+            <Text numberOfLines={1} fontFamily="body" fontStyle="italic" fontWeight="light" fontSize={`${ms(16)}px`}>
+              {`${"Jayson Johnson"}, ${age}`}
             </Text>
-
-            {gender || age ? (
-              <Text numberOfLines={1} style={ProfileStyle.smalltextview}>
-                {gender ? gender + " " : ""} {age ? age : ""}
-              </Text>
-            ) : null}
 
             {location ? (
               <View style={{ flexDirection: "row" }}>
-                <FastImage
-                  resizeMode="contain"
-                  tintColor={Colors.GREY}
-                  style={ProfileStyle.locationicon}
-                  source={images.fill_location_img}
-                ></FastImage>
-                <Text numberOfLines={1} style={ProfileStyle.smalltextview}>
+                <Text
+                  numberOfLines={1}
+                  fontFamily="body"
+                  fontStyle="italic"
+                  fontWeight="light"
+                  fontSize={`${ms(14)}px`}
+                  color="gray.500"
+                >
                   {location}
                 </Text>
               </View>
             ) : null}
           </View>
-          <View style={ProfileStyle.lineViewContainer}></View>
-          <ScrollView
-            style={{
-              marginTop: -hp(2),
-              marginBottom: hp(4),
-              marginHorizontal: wp(5),
-            }}
-            showsVerticalScrollIndicator={false}
-          >
-            <View
-              style={[
-                ProfileStyle.subview,
-                { marginTop: hp(3), marginBottom: hp(2.5) },
-              ]}
+
+          <VStack flex={1}>
+            <HStack justifyContent="center" space={wp(16)} mt={hp(1)}>
+              <VStack alignItems="center">
+                <Text color="primary" fontSize={`${ms(16)}px`}>
+                  5
+                </Text>
+                <Text color="gray.500" fontSize={`${ms(14)}px`}>
+                  Sports
+                </Text>
+              </VStack>
+              <VStack alignItems="center">
+                <Text color="primary" fontSize={`${ms(16)}px`}>
+                  100
+                </Text>
+                <Text color="gray.500" fontSize={`${ms(14)}px`}>
+                  Players
+                </Text>
+              </VStack>
+              <VStack alignItems="center">
+                <Text color="primary" fontSize={`${ms(16)}px`}>
+                  50
+                </Text>
+                <Text color="gray.500" fontSize={`${ms(14)}px`}>
+                  Matches
+                </Text>
+              </VStack>
+            </HStack>
+
+            <HStack
+              mx={wp(5)}
+              borderBottomColor="gray.200"
+              borderBottomWidth={1}
+              mt={hp(2)}
+              justifyContent="center"
+              space={`${hs(40)}px`}
+              p={0}
             >
-              <Text style={ProfileStyle.headertext}>{"Sports"}</Text>
-              {sportsDataPro.length > 0 ? (
-                <>
-                  <Text
-                    style={[
-                      ProfileStyle.headertext,
-                      { fontSize: 16, marginTop: hp(1) },
-                    ]}
-                  >
-                    {"Pro"}
-                  </Text>
-                  <Text>{sportsDataPro}</Text>
-                </>
-              ) : null}
-              {sportsDataAdvance.length > 0 ? (
-                <>
-                  <Text
-                    style={[
-                      ProfileStyle.headertext,
-                      { fontSize: 16, marginTop: hp(1) },
-                    ]}
-                  >
-                    {"Advanced"}
-                  </Text>
-                  <Text>{sportsDataAdvance}</Text>
-                </>
-              ) : null}
-              {sportsDataIntermediate.length > 0 ? (
-                <>
-                  <Text
-                    style={[
-                      ProfileStyle.headertext,
-                      { fontSize: 16, marginTop: hp(1) },
-                    ]}
-                  >
-                    {"Intermediate"}
-                  </Text>
-                  <Text>{sportsDataIntermediate}</Text>
-                </>
-              ) : null}
-              {sportsDataBeginner.length > 0 ? (
-                <>
-                  <Text
-                    style={[
-                      ProfileStyle.headertext,
-                      { fontSize: 16, marginTop: hp(1) },
-                    ]}
-                  >
-                    {"Beginner"}
-                  </Text>
-                  <Text>{sportsDataBeginner}</Text>
-                </>
-              ) : null}
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"Availability"}</Text>
-              <Text style={ProfileStyle.subtitleview}>
-                {availibility ? availibility : ""}
+              <Button
+                variant="unstyled"
+                py={0}
+                borderBottomColor="primary"
+                borderBottomWidth={true ? 2 : 0}
+                _text={{
+                  color: "gray.400",
+                  fontSize: `${ms(16)}px`,
+                  lineHeight: `${ms(24)}px`,
+                  fontStyle: "italic",
+                  fontWeight: "light",
+                  fontFamily: "body",
+                }}
+              >
+                About
+              </Button>
+              <Button
+                variant="unstyled"
+                py={0}
+                borderBottomColor="primary"
+                borderBottomWidth={false ? 2 : 0}
+                _text={{
+                  color: "gray.400",
+                  fontSize: `${ms(16)}px`,
+                  lineHeight: `${ms(24)}px`,
+                  fontStyle: "italic",
+                  fontWeight: "light",
+                  fontFamily: "body",
+                }}
+              >
+                HUB
+              </Button>
+            </HStack>
+
+            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+              <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
+                About Me
               </Text>
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"About Me"}</Text>
-              <Text numberOfLines={4} style={ProfileStyle.subtitleview}>
-                {aboutyou ? aboutyou : ""}
+              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+            </HStack>
+
+            <Text pl={`${wp(5)}px`} fontSize={`${ms(10)}px`} color="black">
+              {aboutyou}
+            </Text>
+
+            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+              <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} color="black">
+                My Sports
               </Text>
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"Travel Distance"}</Text>
-              <Text style={ProfileStyle.subtitleview}>
-                {travelDistance ? travelDistance + "mi" : ""}
+              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+            </HStack>
+
+            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+              <Text pr={`${wp(3)}px`} lineHeight={`${ms(18)}px`} color="black">
+                My Preference
               </Text>
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"Gender Preference"}</Text>
-              <Text style={ProfileStyle.subtitleview}>{genderPreference}</Text>
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"Age Preference"}</Text>
-              <Text style={ProfileStyle.subtitleview}>{age_preference}</Text>
-            </View>
-            <View style={ProfileStyle.subview}>
-              <Text style={ProfileStyle.headertext}>{"Match Preference"}</Text>
-              <Text style={ProfileStyle.subtitleview}>{matchStructure}</Text>
-            </View>
-          </ScrollView>
+              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+            </HStack>
+          </VStack>
         </View>
       </View>
     );

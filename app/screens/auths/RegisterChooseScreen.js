@@ -42,7 +42,6 @@ const RegisterChooseScreen = () => {
         alert("Login Success", result.toString());
         const { accessToken } = await AccessToken.getCurrentAccessToken();
         let fcmToken = await messaging().getToken();
-        // postRequest(FBLOGIN, {fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken})
         dispatch(
           doFBLogin({
             fbToken: accessToken,

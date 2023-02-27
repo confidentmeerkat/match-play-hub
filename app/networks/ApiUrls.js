@@ -2,7 +2,7 @@ import { API_HOST } from "../../config";
 
 // const BASE_URL = API_HOST;
 // const BASE_URL = "http://matchplayhub-env.eba-qk8jzdys.us-west-2.elasticbeanstalk.com/api/";
-const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = "http://10.0.2.2:8000/api/";
 const LOCATION_BASE_URL =
   "https://maps.googleapis.com/maps/api/geocode/json?address=";
 const LOCATION_BASE_URL_FROM_PINCODE =

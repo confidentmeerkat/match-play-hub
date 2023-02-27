@@ -23,11 +23,9 @@ export const ProfileStyle = StyleSheet.create({
     marginBottom: 14,
   },
   imageStyle: {
-    height: globals.deviceWidth * 0.27,
-    width: globals.deviceWidth * 0.27,
-    borderWidth: 2,
-    borderColor: Colors.PRIMARY,
-    borderRadius: (globals.deviceWidth * 0.27) / 2,
+    height: globals.deviceWidth * 0.4,
+    width: globals.deviceWidth * 0.4,
+    borderRadius: (globals.deviceWidth * 0.4) / 2,
   },
   chatimgs: {
     height: globals.deviceWidth * 0.22,
@@ -67,14 +65,14 @@ export const ProfileStyle = StyleSheet.create({
   start_view: {
     alignItems: "flex-start",
     justifyContent: "center",
-    marginVertical: hp(2),
-    marginLeft: wp(7),
+    marginTop: wp(-20),
+    marginLeft: wp(2),
   },
   last_endview: {
     alignItems: "flex-end",
     justifyContent: "center",
-    marginVertical: hp(2),
-    marginRight: wp(7),
+    marginTop: wp(-20),
+    marginRight: wp(2),
   },
   settingsiconstyle: {
     width: wp(11),
