@@ -59,6 +59,11 @@ const images = {
   phone_img: require("../../assets/images/phone.png"),
   facebook_img: require("../../assets/images/facebook.png"),
   google_img: require("../../assets/images/google.png"),
+  tennis_img: require("../../assets/images/tennis.png"),
+  basketball_img: require("../../assets/images/basketball.png"),
+  hiking_img: require("../../assets/images/hiking.png"),
+  kayak_img: require("../../assets/images/kayak.png"),
+  golf_img: require("../../assets/images/golf.png"),
 };
 
 export default images;

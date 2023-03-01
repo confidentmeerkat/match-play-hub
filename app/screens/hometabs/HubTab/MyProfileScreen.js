@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
 import { TouchableOpacity, ScrollView, View } from "react-native";
-import { Text } from "native-base";
+import { Center, Image, Text } from "native-base";
 import { TabCommonStyle } from "../../../../assets/styles/TabCommonStyle";
 import Header from "../../../components/Header/Header";
 import images from "../../../resources/images";
@@ -80,6 +80,7 @@ class MyProfileScreen extends PureComponent {
         thisLocation = thisLocation + ", " + currentUser.state;
       }
     }
+
     this.setState({
       username: currentUser.username ? currentUser.username : "",
       age: currentUser.age ? currentUser.age : "",
@@ -232,22 +233,12 @@ class MyProfileScreen extends PureComponent {
                     resizeMode={FastImage.resizeMode.contain}
                   />
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => this.doClickEditProfile()}>
-                  <FastImage
-                    style={[
-                      ProfileStyle.qrcodestyle,
-                      { marginVertical: hp(2) },
-                    ]}
-                    source={images.edit_profile_img}
-                    resizeMode={FastImage.resizeMode.contain}
-                  />
-                </TouchableOpacity> */}
               </View>
             </View>
           </View>
           <View style={[ProfileStyle.middlecontainer, { marginBottom: hp(1) }]}>
             <Text numberOfLines={1} fontFamily="body" fontStyle="italic" fontWeight="light" fontSize={`${ms(16)}px`}>
-              {`${"Jayson Johnson"}, ${age}`}
+              {`${name || username}, ${age}`}
             </Text>
 
             {location ? (
@@ -337,30 +328,235 @@ class MyProfileScreen extends PureComponent {
               </Button>
             </HStack>
 
-            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-              <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
-                About Me
-              </Text>
-              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-            </HStack>
+            <ScrollView>
+              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
+                  About Me
+                </Text>
+                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+              </HStack>
 
-            <Text pl={`${wp(5)}px`} fontSize={`${ms(10)}px`} color="black">
-              {aboutyou}
-            </Text>
-
-            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-              <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} color="black">
-                My Sports
+              <Text pl={`${wp(5)}px`} fontSize={`${ms(10)}px`} color="black" mb={`${vs(30)}px`}>
+                {aboutyou}
               </Text>
-              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-            </HStack>
 
-            <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-              <Text pr={`${wp(3)}px`} lineHeight={`${ms(18)}px`} color="black">
-                My Preference
-              </Text>
-              <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-            </HStack>
+              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
+                  My Sports
+                </Text>
+                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+              </HStack>
+
+              <HStack mx={`${wp(5)}px`} flexGrow={1} mt={`${hs(25)}px`} flexWrap="wrap">
+                <Box width="1/3">
+                  <Center
+                    borderColor="black"
+                    borderWidth={1}
+                    flexDirection="row"
+                    borderRadius="full"
+                    width={`${hs(100)}px`}
+                    height={`${vs(35)}px`}
+                    alignItems="center"
+                    mb={`${hs(20)}px`}
+                  >
+                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.tennis_img} />
+                    <Text fontStyle="italic" fontWeight="light" fontSize={`${ms(12)}px`} ml={`${hs(6)}px`}>
+                      Tennis
+                    </Text>
+                  </Center>
+                </Box>
+                <Box width="1/3">
+                  <Center
+                    borderColor="red.600"
+                    borderWidth={1}
+                    flexDirection="row"
+                    borderRadius="full"
+                    width={`${hs(100)}px`}
+                    height={`${vs(35)}px`}
+                    alignItems="center"
+                    mb={`${hs(20)}px`}
+                  >
+                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.basketball_img} />
+                    <Text
+                      color="red.600"
+                      fontStyle="italic"
+                      fontWeight="light"
+                      fontSize={`${ms(12)}px`}
+                      ml={`${hs(6)}px`}
+                    >
+                      Basketball
+                    </Text>
+                  </Center>
+                </Box>
+                <Box width="1/3">
+                  <Center
+                    borderColor="yellow.600"
+                    borderWidth={1}
+                    flexDirection="row"
+                    borderRadius="full"
+                    width={`${hs(100)}px`}
+                    height={`${vs(35)}px`}
+                    alignItems="center"
+                    mb={`${hs(20)}px`}
+                  >
+                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.golf_img} />
+                    <Text
+                      color="yellow.600"
+                      fontStyle="italic"
+                      fontWeight="light"
+                      fontSize={`${ms(12)}px`}
+                      ml={`${hs(6)}px`}
+                    >
+                      Golf
+                    </Text>
+                  </Center>
+                </Box>
+                <Box width="1/3">
+                  <Center
+                    borderColor="green.600"
+                    borderWidth={1}
+                    flexDirection="row"
+                    borderRadius="full"
+                    width={`${hs(100)}px`}
+                    height={`${vs(35)}px`}
+                    alignItems="center"
+                    mb={`${hs(20)}px`}
+                  >
+                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.kayak_img} />
+                    <Text
+                      color="green.600"
+                      fontStyle="italic"
+                      fontWeight="light"
+                      fontSize={`${ms(12)}px`}
+                      ml={`${hs(6)}px`}
+                    >
+                      Kayaking
+                    </Text>
+                  </Center>
+                </Box>
+                <Box width="1/3">
+                  <Center
+                    borderColor="green.600"
+                    borderWidth={1}
+                    flexDirection="row"
+                    borderRadius="full"
+                    width={`${hs(100)}px`}
+                    height={`${vs(35)}px`}
+                    alignItems="center"
+                    mb={`${hs(20)}px`}
+                  >
+                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.hiking_img} />
+                    <Text
+                      color="green.600"
+                      fontStyle="italic"
+                      fontWeight="light"
+                      fontSize={`${ms(12)}px`}
+                      ml={`${hs(6)}px`}
+                    >
+                      Hiking
+                    </Text>
+                  </Center>
+                </Box>
+              </HStack>
+
+              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
+                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
+                  My Preference
+                </Text>
+                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
+              </HStack>
+
+              <HStack mx={`${wp(5)}px`} flexGrow={1} mt={`${hs(25)}px`} flexWrap="wrap">
+                {!!genderPreference && (
+                  <Box width="1/3">
+                    <Center
+                      bgColor="primary"
+                      borderRadius="full"
+                      width={`${hs(100)}px`}
+                      height={`${vs(35)}px`}
+                      alignItems="center"
+                      mb={`${hs(20)}px`}
+                    >
+                      <Text
+                        textAlign="center"
+                        color="white"
+                        fontStyle="italic"
+                        fontWeight="light"
+                        fontSize={`${ms(12)}px`}
+                      >
+                        {genderPreference}
+                      </Text>
+                    </Center>
+                  </Box>
+                )}
+                {!!age_preference && (
+                  <Box width="1/3">
+                    <Center
+                      bgColor="primary"
+                      borderRadius="full"
+                      width={`${hs(100)}px`}
+                      height={`${vs(35)}px`}
+                      alignItems="center"
+                      mb={`${hs(20)}px`}
+                    >
+                      <Text
+                        textAlign="center"
+                        color="white"
+                        fontStyle="italic"
+                        fontWeight="light"
+                        fontSize={`${ms(12)}px`}
+                      >
+                        18 - 29
+                      </Text>
+                    </Center>
+                  </Box>
+                )}
+                {!!genderPreference && (
+                  <Box width="1/3">
+                    <Center
+                      bgColor="primary"
+                      borderRadius="full"
+                      width={`${hs(100)}px`}
+                      height={`${vs(35)}px`}
+                      alignItems="center"
+                      mb={`${hs(20)}px`}
+                    >
+                      <Text
+                        textAlign="center"
+                        color="white"
+                        fontStyle="italic"
+                        fontWeight="light"
+                        fontSize={`${ms(12)}px`}
+                      >
+                        30 - 39
+                      </Text>
+                    </Center>
+                  </Box>
+                )}
+                {!!genderPreference && (
+                  <Box width="1/3">
+                    <Center
+                      bgColor="primary"
+                      borderRadius="full"
+                      width={`${hs(100)}px`}
+                      height={`${vs(35)}px`}
+                      alignItems="center"
+                      mb={`${hs(20)}px`}
+                    >
+                      <Text
+                        textAlign="center"
+                        color="white"
+                        fontStyle="italic"
+                        fontWeight="light"
+                        fontSize={`${ms(12)}px`}
+                      >
+                        2 or Singles
+                      </Text>
+                    </Center>
+                  </Box>
+                )}
+              </HStack>
+            </ScrollView>
           </VStack>
         </View>
       </View>
