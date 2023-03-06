@@ -10,14 +10,20 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import FastImage from "react-native-fast-image";
 import { ProfileStyle } from "../../../../assets/styles/ProfileStyle";
 import { EventRegister } from "react-native-event-listeners";
-import Colors from "../../../constants/Colors";
 import BarcodeScreen from "./BarcodeScreen";
 import { getBarcodeSubKind } from "../../../constants/Barcode_helper";
 import CustomSlots from "../../../components/buttons/CustomSlots";
-import { RFPercentage } from "react-native-responsive-fontsize";
 import { HStack, VStack, Box, Button } from "native-base";
-import HeadingWithText from "../../../components/RenderFlatlistComponent/HeadingWithText";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
+import { bindActionCreators } from "redux";
+import { doGetUserUpcomingMatch, doRefreshToken } from "../../../redux/actions/AppActions";
+
+const colorCodes = {
+  B: "black",
+  P: "green.600",
+  I: "#FFB800",
+  A: "red.600",
+};
 
 class MyProfileScreen extends PureComponent {
   constructor(props) {
@@ -32,24 +38,62 @@ class MyProfileScreen extends PureComponent {
       aboutyou: "",
       travelDistance: "",
       genderPreference: "",
-      matchStructure: "",
+      matchStructure: [],
       profile_url: "",
-      age_preference: "",
+      age_preference: [],
       is_request: "",
       barcodeData: "",
       assign_sport: [],
       qr_url: "",
       percentage: "",
+      upcomingMatchesList: [],
+      playerMatches: [],
+      newMessages: [],
     };
   }
 
   async componentDidMount() {
     if (this.props.currentUser !== undefined) {
       await this.setCurrentUser();
+      this.getUpcomingMatchList();
+      this._unsubscribe = this.props.navigation.addListener("focus", async () => {
+        await this.getUpcomingMatchList();
+      });
     }
     this.listener = EventRegister.addEventListener("initializeApp", () => {
       this.setCurrentUser();
     });
+  }
+
+  setuserUpcomingMatchList(finalMatchData, message_request, player_request) {
+    this.setState({
+      upcomingMatchesList: finalMatchData,
+      playerMatches: player_request,
+      newMessages: message_request,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.responseGetUserUpcomingMatchdata !== this.props.responseGetUserUpcomingMatchdata) {
+      if (this.props.responseGetUserUpcomingMatchdata !== undefined) {
+        const { success, message, finalMatchData, message_request, player_request, status_code } =
+          this.props.responseGetUserUpcomingMatchdata;
+        if (status_code == 200 && success == true) {
+          this.setuserUpcomingMatchList(finalMatchData, message_request, player_request);
+        } else if (success == false) {
+          if (status_code == 401 && message == "Token has expired") {
+            this.props.doRefreshToken();
+          } else if (status_code !== undefined && status_code === 402) {
+            showErrorMessage(message);
+            this.clearUserData();
+            this.props.navigation.navigate("AuthLoading");
+          } else if (status_code == 500) {
+            showErrorMessage(strings.somethingWrong);
+          } else {
+          }
+        }
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -67,8 +111,17 @@ class MyProfileScreen extends PureComponent {
     );
   };
 
+  getUpcomingMatchList = async () => {
+    if (globals.isInternetConnected == true) {
+      this.props.doGetUserUpcomingMatch();
+    } else {
+      // showErrorMessage(errors.no_internet);
+    }
+  };
+
   setUserInfo = () => {
     const { currentUser } = this.state;
+    console.log("currentUser :", currentUser);
     let thisLocation = "";
     if (currentUser.city && currentUser.city != "undefined") {
       thisLocation = thisLocation + currentUser.city;
@@ -92,8 +145,8 @@ class MyProfileScreen extends PureComponent {
       aboutyou: currentUser.about_us ? currentUser.about_us : "",
       travelDistance: currentUser.distance ? currentUser.distance : "",
       genderPreference: currentUser.gender_preference ? currentUser.gender_preference : "",
-      matchStructure: currentUser.match_structure_string ? currentUser.match_structure_string : "",
-      age_preference: currentUser.age_preference_string ? currentUser.age_preference_string : "",
+      matchStructure: currentUser.match_structure ? JSON.parse(currentUser.match_structure) || [] : [],
+      age_preference: currentUser.age_preference ? JSON.parse(currentUser.age_preference) || [] : [],
       is_request: currentUser.is_request ? currentUser.is_request : "",
       qr_url: currentUser.qr_url ? currentUser.qr_url : "",
       percentage: currentUser.percentage ? currentUser.percentage : "",
@@ -138,6 +191,9 @@ class MyProfileScreen extends PureComponent {
       is_request,
       name,
       percentage,
+      upcomingMatchesList,
+      newMessages,
+      playerMatches,
     } = this.state;
     let sportsDataBeginner = [];
     let sportsDataPro = [];
@@ -261,7 +317,7 @@ class MyProfileScreen extends PureComponent {
             <HStack justifyContent="center" space={wp(16)} mt={hp(1)}>
               <VStack alignItems="center">
                 <Text color="primary" fontSize={`${ms(16)}px`}>
-                  5
+                  {assign_sport.length || 0}
                 </Text>
                 <Text color="gray.500" fontSize={`${ms(14)}px`}>
                   Sports
@@ -269,7 +325,7 @@ class MyProfileScreen extends PureComponent {
               </VStack>
               <VStack alignItems="center">
                 <Text color="primary" fontSize={`${ms(16)}px`}>
-                  100
+                  {playerMatches.length || 0}
                 </Text>
                 <Text color="gray.500" fontSize={`${ms(14)}px`}>
                   Players
@@ -277,7 +333,7 @@ class MyProfileScreen extends PureComponent {
               </VStack>
               <VStack alignItems="center">
                 <Text color="primary" fontSize={`${ms(16)}px`}>
-                  50
+                  {upcomingMatchesList.length || 0}
                 </Text>
                 <Text color="gray.500" fontSize={`${ms(14)}px`}>
                   Matches
@@ -348,115 +404,25 @@ class MyProfileScreen extends PureComponent {
               </HStack>
 
               <HStack mx={`${wp(5)}px`} flexGrow={1} mt={`${hs(25)}px`} flexWrap="wrap">
-                <Box width="1/3">
-                  <Center
-                    borderColor="black"
-                    borderWidth={1}
-                    flexDirection="row"
-                    borderRadius="full"
-                    width={`${hs(100)}px`}
-                    height={`${vs(35)}px`}
-                    alignItems="center"
-                    mb={`${hs(20)}px`}
-                  >
-                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.tennis_img} />
-                    <Text fontStyle="italic" fontWeight="light" fontSize={`${ms(12)}px`} ml={`${hs(6)}px`}>
-                      Tennis
-                    </Text>
-                  </Center>
-                </Box>
-                <Box width="1/3">
-                  <Center
-                    borderColor="red.600"
-                    borderWidth={1}
-                    flexDirection="row"
-                    borderRadius="full"
-                    width={`${hs(100)}px`}
-                    height={`${vs(35)}px`}
-                    alignItems="center"
-                    mb={`${hs(20)}px`}
-                  >
-                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.basketball_img} />
-                    <Text
-                      color="red.600"
-                      fontStyle="italic"
-                      fontWeight="light"
-                      fontSize={`${ms(12)}px`}
-                      ml={`${hs(6)}px`}
+                {(assign_sport || []).map(({ title, status }) => (
+                  <Box width="1/3">
+                    <Center
+                      borderColor={colorCodes[status]}
+                      borderWidth={1}
+                      flexDirection="row"
+                      borderRadius="full"
+                      width={`${hs(100)}px`}
+                      height={`${vs(35)}px`}
+                      alignItems="center"
+                      mb={`${hs(20)}px`}
                     >
-                      Basketball
-                    </Text>
-                  </Center>
-                </Box>
-                <Box width="1/3">
-                  <Center
-                    borderColor="yellow.600"
-                    borderWidth={1}
-                    flexDirection="row"
-                    borderRadius="full"
-                    width={`${hs(100)}px`}
-                    height={`${vs(35)}px`}
-                    alignItems="center"
-                    mb={`${hs(20)}px`}
-                  >
-                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.golf_img} />
-                    <Text
-                      color="yellow.600"
-                      fontStyle="italic"
-                      fontWeight="light"
-                      fontSize={`${ms(12)}px`}
-                      ml={`${hs(6)}px`}
-                    >
-                      Golf
-                    </Text>
-                  </Center>
-                </Box>
-                <Box width="1/3">
-                  <Center
-                    borderColor="green.600"
-                    borderWidth={1}
-                    flexDirection="row"
-                    borderRadius="full"
-                    width={`${hs(100)}px`}
-                    height={`${vs(35)}px`}
-                    alignItems="center"
-                    mb={`${hs(20)}px`}
-                  >
-                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.kayak_img} />
-                    <Text
-                      color="green.600"
-                      fontStyle="italic"
-                      fontWeight="light"
-                      fontSize={`${ms(12)}px`}
-                      ml={`${hs(6)}px`}
-                    >
-                      Kayaking
-                    </Text>
-                  </Center>
-                </Box>
-                <Box width="1/3">
-                  <Center
-                    borderColor="green.600"
-                    borderWidth={1}
-                    flexDirection="row"
-                    borderRadius="full"
-                    width={`${hs(100)}px`}
-                    height={`${vs(35)}px`}
-                    alignItems="center"
-                    mb={`${hs(20)}px`}
-                  >
-                    <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.hiking_img} />
-                    <Text
-                      color="green.600"
-                      fontStyle="italic"
-                      fontWeight="light"
-                      fontSize={`${ms(12)}px`}
-                      ml={`${hs(6)}px`}
-                    >
-                      Hiking
-                    </Text>
-                  </Center>
-                </Box>
+                      <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.tennis_img} />
+                      <Text fontStyle="italic" fontWeight="light" fontSize={`${ms(12)}px`} ml={`${hs(6)}px`}>
+                        {title}
+                      </Text>
+                    </Center>
+                  </Box>
+                ))}
               </HStack>
 
               <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
@@ -489,7 +455,7 @@ class MyProfileScreen extends PureComponent {
                     </Center>
                   </Box>
                 )}
-                {!!age_preference && (
+                {age_preference.map(({ name, id }) => (
                   <Box width="1/3">
                     <Center
                       bgColor="primary"
@@ -506,12 +472,12 @@ class MyProfileScreen extends PureComponent {
                         fontWeight="light"
                         fontSize={`${ms(12)}px`}
                       >
-                        18 - 29
+                        {name}
                       </Text>
                     </Center>
                   </Box>
-                )}
-                {!!genderPreference && (
+                ))}
+                {matchStructure.map(({ name, id }) => (
                   <Box width="1/3">
                     <Center
                       bgColor="primary"
@@ -528,33 +494,11 @@ class MyProfileScreen extends PureComponent {
                         fontWeight="light"
                         fontSize={`${ms(12)}px`}
                       >
-                        30 - 39
+                        {name}
                       </Text>
                     </Center>
                   </Box>
-                )}
-                {!!genderPreference && (
-                  <Box width="1/3">
-                    <Center
-                      bgColor="primary"
-                      borderRadius="full"
-                      width={`${hs(100)}px`}
-                      height={`${vs(35)}px`}
-                      alignItems="center"
-                      mb={`${hs(20)}px`}
-                    >
-                      <Text
-                        textAlign="center"
-                        color="white"
-                        fontStyle="italic"
-                        fontWeight="light"
-                        fontSize={`${ms(12)}px`}
-                      >
-                        2 or Singles
-                      </Text>
-                    </Center>
-                  </Box>
-                )}
+                ))}
               </HStack>
             </ScrollView>
           </VStack>
@@ -565,11 +509,16 @@ class MyProfileScreen extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  return { currentUser: state.auth.currentUser };
+  return {
+    currentUser: state.auth.currentUser,
+    responseGetUserUpcomingMatchdata: state.app.responseGetUserUpcomingMatchdata,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    ...bindActionCreators({ doGetUserUpcomingMatch, doRefreshToken }, dispatch),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfileScreen);
