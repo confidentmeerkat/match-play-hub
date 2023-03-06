@@ -415,9 +415,19 @@ class MyProfileScreen extends PureComponent {
                       height={`${vs(35)}px`}
                       alignItems="center"
                       mb={`${hs(20)}px`}
+                      px={1}
                     >
                       <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.tennis_img} />
-                      <Text fontStyle="italic" fontWeight="light" fontSize={`${ms(12)}px`} ml={`${hs(6)}px`}>
+                      <Text
+                        fontStyle="italic"
+                        fontWeight="light"
+                        fontSize={`${ms(12)}px`}
+                        ml={`${hs(6)}px`}
+                        flexWrap="wrap"
+                        textBreakStrategy="balanced"
+                        flexShrink={1}
+                        textAlign="center"
+                      >
                         {title}
                       </Text>
                     </Center>
