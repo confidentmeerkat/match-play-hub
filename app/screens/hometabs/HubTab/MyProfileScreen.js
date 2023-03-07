@@ -261,7 +261,8 @@ class MyProfileScreen extends PureComponent {
                   ></FastImage>
                 </TouchableOpacity>
               </View>
-              <View
+              <TouchableOpacity
+                onPress={() => this.doClickEditProfile()}
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
@@ -279,7 +280,7 @@ class MyProfileScreen extends PureComponent {
                   titleText={percentage + " " + "COMPLETE"}
                   customstyle={{ marginTop: wp(-4), width: "auto", paddingHorizontal: wp(1.75) }}
                 />
-              </View>
+              </TouchableOpacity>
 
               <View style={ProfileStyle.last_endview}>
                 <TouchableOpacity onPress={() => this.gotoSetting()}>
@@ -422,6 +423,7 @@ class MyProfileScreen extends PureComponent {
                         fontStyle="italic"
                         fontWeight="light"
                         fontSize={`${ms(12)}px`}
+                        lineHeight={`${ms(14)}px`}
                         ml={`${hs(6)}px`}
                         flexWrap="wrap"
                         textBreakStrategy="balanced"
