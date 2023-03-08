@@ -3,15 +3,14 @@ import { API_HOST } from "../../config";
 // const BASE_URL = API_HOST;
 // const BASE_URL = "http://matchplayhub-env.eba-qk8jzdys.us-west-2.elasticbeanstalk.com/api/";
 const BASE_URL = "http://10.0.2.2:8000/api/";
-const LOCATION_BASE_URL =
-  "https://maps.googleapis.com/maps/api/geocode/json?address=";
-const LOCATION_BASE_URL_FROM_PINCODE =
-  "https://maps.googleapis.com/maps/api/geocode/json?key=";
+const LOCATION_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+const LOCATION_BASE_URL_FROM_PINCODE = "https://maps.googleapis.com/maps/api/geocode/json?key=";
 const ApiUrls = {
   LOCATION_BASE_URL: LOCATION_BASE_URL,
   LOCATION_BASE_URL_FROM_PINCODE: LOCATION_BASE_URL_FROM_PINCODE,
   LOGIN: BASE_URL + "login",
-  FBLOGIN: BASE_URL + 'facebook/login',
+  FBLOGIN: BASE_URL + "facebook/login",
+  GOOGLELOGIN: BASE_URL + "google/login",
   REGISTER: BASE_URL + "register",
   SEND_OTP: BASE_URL + "sendOtp",
   PROFILE: BASE_URL + "profile",

@@ -1,8 +1,4 @@
-import {
-  postRequest,
-  makeGetHeaders,
-  makePostHeaderswithToken,
-} from "../../networks/ApiRequest";
+import { postRequest, makeGetHeaders, makePostHeaderswithToken } from "../../networks/ApiRequest";
 import * as types from "./ActionTypes";
 import ApiUrls from "../../networks/ApiUrls";
 
@@ -34,6 +30,23 @@ export const doFBLogin = (body) => {
     try {
       dispatch({ type: types.POST_LOGIN_REQUEST });
       const result = await postRequest(ApiUrls.FBLOGIN, body);
+      dispatch({ type: types.POST_LOGIN_SUCCESS, payload: result });
+      return result;
+    } catch (error) {
+      dispatch({
+        type: types.POST_LOGIN_FAILURE,
+        payload: error,
+      });
+      throw error;
+    }
+  };
+};
+
+export const doGoogleLogin = (body) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: types.POST_LOGIN_REQUEST });
+      const result = await postRequest(ApiUrls.GOOGLELOGIN, body);
       dispatch({ type: types.POST_LOGIN_SUCCESS, payload: result });
       return result;
     } catch (error) {
