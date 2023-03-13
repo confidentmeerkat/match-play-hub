@@ -6,10 +6,11 @@ import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from 
 
 import { StyleSheet, Platform } from "react-native";
 import { useDispatch } from "react-redux";
-import { doFBLogin } from "../../redux/actions/AuthActions";
+import { doFBLogin, doGoogleLogin } from "../../redux/actions/AuthActions";
 import messaging from "@react-native-firebase/messaging";
 import DeviceInfo from "react-native-device-info";
 import { LoginManager } from "react-native-fbsdk-next";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const styles = StyleSheet.create({
   headerText: {
@@ -53,6 +54,34 @@ const RegisterChooseScreen = () => {
       }
     } catch (error) {
       console.log("Facebook login failed");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      GoogleSignin.configure({
+        androidClientId: "536089685086-7ba4fjmthaplj4gsgqtrgnckfv8s58va.apps.googleusercontent.com",
+        iosClientId: "IOS_CLIENT_ID",
+      });
+
+      const hasPlayService = await GoogleSignin.hasPlayServices();
+
+      if (hasPlayService) {
+        await GoogleSignin.signIn();
+        const { accessToken } = await GoogleSignin.getTokens();
+        let fcmToken = await messaging().getToken();
+
+        dispatch(
+          doGoogleLogin({
+            googleToken: accessToken,
+            device_id: DeviceInfo.getDeviceId(),
+            device_type: Platform.OS,
+            device_token: fcmToken,
+          })
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -121,6 +150,7 @@ const RegisterChooseScreen = () => {
                 }}
               />
             }
+            onPress={handleGoogleLogin}
           >
             Sign up with google
           </Button>

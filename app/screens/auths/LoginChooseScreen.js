@@ -40,6 +40,7 @@ const LoginChooseScreen = () => {
 
   useEffect(() => {
     const { status_code, token, success, error, message } = responseLogin || {};
+    console.log("responseLogin :", responseLogin);
 
     if (status_code === 200 && success) {
       AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
@@ -85,7 +86,7 @@ const LoginChooseScreen = () => {
   const handleGoogleLogin = async () => {
     try {
       GoogleSignin.configure({
-        androidClientId: "ANDROID_CLIENT_ID",
+        androidClientId: "536089685086-7ba4fjmthaplj4gsgqtrgnckfv8s58va.apps.googleusercontent.com",
         iosClientId: "IOS_CLIENT_ID",
       });
 
@@ -94,6 +95,7 @@ const LoginChooseScreen = () => {
       if (hasPlayService) {
         await GoogleSignin.signIn();
         const { accessToken } = await GoogleSignin.getTokens();
+        let fcmToken = await messaging().getToken();
 
         dispatch(
           doGoogleLogin({
