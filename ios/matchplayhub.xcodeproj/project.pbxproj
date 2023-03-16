@@ -668,7 +668,7 @@
 				CODE_SIGN_ENTITLEMENTS = matchplayhub/matchplayhub.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 7KX4NL5J4W;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
@@ -702,7 +702,7 @@
 				CODE_SIGN_ENTITLEMENTS = matchplayhub/matchplayhub.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 7KX4NL5J4W;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";

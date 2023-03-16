@@ -63,10 +63,10 @@ const LoginChooseScreen = () => {
       const result = await LoginManager.logInWithPermissions(["public_profile", "email"]);
 
       if (result.isCancelled) {
-        alert("Login Cancelled" + JSON.stringify(result));
+        // alert("Login Cancelled" + JSON.stringify(result));
       } else {
-        alert("Login Success", result.toString());
         const { accessToken } = await AccessToken.getCurrentAccessToken();
+        console.log('accessToken:', accessToken)
         let fcmToken = await messaging().getToken();
         // postRequest(FBLOGIN, {fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken})
         dispatch(
@@ -86,8 +86,8 @@ const LoginChooseScreen = () => {
   const handleGoogleLogin = async () => {
     try {
       GoogleSignin.configure({
-        androidClientId: "536089685086-7ba4fjmthaplj4gsgqtrgnckfv8s58va.apps.googleusercontent.com",
-        iosClientId: "IOS_CLIENT_ID",
+        androidClientId: "536089685086-e89m4sdcq4k7jcb555vjfv71esb6nt14.apps.googleusercontent.com",
+        iosClientId: "536089685086-e89m4sdcq4k7jcb555vjfv71esb6nt14.apps.googleusercontent.com",
       });
 
       const hasPlayService = await GoogleSignin.hasPlayServices();
