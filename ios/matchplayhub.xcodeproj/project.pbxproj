@@ -24,6 +24,22 @@
 		2DCBD1F227FD71E200567809 /* liblottie-react-native.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DCBD1F027FD71E200567809 /* liblottie-react-native.a */; };
 		2DFBD65427DA0CC900B52804 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DFBD65327DA0CC900B52804 /* GoogleService-Info.plist */; };
 		42E910BEA6BB4F1BB495984A /* OpenSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 378F4CAB38984B5D9BDF7274 /* OpenSans-MediumItalic.ttf */; };
+		4B05DF2E29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF2D29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework */; };
+		4B05DF2F29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF2D29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B05DF3129C3BB5200062C5D /* FBSDKCoreKit_Basics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF2D29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework */; };
+		4B05DF3329C3BB5800062C5D /* FBSDKCoreKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF3229C3BB5800062C5D /* FBSDKCoreKit.xcframework */; };
+		4B05DF3429C3BB5800062C5D /* FBSDKCoreKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF3229C3BB5800062C5D /* FBSDKCoreKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B05DF3629C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF3529C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework */; };
+		4B05DF3729C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B05DF3529C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B05DF4129C3BEF200062C5D /* Barlow-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3829C3BEEE00062C5D /* Barlow-Black.otf */; };
+		4B05DF4229C3BEF200062C5D /* Barlow-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3929C3BEEF00062C5D /* Barlow-Italic.otf */; };
+		4B05DF4329C3BEF200062C5D /* Barlow-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3A29C3BEEF00062C5D /* Barlow-Bold.otf */; };
+		4B05DF4429C3BEF200062C5D /* Barlow-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3B29C3BEF000062C5D /* Barlow-ExtraLight.otf */; };
+		4B05DF4529C3BEF200062C5D /* Barlow-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3C29C3BEF000062C5D /* Barlow-Regular.otf */; };
+		4B05DF4629C3BEF200062C5D /* Barlow-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3D29C3BEF100062C5D /* Barlow-Light.otf */; };
+		4B05DF4729C3BEF200062C5D /* Barlow-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3E29C3BEF100062C5D /* Barlow-Medium.otf */; };
+		4B05DF4829C3BEF200062C5D /* Barlow-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF3F29C3BEF100062C5D /* Barlow-Thin.otf */; };
+		4B05DF4929C3BEF200062C5D /* Barlow-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B05DF4029C3BEF200062C5D /* Barlow-SemiBold.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		94ABA8F98BA74DA98314AB9F /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 553C19F55CBE4B88B2B38CE6 /* OpenSans-Light.ttf */; };
 		A22B9F315BE65F527F55465D /* libPods-matchplayhub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558DE7264DB0D0CE77D61FE /* libPods-matchplayhub.a */; };
@@ -47,6 +63,22 @@
 			remoteInfo = matchplayhub;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4B05DF3029C3BB4900062C5D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4B05DF3429C3BB5800062C5D /* FBSDKCoreKit.xcframework in Embed Frameworks */,
+				4B05DF3729C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework in Embed Frameworks */,
+				4B05DF2F29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* matchplayhubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = matchplayhubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +117,18 @@
 		435CB15DC3BE403198731044 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		48F2489C38114061AAD84C3E /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		4B03CAB82812E48E00AE5629 /* matchplayhub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = matchplayhub.entitlements; path = matchplayhub/matchplayhub.entitlements; sourceTree = "<group>"; };
+		4B05DF2D29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKCoreKit_Basics.xcframework; path = Pods/FBSDKCoreKit_Basics/XCFrameworks/FBSDKCoreKit_Basics.xcframework; sourceTree = "<group>"; };
+		4B05DF3229C3BB5800062C5D /* FBSDKCoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKCoreKit.xcframework; path = Pods/FBSDKCoreKit/XCFrameworks/FBSDKCoreKit.xcframework; sourceTree = "<group>"; };
+		4B05DF3529C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKGamingServicesKit.xcframework; path = Pods/FBSDKGamingServicesKit/XCFrameworks/FBSDKGamingServicesKit.xcframework; sourceTree = "<group>"; };
+		4B05DF3829C3BEEE00062C5D /* Barlow-Black.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Black.otf"; sourceTree = "<group>"; };
+		4B05DF3929C3BEEF00062C5D /* Barlow-Italic.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Italic.otf"; sourceTree = "<group>"; };
+		4B05DF3A29C3BEEF00062C5D /* Barlow-Bold.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Bold.otf"; sourceTree = "<group>"; };
+		4B05DF3B29C3BEF000062C5D /* Barlow-ExtraLight.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-ExtraLight.otf"; sourceTree = "<group>"; };
+		4B05DF3C29C3BEF000062C5D /* Barlow-Regular.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Regular.otf"; sourceTree = "<group>"; };
+		4B05DF3D29C3BEF100062C5D /* Barlow-Light.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Light.otf"; sourceTree = "<group>"; };
+		4B05DF3E29C3BEF100062C5D /* Barlow-Medium.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Medium.otf"; sourceTree = "<group>"; };
+		4B05DF3F29C3BEF100062C5D /* Barlow-Thin.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-Thin.otf"; sourceTree = "<group>"; };
+		4B05DF4029C3BEF200062C5D /* Barlow-SemiBold.otf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Barlow-SemiBold.otf"; sourceTree = "<group>"; };
 		4F450F2D623D40BA88345C93 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		4FB22C6C5AC04C14BC906738 /* OpenSans-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-VariableFont_wdth,wght.ttf"; path = "../assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		553C19F55CBE4B88B2B38CE6 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -139,9 +183,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DCBD1F227FD71E200567809 /* liblottie-react-native.a in Frameworks */,
+				4B05DF3629C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework in Frameworks */,
+				4B05DF2E29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework in Frameworks */,
+				4B05DF3329C3BB5800062C5D /* FBSDKCoreKit.xcframework in Frameworks */,
 				2D76EBEB27FD6E140084E35A /* liblottie-react-native.a in Frameworks */,
 				2D76EBEA27FD6E140084E35A /* liblottie-ios.a in Frameworks */,
 				2DCBD1F127FD71E200567809 /* liblottie-ios.a in Frameworks */,
+				4B05DF3129C3BB5200062C5D /* FBSDKCoreKit_Basics.xcframework in Frameworks */,
 				A22B9F315BE65F527F55465D /* libPods-matchplayhub.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +231,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4B05DF3529C3BE2E00062C5D /* FBSDKGamingServicesKit.xcframework */,
+				4B05DF3229C3BB5800062C5D /* FBSDKCoreKit.xcframework */,
+				4B05DF2D29C3BB4900062C5D /* FBSDKCoreKit_Basics.xcframework */,
 				2DCBD1EF27FD71E200567809 /* liblottie-ios.a */,
 				2DCBD1F027FD71E200567809 /* liblottie-react-native.a */,
 				2D76EBE827FD6E140084E35A /* liblottie-ios.a */,
@@ -248,6 +299,15 @@
 		AF597F132D4847D5A1D8C813 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4B05DF3829C3BEEE00062C5D /* Barlow-Black.otf */,
+				4B05DF3A29C3BEEF00062C5D /* Barlow-Bold.otf */,
+				4B05DF3B29C3BEF000062C5D /* Barlow-ExtraLight.otf */,
+				4B05DF3929C3BEEF00062C5D /* Barlow-Italic.otf */,
+				4B05DF3D29C3BEF100062C5D /* Barlow-Light.otf */,
+				4B05DF3E29C3BEF100062C5D /* Barlow-Medium.otf */,
+				4B05DF3C29C3BEF000062C5D /* Barlow-Regular.otf */,
+				4B05DF4029C3BEF200062C5D /* Barlow-SemiBold.otf */,
+				4B05DF3F29C3BEF100062C5D /* Barlow-Thin.otf */,
 				2D76EBE327FD63BE0084E35A /* images */,
 				6E337A6FB74948C78DDAB2B1 /* AntDesign.ttf */,
 				0930CF53707F4A01B385C7A8 /* Entypo.ttf */,
@@ -333,6 +393,7 @@
 				B4BD2003942CB5772E99B9EC /* [CP] Copy Pods Resources */,
 				807C9E81195FADF161A24545 /* [CP-User] [RNFB] Core Configuration */,
 				5AA3A82F0C434BCA006237C2 /* [CP] Embed Pods Frameworks */,
+				4B05DF3029C3BB4900062C5D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -398,18 +459,27 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2DFBD65427DA0CC900B52804 /* GoogleService-Info.plist in Resources */,
+				4B05DF4929C3BEF200062C5D /* Barlow-SemiBold.otf in Resources */,
 				A6293A8337FD4AEEAF67388D /* OpenSan-Bold.ttf in Resources */,
 				00C2ECC40D3E4B05A0D62C8F /* OpenSans-BoldItalic.ttf in Resources */,
+				4B05DF4829C3BEF200062C5D /* Barlow-Thin.otf in Resources */,
 				E9081EE19FFC444595FE9C2E /* OpenSans-ExtraBold.ttf in Resources */,
 				F7FA933542F8471F84C47192 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				05CB08ED68534603899E5F49 /* OpenSans-Italic.ttf in Resources */,
 				94ABA8F98BA74DA98314AB9F /* OpenSans-Light.ttf in Resources */,
+				4B05DF4329C3BEF200062C5D /* Barlow-Bold.otf in Resources */,
 				E320A600534A4FD29E148593 /* OpenSans-LightItalic.ttf in Resources */,
 				D9D272BC7D51448FA8BF3FEE /* OpenSans-Medium.ttf in Resources */,
 				42E910BEA6BB4F1BB495984A /* OpenSans-MediumItalic.ttf in Resources */,
+				4B05DF4529C3BEF200062C5D /* Barlow-Regular.otf in Resources */,
 				F140E346A82C48D4B478252E /* OpenSans-Regular.ttf in Resources */,
 				044AA99E11EF4AF6A7F9FC2F /* OpenSans-SemiBold.ttf in Resources */,
 				E24AC5CD4C994A90969F82A5 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				4B05DF4629C3BEF200062C5D /* Barlow-Light.otf in Resources */,
+				4B05DF4429C3BEF200062C5D /* Barlow-ExtraLight.otf in Resources */,
+				4B05DF4129C3BEF200062C5D /* Barlow-Black.otf in Resources */,
+				4B05DF4229C3BEF200062C5D /* Barlow-Italic.otf in Resources */,
+				4B05DF4729C3BEF200062C5D /* Barlow-Medium.otf in Resources */,
 				A4794D64BFB44F2D81971F57 /* OpenSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
