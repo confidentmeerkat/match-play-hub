@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   FlatList,
   Keyboard,
+  Animated,
+  PanResponder,
 } from "react-native";
 import strings from "../../../resources/languages/strings";
 import Search from "../../../components/Search/Search";
@@ -47,7 +49,31 @@ class FindPlayerScreen extends PureComponent {
       isFilterEnable: 0,
       isProfilePicker: this.props.currentUser.location == "" ? true : false,
       location_long_name: "",
+      currentPlayerIndex: 0
     };
+    this.position = new Animated.ValueXY();
+    this.rotate = this.position.x.interpolate({
+      inputRange: [-wp(100) / 2, 0, wp(100) / 2],
+      outputRange: ['-10deg', '0deg', '10deg'],
+      extrapolate: 'clamp'
+    });
+    this.rotateAndTranslate = {
+      transform: [{
+        rotate: this.rotate
+      },
+      ...this.position.getTranslateTransform()
+      ]
+    };
+    this.nextCardOpacity = this.position.x.interpolate({
+       inputRange: [-wp(100) / 2, 0, wp(100) / 2],
+       outputRange: [1, 0, 1],
+       extrapolate: 'clamp'
+    })
+    this.nextCardScale = this.position.x.interpolate({
+       inputRange: [-wp(100) / 2, 0, wp(100) / 2],
+       outputRange: [1, 0.8, 1],
+       extrapolate: 'clamp'
+    })
   }
 
   /**
@@ -121,6 +147,7 @@ class FindPlayerScreen extends PureComponent {
             selectedFilters: this.state.selectedFilters
               ? finalReturendObject.TotalNumberofSearch + 1
               : finalReturendObject.TotalNumberofSearch,
+            location: finalReturendObject.location
           },
           () => {
             this.getAllPlayers();
@@ -131,6 +158,36 @@ class FindPlayerScreen extends PureComponent {
     this.listenertwo = EventRegister.addEventListener("initializeApp", () => {
       this.setCurrentUser();
     });
+    this.PanResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onPanResponderMove: (evt, gestureState) => {
+        this.position.setValue({ x: gestureState.dx, y: gestureState.dy });
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        if (gestureState.dx > 120) {
+          Animated.spring(this.position, {
+            toValue: { x: wp(100) + 100, y: gestureState.dy }
+          }).start(() => {
+            this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
+              this.position.setValue({ x: 0, y: 0 })
+            })
+          })
+        } else if (gestureState.dx < -120) {
+          Animated.spring(this.position, {
+            toValue: { x: -wp(100) - 100, y: gestureState.dy }
+          }).start(() => {
+            this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
+              this.position.setValue({ x: 0, y: 0 })
+            })
+          })
+        } else {
+          Animated.spring(this.position, {
+           toValue: { x: 0, y: 0 },
+           friction: 4
+           }).start()
+        }
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -154,6 +211,26 @@ class FindPlayerScreen extends PureComponent {
         AsyncStorage.multiRemove(asyncStorageKeys);
       }
     }
+  };
+
+  clickdoSendRequest = async (playerId) => {
+    if (globals.isInternetConnected == true && playerId) {
+      let param = {
+        receiver_id: playerId,
+      };
+      this.props.doSentFriendRequest(param);
+      this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
+        this.position.setValue({ x: 0, y: 0 })
+      })
+    } else {
+      showErrorMessage(errors.no_internet);
+    }
+  };
+
+  clickSkipRequest = () => {
+    this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
+      this.position.setValue({ x: 0, y: 0 })
+    })
   };
 
   setCurrentUser = () => {
@@ -227,78 +304,120 @@ class FindPlayerScreen extends PureComponent {
     if (item.assign_sport) {
       sportsData = item.assign_sport.map((data, index, sportsData) => {
         return (
-          <Text key={index} numberOfLines={2} style={[TabStyle.smalltextview]}>
-            {data.title + "(" + data.status + ")"}
+          <Text key={index} numberOfLines={2} style={[TabStyle.smalltextview, {color: Colors.WHITE}]}>
+            {data.title + " (" + data.status + ")"}
             {index != sportsData.length - 1 ? ", " : ""}
           </Text>
         );
       });
     }
     return (
-      <TouchableOpacity
+      <View
         key={index}
-        onPress={() => this.gotoDetailofPlayer(item, index)}
         style={TabStyle.horizontalFlatView}
       >
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ alignItems: "center", justifyContent: "center", position: 'relative' }}>
           <FastImage
             resizeMethod="resize"
-            style={[TabStyle.imageStyle]}
+            style={[TabStyle.imageStyle,{width:wp(90),height:hp(50),borderRadius:15}]}
             source={
               item.profile_url === ""
                 ? images.dummy_user_img
                 : { uri: item.profile_url }
             }
           ></FastImage>
-          <Text
-            numberOfLines={1}
-            style={[TabStyle.headertext, { marginVertical: hp(2.5) }]}
+          <TouchableOpacity
+            onPress={() => this.gotoDetailofPlayer(item, index)}
+            style={{position: 'absolute', bottom: 0, left: 0, flexDirection: "column", paddingVertical: hp(3) }}
           >
-            {item.username ? item.username : ""}
-          </Text>
-
-          <View style={{ flexDirection: "row" }}>
-            {item.location ? (
-              <FastImage
-                tintColor={Colors.GREY}
-                style={TabStyle.verysmallIcon}
-                source={images.fill_location_img}
-              ></FastImage>
-            ) : null}
-
             <Text
               numberOfLines={1}
-              style={[TabStyle.smalltextview, { marginBottom: hp(0.5) }]}
+              style={[TabStyle.headertext, { marginVertical: hp(0), color:Colors.WHITE, bottom: hp(.5), paddingHorizontal: wp(5)}]}
             >
-              {item.location ? item.location : ""}
+              {item.username ? item.username : ""}{item.age ? ", " + item.age : ""}
             </Text>
-          </View>
-        </View>
-        <View style={TabStyle.horizontalView} />
-        <View>
-          <Text numberOfLines={1} style={[TabStyle.headertext]}>
-            {strings.sportLevel}
-          </Text>
+            <View style={{ flexDirection: "row", paddingHorizontal: wp(5), marginBottom: hp(0.5) }}>
+              {item.location ? (
+                <FastImage
+                  tintColor={Colors.WHITE}
+                  style={TabStyle.veryVerySmallIcon}
+                  source={images.fill_location_img}
+                ></FastImage>
+              ) : null}
 
-          {sportsData.length > 2 ? (
-            <View style={{ flexDirection: "row" }}>
               <Text
-                style={[TabStyle.singleSports, { marginVertical: hp(1) }]}
                 numberOfLines={1}
+                style={[TabStyle.smalltextview, { marginBottom: hp(0), marginLeft: wp(1.0), color:Colors.WHITE }]}
               >
-                {sportsData}
-              </Text>
-              <Text style={TabStyle.multipleSports} numberOfLines={1}>
-                {"+" + sportsData.length + " Sports"}
+                {item.location ? item.location : ""}{item.distance ? ", " + item.distance + " mi. away" : ""}
               </Text>
             </View>
-          ) : (
-            <Text style={TabStyle.singleSports} numberOfLines={1}>
-              {sportsData}
-            </Text>
-          )}
+
+            {sportsData.length > 2 ? (
+              <View style={{ flexDirection: "row", paddingHorizontal: wp(5) }}>
+                <Text
+                  style={[TabStyle.singleSports, { marginVertical: hp(.25), color: Colors.WHITE }]}
+                  numberOfLines={1}
+                >
+                  {sportsData}
+                </Text>
+                <Text style={[TabStyle.multipleSports, {color: Colors.WHITE, marginVertical: 0 }]} numberOfLines={1}>
+                  {"+" + sportsData.length + " Sports"}
+                </Text>
+              </View>
+            ) : (
+              <Text style={[TabStyle.singleSports, {color: Colors.WHITE, marginVertical: 0}]} numberOfLines={1}>
+                {sportsData}
+              </Text>
+            )}
+          </TouchableOpacity>
+
         </View>
-      </TouchableOpacity>
+        <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginVertical: hp(1.5) }}>
+          <TouchableOpacity
+            onPress={() => this.clickSkipRequest()}
+            style={[
+              TabStyle.squareView,
+              {
+                borderColor: Colors.WHITE,
+                backgroundColor: Colors.WHITE,
+                borderRadius: wp(15),
+                width: wp(15),
+                height: wp(15),
+                marginHorizontal: wp(8)
+              },
+            ]}
+          >
+            <FastImage
+              tintColor={Colors.PRIMARY}
+              style={{width: wp(7), height: wp(7)}}
+              source={images.close_img}
+              resizeMode="contain"
+            ></FastImage>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.clickdoSendRequest(item.user_id)}
+            style={[
+              TabStyle.squareView,
+              {
+                borderColor: Colors.PRIMARY,
+                backgroundColor: Colors.PRIMARY,
+                borderRadius: wp(15),
+                width: wp(15),
+                height: wp(15),
+                marginHorizontal: wp(8)
+              },
+            ]}
+          >
+            <FastImage
+              tintColor={Colors.WHITE}
+              style={{width: wp(9), height: wp(9)}}
+              source={images.rightsign_img}
+              resizeMode="contain"
+            ></FastImage>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   };
 
@@ -471,6 +590,7 @@ class FindPlayerScreen extends PureComponent {
               handleOnLocationSelect={(data, details = null) => {
                 this.handleOnLocationSelect(details);
               }}
+              hideSearch={true}
               selectedFilters={selectedFilters}
             />
             {isFilterEnable == 0 && findplayersData.length == 0 ? (
@@ -499,6 +619,39 @@ class FindPlayerScreen extends PureComponent {
           </View>
         ) : (
           <View>
+            <View style={{ flex: 1 }}>
+              {findplayersData.map((item, index) => {
+                console.log(item);
+                if (index < this.state.currentPlayerIndex) {
+                  return null;
+                } else if (index == this.state.currentPlayerIndex) {
+                  return (
+                    <Animated.View
+                      {...this.PanResponder.panHandlers}
+                      key={index}
+                      style={[
+                        this.rotateAndTranslate,
+                        { height: hp(50), width: wp(90), padding: 0, position:'absolute' }
+                      ]}
+                    >
+                       {this.renderfindplayersDataview(item, index)}
+                    </Animated.View>
+                  );
+                } else {
+                  return (
+                    <Animated.View
+                      key={index}
+                      style={[
+                        { opacity: this.nextCardOpacity, transform: [{ scale: this.nextCardScale }], height: hp(50), width: wp(90), padding: 0, position:'absolute' }
+                      ]}
+                    >
+                       {this.renderfindplayersDataview(item, index)}
+                    </Animated.View>
+                  );
+                }
+              }).reverse()}
+            </View>
+            {1 === 3 ?
             <FlatList
               style={{ marginVertical: hp(2) }}
               data={findplayersData}
@@ -512,6 +665,7 @@ class FindPlayerScreen extends PureComponent {
               listKey={(item, index) => "D" + index.toString()}
               keyExtractor={(item, index) => "D" + index.toString()}
             />
+            : null }
           </View>
         )}
         {this.props.isBusyGetAllUsersRequest ? <Loader isFrom="Play" /> : null}

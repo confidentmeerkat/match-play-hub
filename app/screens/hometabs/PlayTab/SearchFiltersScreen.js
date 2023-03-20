@@ -14,6 +14,7 @@ import strings from "../../../resources/languages/strings";
 import BackgroundButton from "../../../components/buttons/BackgroundButton";
 import { TabStyle } from "../../../../assets/styles/TabStyle";
 import { TabCommonStyle } from "../../../../assets/styles/TabCommonStyle";
+import { ComponentStyle } from "../../../../assets/styles/ComponentStyle";
 import font_type from "../../../resources/fonts";
 import { doGetSportsTitleAndCateGory } from "../../../redux/actions/AppActions";
 import { doRefreshToken } from "../../../redux/actions/AuthActions";
@@ -34,6 +35,7 @@ import MultiSelectDropDown from "../../../components/Dropdowns/MultiSelectDropDo
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthStyle } from "../../../../assets/styles/AuthStyle";
 import { AgeMultipleOptions } from "../../../constants/AgeMultipleOptions";
+import CommonGooglePlaceAutoComplete from "../../../components/Dropdowns/CommonGooglePlaceAutoComplete";
 
 class SearchFiltersScreen extends PureComponent {
   constructor(props) {
@@ -171,6 +173,29 @@ class SearchFiltersScreen extends PureComponent {
     }
   };
 
+  handleOnLocationSelect = (details) => {
+    if (details) {
+      if (
+        details.geometry != undefined &&
+        details.geometry.location != undefined &&
+        details.formatted_address != undefined
+      ) {
+        this.setState(
+          {
+            crrntLat: details.geometry.location.lat,
+            crrntLong: details.geometry.location.lng,
+            selectedLocation: details.formatted_address,
+            location_long_name: details.address_components.long_name,
+            //selectedFilters: this.state.selectedFilters + 1,
+          },
+          () => {
+            //this.getAllPlayers();
+          }
+        );
+      }
+    }
+  };
+
   setfinalObjects = () => {
     const { finalObject, currentUser } = this.state;
     let formattedSports;
@@ -201,6 +226,9 @@ class SearchFiltersScreen extends PureComponent {
       selectedSport: finalObject.sports
         ? JSON.parse(formattedSports)
         : currentUser.assignSportCategory,
+      selectedLocation: finalObject.selectedLocation
+        ? finalObject.selectedLocation
+        : currentUser.location,
     });
   };
 
@@ -303,6 +331,7 @@ class SearchFiltersScreen extends PureComponent {
       selectedGender,
       selectedSport,
       searchCount,
+      selectedLocation,
     } = this.state;
 
     if (globals.isInternetConnected == true) {
@@ -313,6 +342,7 @@ class SearchFiltersScreen extends PureComponent {
         Level: selectedLevel,
         Gender: selectedGender,
         TotalNumberofSearch: searchCount,
+        location: selectedLocation,
       };
       const { navigation } = this.props;
       navigation.goBack();
@@ -352,6 +382,23 @@ class SearchFiltersScreen extends PureComponent {
     this.setState({ selectedAge: selectedRooms });
   };
 
+  onChangeTexttoRemove = (text) => {
+    if (
+      this.state.selectedLocation == this.props.currentUser.location &&
+      text.trim() == ""
+    ) {
+      this.setState({ selectedLocation: this.props.currentUser.location });
+    } else {
+      this.setState({ selectedLocation: "" }, () => {
+        if (text.trim() === "") {
+          this.setState({ selectedLocation: "" });
+        } else {
+          this.setState({ selectedLocation: text });
+        }
+      });
+    }
+  };
+
   formatForMultiSelectAge(arr) {
     var temp = [];
     arr.filter((item) => {
@@ -378,6 +425,7 @@ class SearchFiltersScreen extends PureComponent {
       getSportsTitle,
       SportsOptionsData,
       selectedLevel,
+      selectedLocation,
     } = this.state;
     return (
       <View style={[TabCommonStyle.container]}>
@@ -388,6 +436,25 @@ class SearchFiltersScreen extends PureComponent {
           nestedScrollEnabled={true}
           style={{ flex: 1 }}
         >
+          <View style={[TabStyle.LevelHorizontalView]}>
+            <View style={[ComponentStyle.searchContainer, {width: '100%'}]}>
+              <CommonGooglePlaceAutoComplete
+                handleOnLocationSelect={(data, details = null) => {
+                  this.handleOnLocationSelect(details);
+                }}
+                placeholder={selectedLocation}
+                isFrom="Search"
+                handletextInputProps={{
+                  value: selectedLocation,
+                  placeholderTextColor: Colors.BLACK,
+                  onChangeText: (text) => {
+                    this.onChangeTexttoRemove(text);
+                  },
+                  clearButtonMode: "never",
+                }}
+              />
+            </View>
+          </View>
           <View style={[TabStyle.LevelHorizontalView]}>
             <Text
               style={[

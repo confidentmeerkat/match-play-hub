@@ -110,7 +110,7 @@ export const TabStyle = StyleSheet.create({
     marginRight: wp(4),
   },
   smalltextview: {
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(1.5),
     fontFamily: font_type.FontSemiBold,
     color: Colors.DARK_GREY,
   },
@@ -205,6 +205,11 @@ export const TabStyle = StyleSheet.create({
   verysmallIcon: {
     width: wp(4),
     height: wp(4),
+    marginTop: 1,
+  },
+  veryVerySmallIcon: {
+    width: wp(2.5),
+    height: wp(2.5),
     marginTop: 1,
   },
   mapIcon: {
@@ -346,14 +351,15 @@ export const TabStyle = StyleSheet.create({
   },
   horizontalFlatView: {
     borderColor: Colors.GREY,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 15,
-    marginHorizontal: wp(1.5),
-    paddingHorizontal: wp(3),
-    paddingVertical: hp(1.5),
-    marginVertical: hp(0.8),
+    marginHorizontal: wp(0),
+    paddingHorizontal: wp(0),
+    paddingVertical: hp(0),
+    marginVertical: hp(0),
+    backgroundColor: Colors.WHITE,
     flex: 1,
-    width: wp(70),
+    width: wp(90),
   },
   befoewSearchview: {
     marginVertical: hp(3),

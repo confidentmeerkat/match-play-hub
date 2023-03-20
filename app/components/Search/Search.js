@@ -18,27 +18,31 @@ const Search = ({
   ref,
   value,
   handletextInputProps,
+  hideSearch,
 }) => (
   <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-    <View style={[ComponentStyle.searchContainer]}>
-      {/* <FastImage
-        style={[
-          ComponentStyle.search_icon,
-          iconStyle,
-          { tintColor: Colors.GREY },
-        ]}
-        source={images.search_img}
-        resizeMode={FastImage.resizeMode.contain}
-      /> */}
-
-      <CommonGooglePlaceAutoComplete
-        handleOnLocationSelect={handleOnLocationSelect}
-        placeholder={placeholder}
-        isFrom="Search"
-        ref={ref}
-        handletextInputProps={handletextInputProps}
-      />
-    </View>
+    {!hideSearch ?
+      <View style={[ComponentStyle.searchContainer]}>
+        {/* <FastImage
+          style={[
+            ComponentStyle.search_icon,
+            iconStyle,
+            { tintColor: Colors.GREY },
+          ]}
+          source={images.search_img}
+          resizeMode={FastImage.resizeMode.contain}
+        /> */}
+        <CommonGooglePlaceAutoComplete
+          handleOnLocationSelect={handleOnLocationSelect}
+          placeholder={placeholder}
+          isFrom="Search"
+          ref={ref}
+          handletextInputProps={handletextInputProps}
+        />
+      </View>
+    :
+      <View />
+    }
     <TouchableOpacity
       style={{
         alignItems: "center",

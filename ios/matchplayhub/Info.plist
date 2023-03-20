@@ -105,6 +105,15 @@
 		<string>OpenSans-SemiBold.ttf</string>
 		<string>OpenSans-SemiBoldItalic.ttf</string>
 		<string>OpenSans-Bold.ttf</string>
+		<string>Barlow-Italic.otf</string>
+		<string>Barlow-Light.otf</string>
+		<string>Barlow-Medium.otf</string>
+		<string>Barlow-Regular.otf</string>
+		<string>Barlow-SemiBold.otf</string>
+		<string>Barlow-Bold.otf</string>
+		<string>Barlow-Black.otf</string>
+		<string>Barlow-ExtraLight.otf</string>
+		<string>Barlow-Thin.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
