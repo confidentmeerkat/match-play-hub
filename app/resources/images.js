@@ -64,6 +64,7 @@ const images = {
   hiking_img: require("../../assets/images/hiking.png"),
   kayak_img: require("../../assets/images/kayak.png"),
   golf_img: require("../../assets/images/golf.png"),
+  outline: require("../../assets/images/outline.png"),
 };
 
 export default images;

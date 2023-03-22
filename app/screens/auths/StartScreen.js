@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     width: wp(70),
     height: "auto",
     aspectRatio: 4 / 1,
-    resizeMode: 'contain'
+    resizeMode: "contain",
   },
   description: {
     fontSize: font_17,
@@ -44,7 +44,7 @@ const StartScreen = () => {
         imageStyle={{ opacity: 0.4 }}
       >
         <View style={styles.header}>
-          <Image style={styles.logo} source={images.logo_img} resizeMode="cover" />
+          <Image style={styles.logo} source={images.logo_img} resizeMode="cover" alt="logo" />
 
           <Text style={styles.description}>Match with your next opponents</Text>
         </View>

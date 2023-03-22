@@ -17,6 +17,9 @@ import { HStack, VStack, Box, Button } from "native-base";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 import { bindActionCreators } from "redux";
 import { doGetUserUpcomingMatch, doRefreshToken } from "../../../redux/actions/AppActions";
+import Swiper from "react-native-web-swiper";
+import AboutMe from "./About";
+import HubTab from "./HubTab";
 
 const colorCodes = {
   B: "black",
@@ -49,6 +52,7 @@ class MyProfileScreen extends PureComponent {
       upcomingMatchesList: [],
       playerMatches: [],
       newMessages: [],
+      index: 0,
     };
   }
 
@@ -121,7 +125,6 @@ class MyProfileScreen extends PureComponent {
 
   setUserInfo = () => {
     const { currentUser } = this.state;
-    console.log("currentUser :", currentUser);
     let thisLocation = "";
     if (currentUser.city && currentUser.city != "undefined") {
       thisLocation = thisLocation + currentUser.city;
@@ -173,16 +176,14 @@ class MyProfileScreen extends PureComponent {
     this.props.navigation.navigate("EditProfile", { isFrom: "" });
   };
 
+  updateIndex = (index) => {
+    this.setState({ index });
+  };
+
   render() {
     const {
       username,
       age,
-      gender,
-      matchStructure,
-      genderPreference,
-      age_preference,
-      aboutyou,
-      travelDistance,
       profile_url,
       assign_sport,
       location,
@@ -194,7 +195,9 @@ class MyProfileScreen extends PureComponent {
       upcomingMatchesList,
       newMessages,
       playerMatches,
+      index,
     } = this.state;
+
     let sportsDataBeginner = [];
     let sportsDataPro = [];
     let sportsDataAdvance = [];
@@ -272,6 +275,7 @@ class MyProfileScreen extends PureComponent {
                   <FastImage
                     resizeMethod="resize"
                     style={ProfileStyle.imageStyle}
+                    alt="profile image"
                     source={profile_url === "" ? images.dummy_user_img : { uri: profile_url }}
                   ></FastImage>
                 </View>
@@ -355,7 +359,7 @@ class MyProfileScreen extends PureComponent {
                 variant="unstyled"
                 py={0}
                 borderBottomColor="primary"
-                borderBottomWidth={true ? 2 : 0}
+                borderBottomWidth={index === 0 ? 2 : 0}
                 _text={{
                   color: "gray.400",
                   fontSize: `${ms(16)}px`,
@@ -371,7 +375,7 @@ class MyProfileScreen extends PureComponent {
                 variant="unstyled"
                 py={0}
                 borderBottomColor="primary"
-                borderBottomWidth={false ? 2 : 0}
+                borderBottomWidth={index % 2 === 1 ? 2 : 0}
                 _text={{
                   color: "gray.400",
                   fontSize: `${ms(16)}px`,
@@ -385,133 +389,11 @@ class MyProfileScreen extends PureComponent {
               </Button>
             </HStack>
 
-            <ScrollView>
-              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
-                  About Me
-                </Text>
-                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-              </HStack>
-
-              <Text pl={`${wp(5)}px`} fontSize={`${ms(10)}px`} color="black" mb={`${vs(30)}px`}>
-                {aboutyou}
-              </Text>
-
-              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
-                  My Sports
-                </Text>
-                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-              </HStack>
-
-              <HStack mx={`${wp(5)}px`} flexGrow={1} mt={`${hs(25)}px`} flexWrap="wrap">
-                {(assign_sport || []).map(({ title, status }) => (
-                  <Box width="1/3">
-                    <Center
-                      borderColor={colorCodes[status]}
-                      borderWidth={1}
-                      flexDirection="row"
-                      borderRadius="full"
-                      width={`${hs(100)}px`}
-                      height={`${vs(35)}px`}
-                      alignItems="center"
-                      mb={`${hs(20)}px`}
-                      px={1}
-                    >
-                      <Image height={`${hs(15)}px`} width={`${hs(15)}px`} source={images.tennis_img} />
-                      <Text
-                        fontStyle="italic"
-                        fontWeight="light"
-                        fontSize={`${ms(12)}px`}
-                        lineHeight={`${ms(14)}px`}
-                        ml={`${hs(6)}px`}
-                        flexWrap="wrap"
-                        textBreakStrategy="balanced"
-                        flexShrink={1}
-                        textAlign="center"
-                      >
-                        {title}
-                      </Text>
-                    </Center>
-                  </Box>
-                ))}
-              </HStack>
-
-              <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hp(1.5)}px`} height={`${hs(25)}px`}>
-                <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
-                  My Preference
-                </Text>
-                <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
-              </HStack>
-
-              <HStack mx={`${wp(5)}px`} flexGrow={1} mt={`${hs(25)}px`} flexWrap="wrap">
-                {!!genderPreference && (
-                  <Box width="1/3">
-                    <Center
-                      bgColor="primary"
-                      borderRadius="full"
-                      width={`${hs(100)}px`}
-                      height={`${vs(35)}px`}
-                      alignItems="center"
-                      mb={`${hs(20)}px`}
-                    >
-                      <Text
-                        textAlign="center"
-                        color="white"
-                        fontStyle="italic"
-                        fontWeight="light"
-                        fontSize={`${ms(12)}px`}
-                      >
-                        {genderPreference}
-                      </Text>
-                    </Center>
-                  </Box>
-                )}
-                {age_preference.map(({ name, id }) => (
-                  <Box width="1/3">
-                    <Center
-                      bgColor="primary"
-                      borderRadius="full"
-                      width={`${hs(100)}px`}
-                      height={`${vs(35)}px`}
-                      alignItems="center"
-                      mb={`${hs(20)}px`}
-                    >
-                      <Text
-                        textAlign="center"
-                        color="white"
-                        fontStyle="italic"
-                        fontWeight="light"
-                        fontSize={`${ms(12)}px`}
-                      >
-                        {name}
-                      </Text>
-                    </Center>
-                  </Box>
-                ))}
-                {matchStructure.map(({ name, id }) => (
-                  <Box width="1/3">
-                    <Center
-                      bgColor="primary"
-                      borderRadius="full"
-                      width={`${hs(100)}px`}
-                      height={`${vs(35)}px`}
-                      alignItems="center"
-                      mb={`${hs(20)}px`}
-                    >
-                      <Text
-                        textAlign="center"
-                        color="white"
-                        fontStyle="italic"
-                        fontWeight="light"
-                        fontSize={`${ms(12)}px`}
-                      >
-                        {name}
-                      </Text>
-                    </Center>
-                  </Box>
-                ))}
-              </HStack>
+            <ScrollView contentContainerStyle={{ flex: 1 }}>
+              <Swiper loop={true} onIndexChanged={this.updateIndex} controlsEnabled={false}>
+                <AboutMe />
+                <HubTab />
+              </Swiper>
             </ScrollView>
           </VStack>
         </View>
