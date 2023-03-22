@@ -286,7 +286,7 @@ function PlayStackScreen() {
 }
 function HubStackScreen() {
   return (
-    <HubStack.Navigator initialRouteName="HUB">
+    <HubStack.Navigator >
       <HubStack.Screen
         name="MyProfile"
         component={MyProfileScreen}

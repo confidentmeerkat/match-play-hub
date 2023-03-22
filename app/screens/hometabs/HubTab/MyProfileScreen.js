@@ -52,7 +52,7 @@ class MyProfileScreen extends PureComponent {
       upcomingMatchesList: [],
       playerMatches: [],
       newMessages: [],
-      index: 0,
+      index: 1,
     };
   }
 
@@ -390,7 +390,7 @@ class MyProfileScreen extends PureComponent {
             </HStack>
 
             <ScrollView contentContainerStyle={{ flex: 1 }}>
-              <Swiper loop={true} onIndexChanged={this.updateIndex} controlsEnabled={false}>
+              <Swiper loop={true} onIndexChanged={this.updateIndex} controlsEnabled={false} from={index}>
                 <AboutMe />
                 <HubTab />
               </Swiper>
