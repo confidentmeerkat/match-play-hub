@@ -11,122 +11,13 @@ import {
   ScrollView,
   SmallCloseIcon,
   Text,
-  View,
-  VStack,
 } from "native-base";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useSelector } from "react-redux";
-import { Shadow } from "react-native-shadow-2";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 import images from "../../../resources/images";
 import { ImageBackground } from "react-native";
 import MatchCard from "./MatchCard";
-
-const colorCodes = {
-  B: "black",
-  P: "green.600",
-  I: "#FFB800",
-  A: "red.600",
-};
-
-const testMatches = [
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Organizer",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Invited",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Organizer",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Invited",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Organizer",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Invited",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Organizer",
-    match_time: "10:00 PM",
-  },
-  {
-    sport: "18 holes golf",
-    location: "123 Street, city, FL",
-    match_date: "31",
-    match_day: "Mon",
-    match_month: "Jan",
-    player_limit: 4,
-    open_sports: 2,
-    confirmed: 1,
-    is_status: "Invited",
-    match_time: "10:00 PM",
-  },
-];
 
 const HubTab = () => {
   const {
@@ -137,7 +28,7 @@ const HubTab = () => {
 
   return (
     <ScrollView>
-      {!!testMatches.length ? (
+      {!!finalMatchData.length ? (
         <>
           <HStack ml={`${wp(5)}px`} alignItems="center" mt={`${hs(1.5)}px`} height={`${hs(25)}px`}>
             <Text pr={`${wp(3)}px`} fontSize={`${ms(12)}px`} lineHeight={`${ms(18)}px`} color="black">
@@ -146,10 +37,7 @@ const HubTab = () => {
             <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
           </HStack>
 
-          {/* {testMatches.map((item, index) => (
-            <MatchCard item={item} key={index} />
-          ))} */}
-          <FlatList ml={`${wp(5)}px`} data={testMatches} renderItem={MatchCard} horizontal={true} />
+          <FlatList ml={`${wp(5)}px`} data={finalMatchData} renderItem={MatchCard} horizontal={true} />
         </>
       ) : (
         <Box mx={`${wp(5)}px`} background={images.outline} mt={2} bgColor="white">
