@@ -65,7 +65,7 @@
         </service>
        <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyBC05hsLzrp3Xo0uC-v1Zf89kuBOLSpYD4"/>
+     android:value="AIzaSyA8z5o0A-Ff68Q106K4-0pXQ0ofjEU-eFE"/>
 
    <!-- You will also only need to add this uses-library tag -->
    <uses-library android:name="org.apache.http.legacy" android:required="false"/>

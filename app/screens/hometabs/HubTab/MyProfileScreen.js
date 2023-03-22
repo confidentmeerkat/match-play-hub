@@ -54,6 +54,7 @@ class MyProfileScreen extends PureComponent {
       newMessages: [],
       index: 1,
     };
+    this.swiperRef = React.createRef();
   }
 
   async componentDidMount() {
@@ -368,6 +369,11 @@ class MyProfileScreen extends PureComponent {
                   fontWeight: "light",
                   fontFamily: "body",
                 }}
+                onPress={() => {
+                  if (this.swiperRef.current) {
+                    this.swiperRef.current.goTo(0);
+                  }
+                }}
               >
                 About
               </Button>
@@ -384,13 +390,24 @@ class MyProfileScreen extends PureComponent {
                   fontWeight: "light",
                   fontFamily: "body",
                 }}
+                onPress={() => {
+                  if (this.swiperRef.current) {
+                    this.swiperRef.current.goTo(1);
+                  }
+                }}
               >
                 HUB
               </Button>
             </HStack>
 
             <ScrollView contentContainerStyle={{ flex: 1 }}>
-              <Swiper loop={true} onIndexChanged={this.updateIndex} controlsEnabled={false} from={index}>
+              <Swiper
+                loop={true}
+                onIndexChanged={this.updateIndex}
+                controlsEnabled={false}
+                from={index}
+                ref={this.swiperRef}
+              >
                 <AboutMe />
                 <HubTab />
               </Swiper>
