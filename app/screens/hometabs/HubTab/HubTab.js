@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import {
+  Alert,
   Box,
   Button,
   Center,
@@ -13,11 +14,15 @@ import {
   Text,
 } from "native-base";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 import images from "../../../resources/images";
 import { ImageBackground } from "react-native";
 import MatchCard from "./MatchCard";
+import { useNavigation } from "@react-navigation/native";
+import { doAcceptFriendRequest } from "../../../redux/actions/AppActions";
+import { showErrorMessage } from "../../../utils/helpers";
+import errors from "../../../resources/languages/errors";
 
 const HubTab = () => {
   const {
@@ -25,6 +30,42 @@ const HubTab = () => {
     player_request = [],
     message_request = [],
   } = useSelector((state) => state.app.responseGetUserUpcomingMatchdata) || {};
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const handleAcceptOrDeny = async ({ sender_id, status }) => {
+    if (globals.isInternetConnected === true) {
+      dispatch(doAcceptFriendRequest({ sender_id, status }));
+    } else {
+      showErrorMessage(errors.no_internet);
+    }
+  };
+
+  const handleApproveRequest = async (id, status) => {
+    if (status == "deny") {
+      Alert.alert(
+        strings.dialog_title_confirm_deny,
+        strings.dialog_message_confirm_deny,
+        [
+          {
+            text: strings.btn_cancel,
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          {
+            text: strings.btn_deny,
+            onPress: () => {
+              handleAcceptOrDeny({ sender_id: id, status });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      handleAcceptOrDeny({ sender_id: id, status });
+    }
+  };
 
   return (
     <ScrollView>
@@ -37,7 +78,12 @@ const HubTab = () => {
             <Box flex={1} borderColor="gray.300" borderBottomWidth={1} mr={`${wp(2)}px`}></Box>
           </HStack>
 
-          <FlatList ml={`${wp(5)}px`} data={finalMatchData} renderItem={MatchCard} horizontal={true} />
+          <FlatList
+            ml={`${wp(5)}px`}
+            data={finalMatchData}
+            renderItem={({ item }) => <MatchCard item={item} />}
+            horizontal={true}
+          />
         </>
       ) : (
         <Box mx={`${wp(5)}px`} background={images.outline} mt={2} bgColor="white">
@@ -57,6 +103,7 @@ const HubTab = () => {
                 backgroundColor="#E9803A"
                 _text={{ fontSize: `${ms(12)}px`, lineHeight: `${ms(24)}px` }}
                 py={0}
+                onPress={() => navigation.navigate("MatchWithListing", {})}
               >
                 Find or Create a Match
               </Button>
@@ -112,6 +159,7 @@ const HubTab = () => {
                     icon={<SmallCloseIcon />}
                     rounded="full"
                     _icon={{ color: "blue.600" }}
+                    onPress={() => handleApproveRequest(item.id, "deny")}
                   />
                   <IconButton
                     width={`${hs(20)}px`}
@@ -121,6 +169,7 @@ const HubTab = () => {
                     icon={<CheckIcon />}
                     rounded="full"
                     _icon={{ color: "white" }}
+                    onPress={() => handleApproveRequest(item.id, "accept")}
                   />
                 </HStack>
               </Center>
@@ -145,6 +194,7 @@ const HubTab = () => {
                 backgroundColor="#E9803A"
                 _text={{ fontSize: `${ms(12)}px`, lineHeight: `${ms(24)}px` }}
                 py={0}
+                onPress={() => navigation.navigate("PLAY")}
               >
                 Find a new player
               </Button>
@@ -165,7 +215,7 @@ const HubTab = () => {
           <FlatList
             ml={`${wp(5)}px`}
             horizontal={true}
-            data={player_request}
+            data={message_request}
             bounces={false}
             renderItem={({ item, index }) => (
               <Center
@@ -196,6 +246,7 @@ const HubTab = () => {
                     bgColor="blue.600"
                     rounded="full"
                     width={`${hs(50)}px`}
+                    onPress={() => navigation.navigate("ChatListing")}
                   >
                     View Messages
                   </Button>
@@ -222,6 +273,7 @@ const HubTab = () => {
                 backgroundColor="#E9803A"
                 _text={{ fontSize: `${ms(12)}px`, lineHeight: `${ms(24)}px` }}
                 py={0}
+                onPress={() => navigation.navigate("ChatListing")}
               >
                 View Messages
               </Button>

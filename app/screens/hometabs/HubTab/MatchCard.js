@@ -4,8 +4,21 @@ import FastImage from "react-native-fast-image";
 import Colors from "../../../constants/Colors";
 import images from "../../../resources/images";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
+import { useDispatch, useSelector } from "react-redux";
 
 const MatchCard = ({ item }) => {
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const dispatch = useDispatch();
+
+  const handleConfirmAndDeclineMatch = async (status) => {
+    if (globals.isInternetConnected === true) {
+      dispatch(doConfirmandDeclineMatch({ match_id: item.id, status: status, user_id: currentUser.id }));
+    } else {
+      showErrorMessage(errors.no_internet);
+    }
+  };
+
   return (
     <Box borderWidth={1} width={`${hs(140)}px`} rounded="lg" borderColor="#FFB800" m={1}>
       <HStack width="full" justifyContent="flex-end" pr={`${hs(6)}px`}>
@@ -83,6 +96,7 @@ const MatchCard = ({ item }) => {
                   _text={{ fontSize: `${ms(5)}px` }}
                   p={0}
                   width="full"
+                  onPress={() => handleConfirmAndDeclineMatch("accept")}
                 >
                   Accept
                 </Button>
@@ -93,6 +107,7 @@ const MatchCard = ({ item }) => {
                   _text={{ fontSize: `${ms(5)}px` }}
                   p={0}
                   width="full"
+                  onPress={() => handleConfirmAndDeclineMatch("decline")}
                 >
                   Decline
                 </Button>
