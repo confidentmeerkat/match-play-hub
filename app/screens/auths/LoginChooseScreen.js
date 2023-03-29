@@ -103,7 +103,7 @@ const LoginChooseScreen = () => {
     try {
       GoogleSignin.configure({
         androidClientId: "536089685086-e89m4sdcq4k7jcb555vjfv71esb6nt14.apps.googleusercontent.com",
-        iosClientId: "536089685086-e89m4sdcq4k7jcb555vjfv71esb6nt14.apps.googleusercontent.com",
+        iosClientId: "536089685086-l82peevh3u6cksfdpc55k9u386etf33h.apps.googleusercontent.com",
       });
 
       const hasPlayService = await GoogleSignin.hasPlayServices();
