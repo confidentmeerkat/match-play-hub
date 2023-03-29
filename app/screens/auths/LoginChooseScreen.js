@@ -38,20 +38,37 @@ const LoginChooseScreen = () => {
   const responseLogin = useSelector((store) => store.auth.responseLogin);
   const responseUserdata = useSelector((store) => store.auth.responseUserdata);
 
+  const clearUserData = async () => {
+    const asyncStorageKeys = await AsyncStorage.getAllKeys();
+    if (asyncStorageKeys.length > 0) {
+      if (Platform.OS === "android") {
+        AsyncStorage.clear();
+      }
+      if (Platform.OS === "ios") {
+        AsyncStorage.multiRemove(asyncStorageKeys);
+      }
+    }
+  };
+
+  useEffect(() => {
+    clearUserData();
+  }, [clearUserData]);
+
   useEffect(() => {
     const { status_code, token, success, error, message } = responseLogin || {};
 
-    if (status_code === 200 && success) {
+    if (status_code === 200 && success && !globals.access_token) {
       AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
       globals.access_token = token;
       dispatch(doGetUser());
     }
   }, [responseLogin]);
 
-  useEffect(async () => {
+  useEffect(() => {
     const { user, success, message, status_code } = responseUserdata || {};
+    console.log("responseUserdata :", responseUserdata);
 
-    if (status_code == 200 && success == true) {
+    if (status_code == 200 && success == true && globals.access_token) {
       AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));
       navigation.navigate("Home", { from: "login" });
     } else if (success == false) {
@@ -59,14 +76,11 @@ const LoginChooseScreen = () => {
         dispatch(doRefreshToken());
       } else if (status_code !== undefined && status_code === 402) {
         showErrorMessage(message);
-        const asyncStorageKeys = await AsyncStorage.getAllKeys();
-        if (asyncStorageKeys.length > 0) {
-          if (Platform.OS === "android") {
-            AsyncStorage.clear();
-          }
-          if (Platform.OS === "ios") {
-            AsyncStorage.multiRemove(asyncStorageKeys);
-          }
+        if (Platform.OS === "android") {
+          AsyncStorage.clear();
+        }
+        if (Platform.OS === "ios") {
+          AsyncStorage.multiRemove(asyncStorageKeys);
         }
         navigation.navigate("AuthLoading");
       } else if (status_code == 500) {

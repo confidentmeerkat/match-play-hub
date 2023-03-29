@@ -149,6 +149,7 @@ export default function AuthReducer(state = initialState, action) {
         ...state,
         isBusyLogout: false,
         responseLogoutdata: action.payload,
+        responseLogin: undefined,
       };
     case types.POST_LOGOUT_FAILURE:
       return {
