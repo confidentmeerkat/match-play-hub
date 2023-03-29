@@ -56,7 +56,6 @@ const StartScreen = () => {
             _text={{ color: "white", fontSize: 15, lineHeight: 20 }}
             height={45}
             onPress={() => {
-              console.log("press login");
               navigation.navigate("LoginChoose");
             }}
           >

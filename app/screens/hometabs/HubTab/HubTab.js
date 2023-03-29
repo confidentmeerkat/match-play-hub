@@ -23,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import { doAcceptFriendRequest } from "../../../redux/actions/AppActions";
 import { showErrorMessage } from "../../../utils/helpers";
 import errors from "../../../resources/languages/errors";
+import strings from "../../../resources/languages/strings";
 
 const HubTab = () => {
   const {
@@ -30,9 +31,33 @@ const HubTab = () => {
     player_request = [],
     message_request = [],
   } = useSelector((state) => state.app.responseGetUserUpcomingMatchdata) || {};
+
+  const responseAcceptFriendRequestdata = useSelector((state) => state.app.responseAcceptFriendRequestdata);
+
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const { success, message, status_code } = responseAcceptFriendRequestdata || {};
+
+    if (status_code == 200 && success == true) {
+      showSuccessMessage(message);
+      navigation.goBack();
+      EventRegister.emit("refreshPendingConnection");
+    } else if (success == false) {
+      if (status_code == 401 && message == "Token has expired") {
+        doRefreshToken();
+      } else if (status_code !== undefined && status_code === 402) {
+        showErrorMessage(message);
+        this.clearUserData();
+        navigation.navigate("AuthLoading");
+      } else if (status_code == 500) {
+        showErrorMessage(strings.somethingWrong);
+      } else {
+      }
+    }
+  }, [responseAcceptFriendRequestdata, navigation]);
 
   const handleAcceptOrDeny = async ({ sender_id, status }) => {
     if (globals.isInternetConnected === true) {

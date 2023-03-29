@@ -8,7 +8,7 @@ import { AccessToken, GraphRequest, LoginManager } from "react-native-fbsdk-next
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import messaging from "@react-native-firebase/messaging";
 import { useDispatch, useSelector } from "react-redux";
-import { doFBLogin, doGetUser, doGoogleLogin } from "../../redux/actions/AuthActions";
+import { doFBLogin, doGetUser, doGoogleLogin, doRefreshToken } from "../../redux/actions/AuthActions";
 import DeviceInfo from "react-native-device-info";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../resources/constants";
@@ -40,7 +40,6 @@ const LoginChooseScreen = () => {
 
   useEffect(() => {
     const { status_code, token, success, error, message } = responseLogin || {};
-    console.log("responseLogin :", responseLogin);
 
     if (status_code === 200 && success) {
       AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
@@ -49,12 +48,31 @@ const LoginChooseScreen = () => {
     }
   }, [responseLogin]);
 
-  useEffect(() => {
+  useEffect(async () => {
     const { user, success, message, status_code } = responseUserdata || {};
 
-    if (user) {
+    if (status_code == 200 && success == true) {
       AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));
       navigation.navigate("Home", { from: "login" });
+    } else if (success == false) {
+      if (status_code == 401 && message == "Token has expired") {
+        dispatch(doRefreshToken());
+      } else if (status_code !== undefined && status_code === 402) {
+        showErrorMessage(message);
+        const asyncStorageKeys = await AsyncStorage.getAllKeys();
+        if (asyncStorageKeys.length > 0) {
+          if (Platform.OS === "android") {
+            AsyncStorage.clear();
+          }
+          if (Platform.OS === "ios") {
+            AsyncStorage.multiRemove(asyncStorageKeys);
+          }
+        }
+        navigation.navigate("AuthLoading");
+      } else if (status_code == 500) {
+        showErrorMessage(strings.somethingWrong);
+      } else {
+      }
     }
   }, [responseUserdata]);
 
@@ -66,9 +84,7 @@ const LoginChooseScreen = () => {
         // alert("Login Cancelled" + JSON.stringify(result));
       } else {
         const { accessToken } = await AccessToken.getCurrentAccessToken();
-        console.log('accessToken:', accessToken)
         let fcmToken = await messaging().getToken();
-        // postRequest(FBLOGIN, {fbToken: accessToken, device_id: DeviceInfo.getDeviceId(), device_type: Platform.OS, device_token: fcmToken})
         dispatch(
           doFBLogin({
             fbToken: accessToken,

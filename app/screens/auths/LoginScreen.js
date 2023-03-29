@@ -68,7 +68,6 @@ class LoginScreen extends PureComponent {
         const { token, success, error, message, status_code } =
           this.props.responseLogin;
         if (status_code == 200 && success == true) {
-          console.log('token: ', token);
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
           this.props.doGetUser();
