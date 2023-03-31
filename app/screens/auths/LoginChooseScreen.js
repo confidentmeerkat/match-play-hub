@@ -4,8 +4,8 @@ import images from "../../resources/images";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Platform } from "react-native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../utils/metrics";
-import { AccessToken, GraphRequest, LoginManager } from "react-native-fbsdk-next";
-import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import { AccessToken, LoginManager } from "react-native-fbsdk-next";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import messaging from "@react-native-firebase/messaging";
 import { useDispatch, useSelector } from "react-redux";
 import { doFBLogin, doGetUser, doGoogleLogin, doRefreshToken } from "../../redux/actions/AuthActions";
@@ -66,7 +66,6 @@ const LoginChooseScreen = () => {
 
   useEffect(() => {
     const { user, success, message, status_code } = responseUserdata || {};
-    console.log("responseUserdata :", responseUserdata);
 
     if (status_code == 200 && success == true && globals.access_token) {
       AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));

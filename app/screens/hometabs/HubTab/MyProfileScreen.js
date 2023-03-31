@@ -20,13 +20,7 @@ import { doGetUserUpcomingMatch, doRefreshToken } from "../../../redux/actions/A
 import Swiper from "react-native-web-swiper";
 import AboutMe from "./About";
 import HubTab from "./HubTab";
-
-const colorCodes = {
-  B: "black",
-  P: "green.600",
-  I: "#FFB800",
-  A: "red.600",
-};
+import * as globals from "../../../utils/Globals";
 
 class MyProfileScreen extends PureComponent {
   constructor(props) {

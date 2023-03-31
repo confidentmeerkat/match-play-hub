@@ -442,7 +442,7 @@ class MatchTabScreen extends PureComponent {
           />
           <View style={{ flex: confirmedMatchesData.length == 0 ? 1 : 0.7 }}>
             <HeadingWithText
-              titleText={"My Upcoming Matches"}
+              titleText={"My Matches"}
               marginVerticalview={hp(0)}
             />
             {upComingMatchList.length == 0 ? (

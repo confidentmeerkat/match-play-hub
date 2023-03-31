@@ -1,15 +1,15 @@
 import {
   postImageRequest,
   makeGetHeaders,
-  postRequestWithTokenandData,makePostHeaderswithToken
+  postRequestWithTokenandData,
+  makePostHeaderswithToken,
 } from "../../networks/ApiRequest";
 import * as types from "./ActionTypes";
 import ApiUrls from "../../networks/ApiUrls";
 
-
 export const doSetNotificationData = (text) => {
   return (dispatch) => {
-    dispatch({type: types.SET_NOTIFICATION_DATA, payload: text});
+    dispatch({ type: types.SET_NOTIFICATION_DATA, payload: text });
   };
 };
 
@@ -72,10 +72,7 @@ export const doStoreSettings = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_STORE_SETTINGS_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.STORE_SETTINGS,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.STORE_SETTINGS, body);
       dispatch({ type: types.POST_STORE_SETTINGS_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -92,10 +89,7 @@ export const doGetAllConnection = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.GET_ALL_CONNECTION_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.GET_ALL_CONNECTION,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.GET_ALL_CONNECTION, body);
       dispatch({ type: types.GET_ALL_CONNECTION_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -112,10 +106,7 @@ export const doGetPendingConnection = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.GET_PENDING_CONNECTION_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.GET_PENDING_CONNECTION,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.GET_PENDING_CONNECTION, body);
       dispatch({ type: types.GET_PENDING_CONNECTION_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -131,10 +122,7 @@ export const doSentFriendRequest = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_SENT_FRIEND_REQUEST_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.SENT_FRIEND_REQUEST,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.SENT_FRIEND_REQUEST, body);
       dispatch({
         type: types.POST_SENT_FRIEND_REQUEST_SUCCESS,
         payload: result,
@@ -153,10 +141,7 @@ export const doAcceptFriendRequest = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_ACCEPT_FRIEND_REQUEST_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.ACCEPT_FRIEND_REQUEST,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.ACCEPT_FRIEND_REQUEST, body);
       dispatch({
         type: types.POST_ACCEPT_FRIEND_REQUEST_SUCCESS,
         payload: result,
@@ -175,10 +160,7 @@ export const doGetAllUsers = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.GET_ALL_USERS_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.GET_ALL_USERS,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.GET_ALL_USERS, body);
       dispatch({ type: types.GET_ALL_USERS_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -210,13 +192,12 @@ export const doCreateSports = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_CREATE_SPORT_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.CREATE_SPORT,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.CREATE_SPORT, body);
       dispatch({ type: types.POST_CREATE_SPORT_SUCCESS, payload: result });
+      console.log('result :', result);
       return result;
     } catch (error) {
+      console.log(error);
       dispatch({
         type: types.POST_CREATE_SPORT_FAILURE,
         payload: error,
@@ -246,10 +227,7 @@ export const doConfirmandDeclineMatch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_CONFIRM_AND_DECLINE_MATCH_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.CONFIRM_AND_DECLINE_MATCH,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.CONFIRM_AND_DECLINE_MATCH, body);
       dispatch({
         type: types.POST_CONFIRM_AND_DECLINE_MATCH_SUCCESS,
         payload: result,
@@ -287,10 +265,7 @@ export const doDeleteMatch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_DELETE_MATCH_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.DELETE_MATCH,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.DELETE_MATCH, body);
       dispatch({ type: types.POST_DELETE_MATCH_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -303,15 +278,11 @@ export const doDeleteMatch = (body) => {
   };
 };
 
-
 export const doFindMatch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_FIND_MATCH_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.FIND_MATCH,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.FIND_MATCH, body);
       dispatch({ type: types.POST_FIND_MATCH_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -327,10 +298,7 @@ export const doRequestToPlayMatch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_REQUEST_TO_PLAY_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.REQUEST_TO_PLAY,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.REQUEST_TO_PLAY, body);
       dispatch({ type: types.POST_REQUEST_TO_PLAY_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -346,10 +314,7 @@ export const doGetUserLocation = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.GET_USER_LOCATION_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.GET_USER_LOCATION,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.GET_USER_LOCATION, body);
       dispatch({ type: types.GET_USER_LOCATION_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -365,10 +330,7 @@ export const doGetInterestedPlayersList = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_INTERESTED_PLAYERS_LIST_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.INTERESTED_PLAYERS_LIST,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.INTERESTED_PLAYERS_LIST, body);
       dispatch({
         type: types.POST_INTERESTED_PLAYERS_LIST_SUCCESS,
         payload: result,
@@ -388,10 +350,7 @@ export const doPostUpdateMatch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_EDIT_MATCH_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.UPDATE_MATCH,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.UPDATE_MATCH, body);
       dispatch({ type: types.POST_EDIT_MATCH_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -408,10 +367,7 @@ export const doGetMatchDetail = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_GET_MATCH_DETAIL_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.GET_MATCH_DETAIL,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.GET_MATCH_DETAIL, body);
       dispatch({ type: types.POST_GET_MATCH_DETAIL_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -427,10 +383,7 @@ export const doinvitedPlayerList = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_INVITED_PLAYER_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.INVITED_PLAYER,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.INVITED_PLAYER, body);
       dispatch({ type: types.POST_INVITED_PLAYER_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -446,10 +399,7 @@ export const doCreateRematch = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_REMATCH_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.REMATCH,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.REMATCH, body);
       dispatch({ type: types.POST_REMATCH_SUCCESS, payload: result });
       return result;
     } catch (error) {
@@ -497,10 +447,7 @@ export const doDeleteConnection = (body) => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.POST_DELETE_CONNECTION_REQUEST });
-      const result = await postRequestWithTokenandData(
-        ApiUrls.DELETE_CONNECTION,
-        body
-      );
+      const result = await postRequestWithTokenandData(ApiUrls.DELETE_CONNECTION, body);
       dispatch({ type: types.POST_DELETE_CONNECTION_SUCCESS, payload: result });
       return result;
     } catch (error) {

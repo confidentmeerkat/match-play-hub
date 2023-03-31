@@ -2,23 +2,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
 import { Settingstyle } from "../../../../../assets/styles/Settingstyle";
-import {
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-  Text,
-  TextInput,
-  View,
-  Platform,
-} from "react-native";
+import { ScrollView, TouchableOpacity, FlatList, Text, TextInput, View, Platform } from "react-native";
 import { TabCommonStyle } from "../../../../../assets/styles/TabCommonStyle";
 import { TabStyle } from "../../../../../assets/styles/TabStyle";
 import Header from "../../../../components/Header/Header";
 import strings from "../../../../resources/languages/strings";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Calendar } from "react-native-calendars";
 import Colors from "../../../../constants/Colors";
 import { TimeSlider } from "../../../../components/RangeTimer/TimeSlider";
@@ -33,16 +22,9 @@ import font_type from "../../../../resources/fonts";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import HeadingWithText from "../../../../components/RenderFlatlistComponent/HeadingWithText";
 import SwitchComponent from "../../../../components/Switch/SwitchComponent";
-import {
-  doCreateSports,
-  doGetSportsTitleAndCateGory,
-} from "../../../../redux/actions/AppActions";
+import { doCreateSports, doGetSportsTitleAndCateGory } from "../../../../redux/actions/AppActions";
 import { doRefreshToken } from "../../../../redux/actions/AuthActions";
-import {
-  showSuccessMessage,
-  showErrorMessage,
-  removeEmojis,
-} from "../../../../utils/helpers";
+import { showSuccessMessage, showErrorMessage, removeEmojis } from "../../../../utils/helpers";
 import errors from "../../../../resources/languages/errors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../../../resources/constants";
@@ -56,6 +38,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { AgeMultipleOptions } from "../../../../constants/AgeMultipleOptions";
 import { ProfileStyle } from "../../../../../assets/styles/ProfileStyle";
 import ReactModal from "react-native-modal";
+import moment from "moment";
 
 const TIME = { min: 0, max: 86399 };
 const SliderPad = 12;
@@ -120,13 +103,9 @@ class CreateMatchScreen extends PureComponent {
    * @prevProps is old props which compare this new props
    */
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.responseGetTitleAndCategorydata !==
-      this.props.responseGetTitleAndCategorydata
-    ) {
+    if (prevProps.responseGetTitleAndCategorydata !== this.props.responseGetTitleAndCategorydata) {
       if (this.props.responseGetTitleAndCategorydata !== undefined) {
-        const { success, message, sports, status_code } =
-          this.props.responseGetTitleAndCategorydata;
+        const { success, message, sports, status_code } = this.props.responseGetTitleAndCategorydata;
         if (status_code == 200 && success == true) {
           this.setSportsTitle(sports);
         } else if (success == false) {
@@ -144,12 +123,9 @@ class CreateMatchScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseCreateSportsdata !== this.props.responseCreateSportsdata
-    ) {
+    if (prevProps.responseCreateSportsdata !== this.props.responseCreateSportsdata) {
       if (this.props.responseCreateSportsdata !== undefined) {
-        const { success, message, error, status_code } =
-          this.props.responseCreateSportsdata;
+        const { success, message, error, status_code } = this.props.responseCreateSportsdata;
         if (status_code == 200 && success == true) {
           showSuccessMessage(message);
           this.props.navigation.goBack();
@@ -183,12 +159,9 @@ class CreateMatchScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -281,10 +254,7 @@ class CreateMatchScreen extends PureComponent {
     if (endTimeminutes > 30 && endTimeminutes != "59.983333333333334") {
       endTimeminutes = 30;
     }
-    if (
-      endTimehours == "23.99972222222222" &&
-      endTimeminutes == "59.983333333333334"
-    ) {
+    if (endTimehours == "23.99972222222222" && endTimeminutes == "59.983333333333334") {
       endTimeminutes = 59;
     }
 
@@ -425,7 +395,7 @@ class CreateMatchScreen extends PureComponent {
         });
       } else {
         const params = {
-          sport: selectedSport,
+          sport_id: selectedSport,
           level: selectedLevel,
           gender: JSON.stringify(selectedGender),
           age: JSON.stringify(selectedAge),
@@ -437,10 +407,9 @@ class CreateMatchScreen extends PureComponent {
           cost: selectedCost,
           message: messages,
           find_match: isHideNotification == false ? "0" : "1",
-          match_dates: Object.keys(markedDates),
           match_time: selected,
-          start_time: convertedstartTime,
-          end_time: convertedendTime,
+          match_start_at: Object.keys(markedDates)[0] + " " + convertedstartTime,
+          match_end_at: Object.keys(markedDates)[0] + " " + convertedendTime,
           invited_player: selectedPlayerId,
           location_description: locationdec,
         };
@@ -500,9 +469,7 @@ class CreateMatchScreen extends PureComponent {
           style={[
             TabStyle.sportstitleview,
             {
-              fontFamily: item.isChecked
-                ? font_type.FontExtraBold
-                : font_type.FontRegular,
+              fontFamily: item.isChecked ? font_type.FontExtraBold : font_type.FontRegular,
               color: item.isChecked ? Colors.BLACK : Colors.GREY,
               textAlign: "center",
             },
@@ -559,7 +526,7 @@ class CreateMatchScreen extends PureComponent {
 
       data.children.map((lvl, dindex) => {
         if (innerindex == dindex && lvl.name == row.name) {
-          this.setState({ selectedSport: lvl.name });
+          this.setState({ selectedSport: lvl.id });
           lvl.isChecked = true;
         } else {
           lvl.isChecked = false;
@@ -585,19 +552,14 @@ class CreateMatchScreen extends PureComponent {
               {
                 marginHorizontal: wp(2),
                 justifyContent: "space-between",
-                backgroundColor: row.isChecked
-                  ? Colors.LITE_GREY
-                  : Colors.WHITE,
+                backgroundColor: row.isChecked ? Colors.LITE_GREY : Colors.WHITE,
                 paddingVertical: hp(0.5),
               },
             ]}
           >
             <Text
               numberOfLines={1}
-              style={[
-                ProfileStyle.sportstitleview,
-                { fontFamily: font_type.FontSemiBold, color: Colors.BLACK },
-              ]}
+              style={[ProfileStyle.sportstitleview, { fontFamily: font_type.FontSemiBold, color: Colors.BLACK }]}
             >
               {row.name}
             </Text>
@@ -615,14 +577,8 @@ class CreateMatchScreen extends PureComponent {
 
     return (
       <>
-        <View
-          key={outerindex}
-          style={[ProfileStyle.headerTitleView, { marginHorizontal: wp(2) }]}
-        >
-          <Text
-            numberOfLines={1}
-            style={[ProfileStyle.headertext, { color: Colors.PRIMARY }]}
-          >
+        <View key={outerindex} style={[ProfileStyle.headerTitleView, { marginHorizontal: wp(2) }]}>
+          <Text numberOfLines={1} style={[ProfileStyle.headertext, { color: Colors.PRIMARY }]}>
             {item.name}
           </Text>
         </View>
@@ -633,14 +589,8 @@ class CreateMatchScreen extends PureComponent {
 
   renderListFooterComponent = () => {
     return (
-      <TouchableOpacity
-        onPress={() => this.displaySportsPicker()}
-        style={TabStyle.closebtnofmodel}
-      >
-        <Text
-          numberOfLines={1}
-          style={[ProfileStyle.smalltextview, { color: Colors.WHITE }]}
-        >
+      <TouchableOpacity onPress={() => this.displaySportsPicker()} style={TabStyle.closebtnofmodel}>
+        <Text numberOfLines={1} style={[ProfileStyle.smalltextview, { color: Colors.WHITE }]}>
           {strings.btn_close}
         </Text>
       </TouchableOpacity>
@@ -668,11 +618,7 @@ class CreateMatchScreen extends PureComponent {
     return (
       <View style={[TabCommonStyle.container]}>
         <Header isHideBack props={this.props} />
-        <HeadingWithText
-          titleText={strings.createMatch}
-          marginVerticalview={hp(1.5)}
-          marginLeftview={wp(3)}
-        />
+        <HeadingWithText titleText={strings.createMatch} marginVerticalview={hp(1.5)} marginLeftview={wp(3)} />
         <ReactModal
           animationType="slide"
           transparent={true}
@@ -688,9 +634,7 @@ class CreateMatchScreen extends PureComponent {
               data={sportsTitle}
               scrollEnabled={true}
               extraData={sportsTitle}
-              renderItem={({ item, index }) =>
-                this.renderSportCategoryview(item, index)
-              }
+              renderItem={({ item, index }) => this.renderSportCategoryview(item, index)}
               bounces={false}
               showsVerticalScrollIndicator={false}
               listKey={(item, index) => "D" + index.toString()}
@@ -774,17 +718,12 @@ class CreateMatchScreen extends PureComponent {
                 style={[
                   TabStyle.dropdownmargins,
                   {
-                    marginBottom: isVisibleDateTimeView ? hp(4) : 0
+                    marginBottom: isVisibleDateTimeView ? hp(4) : 0,
                   },
                 ]}
               >
-                <TouchableOpacity
-                  style={TabStyle.touchableview}
-                  onPress={() => this.handleDateTimeView()}
-                >
-                  <Text style={TabStyle.chooseFontStyle}>
-                    {strings.chooseDateandTime}
-                  </Text>
+                <TouchableOpacity style={TabStyle.touchableview} onPress={() => this.handleDateTimeView()}>
+                  <Text style={TabStyle.chooseFontStyle}>{strings.chooseDateandTime}</Text>
                   <FastImage
                     style={[TabStyle.calenderDropDown]}
                     tintColor={Colors.BLACK}
@@ -823,13 +762,8 @@ class CreateMatchScreen extends PureComponent {
               </View>
 
               <View style={[TabStyle.dropdownmargins]}>
-                <TouchableOpacity
-                  style={TabStyle.touchableview}
-                  onPress={() => this.displaySportsPicker()}
-                >
-                  <Text style={TabStyle.chooseFontStyle}>
-                    {selectedSport ? "Sport: " + selectedSport : "Sport"}
-                  </Text>
+                <TouchableOpacity style={TabStyle.touchableview} onPress={() => this.displaySportsPicker()}>
+                  <Text style={TabStyle.chooseFontStyle}>{selectedSport ? "Sport: " + selectedSport : "Sport"}</Text>
                   <FastImage
                     style={[TabStyle.calenderDropDown]}
                     tintColor={Colors.BLACK}
@@ -838,21 +772,12 @@ class CreateMatchScreen extends PureComponent {
                 </TouchableOpacity>
               </View>
               <View style={[TabStyle.LevelHorizontalView]}>
-                <Text
-                  style={[
-                    TabStyle.chooseFontStyle,
-                    { width: "39%", marginLeft: wp(2) },
-                  ]}
-                >
-                  {"Skill Level"}
-                </Text>
+                <Text style={[TabStyle.chooseFontStyle, { width: "39%", marginLeft: wp(2) }]}>{"Skill Level"}</Text>
 
                 <FlatList
                   style={[TabStyle.onlyFlex]}
                   data={sportsOptionsData}
-                  renderItem={({ item, index }) =>
-                    this.renderSportsOptionsview(item, index)
-                  }
+                  renderItem={({ item, index }) => this.renderSportsOptionsview(item, index)}
                   bounces={false}
                   extraData={sportsOptionsData}
                   horizontal={true}
@@ -877,9 +802,7 @@ class CreateMatchScreen extends PureComponent {
 
               <View style={TabStyle.dropdownmargins}>
                 <CustomDropDownPicker
-                  onSelect={(selectedItem) =>
-                    this.onSelectPlayerLimitDropDown(selectedItem)
-                  }
+                  onSelect={(selectedItem) => this.onSelectPlayerLimitDropDown(selectedItem)}
                   defaultButtonText={"Number of Players"}
                   data={DefaultPlayer}
                   buttonTextAfterSelection={(selectedItem) => {
@@ -902,13 +825,9 @@ class CreateMatchScreen extends PureComponent {
                 <MultiSelectDropDown
                   Options={GenderMultipleOptions}
                   Icon={Icon}
-                  onSelectedAvailibilityItemsChange={
-                    this.onSelectedGenderItemsChange
-                  }
+                  onSelectedAvailibilityItemsChange={this.onSelectedGenderItemsChange}
                   onSelectedRoomChange={this.onSelectedGenderRoomChange}
-                  selectedItems={this.formatForMultiSelectGender(
-                    selectedGender
-                  )}
+                  selectedItems={this.formatForMultiSelectGender(selectedGender)}
                   selectText="Gender"
                   subKey="children"
                 />
@@ -928,9 +847,7 @@ class CreateMatchScreen extends PureComponent {
                 <MultiSelectDropDown
                   Options={AgeMultipleOptions}
                   Icon={Icon}
-                  onSelectedAvailibilityItemsChange={
-                    this.onSelectedAgeItemsChange
-                  }
+                  onSelectedAvailibilityItemsChange={this.onSelectedAgeItemsChange}
                   onSelectedRoomChange={this.onSelectedAgeRoomChange}
                   selectedItems={this.formatForMultiSelectAge(selectedAge)}
                   selectText="Age Range"
@@ -940,15 +857,11 @@ class CreateMatchScreen extends PureComponent {
 
               <View style={TabStyle.dropdownmargins}>
                 <CustomDropDownPicker
-                  onSelect={(selectedItem) =>
-                    this.onSelectCostDropDown(selectedItem)
-                  }
+                  onSelect={(selectedItem) => this.onSelectCostDropDown(selectedItem)}
                   defaultButtonText={"Cost"}
                   data={[" ", "Free", "$"]}
                   buttonTextAfterSelection={(selectedItem) => {
-                    return selectedItem.trim() == ""
-                      ? "Cost" + selectedItem
-                      : "Cost: " + selectedItem;
+                    return selectedItem.trim() == "" ? "Cost" + selectedItem : "Cost: " + selectedItem;
                   }}
                 />
               </View>
@@ -1002,30 +915,15 @@ class CreateMatchScreen extends PureComponent {
                   style={TabStyle.smallIconStyle}
                   source={images.global_img}
                 ></FastImage>
-                <Text
-                  style={[
-                    TabStyle.smallheadertext,
-                    { textAlign: "left", marginBottom: 0, width: wp(60) },
-                  ]}
-                >
+                <Text style={[TabStyle.smallheadertext, { textAlign: "left", marginBottom: 0, width: wp(60) }]}>
                   {strings.postToFindMatch}
                 </Text>
-                <View
-                  style={[
-                    Settingstyle.nextview,
-                    { padding: 0, marginLeft: wp(5) },
-                  ]}
-                >
-                  <SwitchComponent
-                    value={isHideNotification}
-                    onValueChange={() => this.changeHideNotification()}
-                  />
+                <View style={[Settingstyle.nextview, { padding: 0, marginLeft: wp(5) }]}>
+                  <SwitchComponent value={isHideNotification} onValueChange={() => this.changeHideNotification()} />
                 </View>
               </View>
               <View style={[AuthStyle.loginView, { marginTop: hp(1) }]}>
-                <TouchableOpacity
-                  onPress={() => this.doClickCreateMatch("InvitePlayers")}
-                >
+                <TouchableOpacity onPress={() => this.doClickCreateMatch("InvitePlayers")}>
                   <BackgroundButton
                     title={strings.invitePlayers}
                     backgroundColor={Colors.WHITE}
@@ -1042,15 +940,8 @@ class CreateMatchScreen extends PureComponent {
                   />
                 </TouchableOpacity>
               </View>
-              <View
-                style={[
-                  AuthStyle.loginView,
-                  { marginTop: hp(1.5), marginBottom: hp(3) },
-                ]}
-              >
-                <TouchableOpacity
-                  onPress={() => this.doClickCreateMatch("CreateMatch")}
-                >
+              <View style={[AuthStyle.loginView, { marginTop: hp(1.5), marginBottom: hp(3) }]}>
+                <TouchableOpacity onPress={() => this.doClickCreateMatch("CreateMatch")}>
                   <BackgroundButton
                     title={strings.creatematch}
                     backgroundColor={Colors.PRIMARY}
@@ -1066,10 +957,7 @@ class CreateMatchScreen extends PureComponent {
             </ScrollView>
           </KeyboardAwareScrollView>
         </View>
-        {this.props.isBusyGetTitleAndCategory ||
-        this.props.isBusyCreateSportsRequest ? (
-          <Loader />
-        ) : null}
+        {this.props.isBusyGetTitleAndCategory || this.props.isBusyCreateSportsRequest ? <Loader /> : null}
       </View>
     );
   }
