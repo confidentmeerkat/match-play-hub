@@ -1,10 +1,7 @@
 import { StyleSheet, Platform } from "react-native";
 import Colors from "../../app/constants/Colors";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import font_type from "../../app/resources/fonts";
 import * as globals from "../../app/utils/Globals";
 
@@ -167,9 +164,9 @@ export const TabStyle = StyleSheet.create({
   },
   mainFlatView: {
     width: "100%",
-    borderColor: Colors.GREY,
-    borderWidth: 2,
-    borderRadius: 15,
+    borderColor: Colors.YELLOW,
+    borderWidth: 1,
+    borderRadius: 5,
     flexDirection: "row",
     paddingHorizontal: wp(3),
     paddingVertical: hp(1.5),
@@ -182,7 +179,7 @@ export const TabStyle = StyleSheet.create({
   },
   lineView: {
     marginHorizontal: wp(3),
-    height: globals.deviceHeight * 0.09,
+    height: "100%",
     backgroundColor: Colors.PRIMARY,
     width: 2,
   },
@@ -579,7 +576,7 @@ export const TabStyle = StyleSheet.create({
     borderWidth: 0.5,
     justifyContent: "center",
     backgroundColor: Colors.PRIMARY,
-    marginTop:hp(1)
+    marginTop: hp(1),
   },
   // chatimage:{
   //   image: {

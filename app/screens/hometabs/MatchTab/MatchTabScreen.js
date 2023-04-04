@@ -1,21 +1,12 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, FlatList, Platform, TouchableOpacity } from "react-native";
 import images from "../../../resources/images";
 import { TabCommonStyle } from "../../../../assets/styles/TabCommonStyle";
 import strings from "../../../resources/languages/strings";
 import { TabStyle } from "../../../../assets/styles/TabStyle";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import * as globals from "../../../utils/Globals";
 import Colors from "../../../constants/Colors";
 import FastImage from "react-native-fast-image";
@@ -35,6 +26,54 @@ import { ProfileStyle } from "../../../../assets/styles/ProfileStyle";
 import MediaModel from "../../../components/modals/MediaModel";
 import CustomOnebuttonComponent from "../../../components/buttons/CustomOnebuttonComponent";
 import { CommonActions } from "@react-navigation/native";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
+import { Box, Button, HStack, Image } from "native-base";
+
+const testMatches = {
+  upcomingMatchList: [
+    {
+      match_month: "Oct",
+      match_date: "12",
+      match_day: "Sun",
+      match_time: "10:00 PM",
+      sport: "Tennis",
+      location: "Florida State University",
+      confirmed_player: [{ name: "1" }, { name: "2" }],
+      is_status: "Invited",
+    },
+    {
+      match_month: "Oct",
+      match_date: "12",
+      match_day: "Sun",
+      match_time: "10:00 PM",
+      sport: "Tennis",
+      location: "Florida State University",
+      confirmed_player: [{ name: "1" }, { name: "2" }],
+      is_status: "Invited",
+    },
+    {
+      match_month: "Oct",
+      match_date: "12",
+      match_day: "Sun",
+      match_time: "10:00 PM",
+      sport: "Tennis",
+      location: "Florida State University",
+      confirmed_player: [{ name: "1" }, { name: "2" }],
+      is_status: "Invited",
+    },
+    {
+      match_month: "Oct",
+      match_date: "12",
+      match_day: "Sun",
+      match_time: "10:00 PM",
+      sport: "Tennis",
+      location: "Florida State University",
+      confirmed_player: [{ name: "1" }, { name: "2" }],
+      is_status: "Invited",
+    },
+  ],
+};
+
 class MatchTabScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -43,6 +82,7 @@ class MatchTabScreen extends PureComponent {
       notificationData: props.notificationData,
       upComingMatchList: [],
       isSelectedTab: "",
+      upComingOrCompleted: "upcoming",
       isProfilePicker: false,
       currentUser: {},
     };
@@ -53,13 +93,9 @@ class MatchTabScreen extends PureComponent {
    * @prevProps is old props which compare this new props
    */
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.responseGetUpcomingMatchdata !==
-      this.props.responseGetUpcomingMatchdata
-    ) {
+    if (prevProps.responseGetUpcomingMatchdata !== this.props.responseGetUpcomingMatchdata) {
       if (this.props.responseGetUpcomingMatchdata !== undefined) {
-        const { success, message, matches, status_code } =
-          this.props.responseGetUpcomingMatchdata;
+        const { success, message, matches, status_code } = this.props.responseGetUpcomingMatchdata;
         if (status_code == 200 && success == true) {
           this.setUpcomingMatchList(matches);
         } else if (success == false) {
@@ -78,12 +114,9 @@ class MatchTabScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -177,7 +210,6 @@ class MatchTabScreen extends PureComponent {
   };
 
   gotoDeatilMatch = (item, index) => {
-
     if (item.is_status == "Invited") {
       this.props.navigation.navigate("MatchDetailUserInvited", {
         matchDetail: item,
@@ -211,27 +243,25 @@ class MatchTabScreen extends PureComponent {
   };
 
   renderMatchesview = (item, index) => {
-
     let confirmed_players = [];
     if (item.confirmed_player) {
-      confirmed_players = item.confirmed_player
-        .slice(0, 3)
-        .map((data, innerindex) => {
-          return (
-            <>
-              <View key={innerindex} style={TabStyle.plyersimageView}>
-                <FastImage
-                  style={TabStyle.plyersImageStyle}
-                  source={
-                    data.profile_url === ""
-                      ? images.dummy_user_img
-                      : { uri: data.profile_url }
-                  }
-                ></FastImage>
-              </View>
-            </>
-          );
-        });
+      confirmed_players = item.confirmed_player.slice(0, 3).map((data, innerindex) => {
+        return (
+          <>
+            <View key={innerindex} style={[TabStyle.plyersimageView]}>
+              <Image
+                alt="user image"
+                source={images.dummy_user_img}
+                width={`${hs(30)}px`}
+                height={`${hs(30)}px`}
+                resizeMode="contain"
+                resizeMethod="resize"
+                rounded="full"
+              />
+            </View>
+          </>
+        );
+      });
     }
     return (
       <>
@@ -248,7 +278,7 @@ class MatchTabScreen extends PureComponent {
               numberOfLines={1}
               style={[
                 TabStyle.smalltextview,
-                { color: Colors.PRIMARY, fontFamily: font_type.FontExtraBold },
+                { color: Colors.BLACK, fontSize: ms(15), fontStyle: "italic", lineHeight: ms(18) },
               ]}
             >
               {item.match_month ? item.match_month : ""}
@@ -257,56 +287,66 @@ class MatchTabScreen extends PureComponent {
               numberOfLines={1}
               style={[
                 TabStyle.smalltextview,
-                { color: Colors.PRIMARY, fontFamily: font_type.FontExtraBold },
+                { color: Colors.PRIMARY, lineHeight: ms(18), fontSize: ms(15), fontFamily: font_type.FontBold },
               ]}
             >
               {item.match_date ? item.match_date : ""}
             </Text>
-            <Text numberOfLines={1} style={[TabStyle.dayTimeView]}>
+            <Text
+              numberOfLines={1}
+              style={[TabStyle.dayTimeView, { fontSize: ms(10), lineHeight: ms(18), fontStyle: "italic" }]}
+            >
               {item.match_day ? item.match_day : ""}
             </Text>
-            <Text numberOfLines={1} style={[TabStyle.dayTimeView]}>
+            <Text numberOfLines={1} style={[TabStyle.dayTimeView, { fontSize: ms(9), lineHeight: ms(18) }]}>
               {item.match_time ? item.match_time : ""}
             </Text>
           </View>
           <View style={TabStyle.lineView} />
           <View style={{ marginHorizontal: wp(1) }}>
-            <Text numberOfLines={1} style={[TabStyle.headertext]}>
-              {item.sport ? item.sport : ""}
-            </Text>
-            <View style={{ flexDirection: "row" }}>
+            <HStack space={1} alignItems="center">
               <FastImage
                 resizeMode="contain"
-                tintColor={Colors.GREY}
-                style={TabStyle.verysmallIcon}
-                source={images.fill_location_img}
+                style={{ width: hs(20), height: hs(20) }}
+                source={images.tennis_img}
+              ></FastImage>
+              <Text numberOfLines={1} style={[{ fontSize: hs(20), color: Colors.YELLOW, fontWeight: "400" }]}>
+                {item.sport ? item.sport : ""}
+              </Text>
+            </HStack>
+            <View style={{ flexDirection: "row", marginTop: hs(8) }}>
+              <FastImage
+                resizeMode="contain"
+                style={{ width: hs(15), height: hs(15), marginRight: hs(6) }}
+                source={images.location_img}
               ></FastImage>
               <Text
                 numberOfLines={1}
-                style={[
-                  TabStyle.smallConfirmplayertext,
-
-                  { color: Colors.GREY, width: "80%" },
-                ]}
+                style={[TabStyle.smallConfirmplayertext, { color: Colors.GREY, width: "80%", fontSize: ms(12) }]}
               >
                 {item.location ? item.location : ""}
               </Text>
             </View>
-            <View style={[TabStyle.rowFlexDiretion, { alignItems: "center" }]}>
+            <View style={[TabStyle.rowFlexDiretion, { alignItems: "center", marginTop: hs(4) }]}>
               {confirmed_players}
 
               {confirmed_players.length >= 3 ? (
                 <Text numberOfLines={1} style={TabStyle.plyersLimitText}>
-                  {item.confirmed_player.length - 3 == 0
-                    ? ""
-                    : "+" + " " + (item.confirmed_player.length - 3)}
+                  {item.confirmed_player.length - 3 == 0 ? "" : "+" + " " + (item.confirmed_player.length - 3)}
                 </Text>
               ) : null}
               {item.open_sports == 0 ? null : (
                 <View style={{ marginHorizontal: wp(1) }}>
-                  <CustomSlots
-                    titleText={strings.openSlot + item.open_sports}
-                  />
+                  <Box
+                    width="full"
+                    rounded="full"
+                    height={`${hs(15)}px`}
+                    bgColor={Colors.PRIMARY}
+                    px={2}
+                    _text={{ fontSize: ms(10), margin: 0, color: Colors.WHITE }}
+                  >
+                    {strings.openSlot + item.open_sports}
+                  </Box>
                 </View>
               )}
             </View>
@@ -315,11 +355,7 @@ class MatchTabScreen extends PureComponent {
         {item.is_status ? (
           <View style={[TabStyle.matchesStatusview]}>
             {item.is_status == "final_match" ? (
-              <FastImage
-                resizeMode="contain"
-                style={TabStyle.smallIconStyle}
-                source={images.right_img}
-              ></FastImage>
+              <FastImage resizeMode="contain" style={TabStyle.smallIconStyle} source={images.right_img}></FastImage>
             ) : item.is_status == "rematch" ? (
               <TouchableOpacity
                 onPress={() =>
@@ -329,18 +365,14 @@ class MatchTabScreen extends PureComponent {
                   })
                 }
               >
-                <FastImage
-                  resizeMode="contain"
-                  style={TabStyle.smallIconStyle}
-                  source={images.rematch_img}
-                ></FastImage>
+                <FastImage resizeMode="contain" style={TabStyle.smallIconStyle} source={images.rematch_img}></FastImage>
               </TouchableOpacity>
             ) : (
               <Text
                 numberOfLines={1}
                 style={[
                   TabStyle.smallConfirmplayertext,
-                  { color: Colors.DARK_GREY, backgroundColor: Colors.WHISPER },
+                  { color: Colors.DARK_GREY, backgroundColor: Colors.WHISPER, fontSize: ms(15) },
                 ]}
               >
                 {item.is_status ? item.is_status : ""}
@@ -378,46 +410,26 @@ class MatchTabScreen extends PureComponent {
   };
 
   render() {
-    const {
-      isSelectedTab,
-      isProfilePicker,
-      upComingMatchList,
-      confirmedMatchesData,
-    } = this.state;
+    const { isSelectedTab, isProfilePicker, upComingMatchList, confirmedMatchesData, upComingOrCompleted } = this.state;
+    const matches = upComingOrCompleted === "upcoming" ? upComingMatchList : confirmedMatchesData;
+
     return (
       <View style={[TabCommonStyle.container]}>
-        <MediaModel
-          modalVisible={isProfilePicker}
-          onBackdropPress={() => this.displayProfilePicker()}
-        >
+        <MediaModel modalVisible={isProfilePicker} onBackdropPress={() => this.displayProfilePicker()}>
           <View style={ProfileStyle.modelContainer}>
             <View style={[ProfileStyle.modelView]}>
               <View style={[ProfileStyle.titleviewstyle, {}]}>
-                <TouchableOpacity
-                  onPress={() => this.displayProfilePicker()}
-                  style={TabStyle.closeCalendarPopup}
-                >
-                  <FastImage
-                    style={[ProfileStyle.calendarimg]}
-                    source={images.close_img}
-                  ></FastImage>
+                <TouchableOpacity onPress={() => this.displayProfilePicker()} style={TabStyle.closeCalendarPopup}>
+                  <FastImage style={[ProfileStyle.calendarimg]} source={images.close_img}></FastImage>
                 </TouchableOpacity>
                 <View style={TabStyle.alrtview}>
-                  <FastImage
-                    style={[ProfileStyle.calendarimg]}
-                    source={images.alert_red_img}
-                  ></FastImage>
+                  <FastImage style={[ProfileStyle.calendarimg]} source={images.alert_red_img}></FastImage>
                   <Text numberOfLines={2} style={[TabStyle.alrtTexts]}>
                     {strings.completeProfileFirst}
                   </Text>
                 </View>
 
-                <View
-                  style={[
-                    TabStyle.calandarPopupView,
-                    { marginVertical: hp(1) },
-                  ]}
-                >
+                <View style={[TabStyle.calandarPopupView, { marginVertical: hp(1) }]}>
                   <CustomOnebuttonComponent
                     segmentOneTitle={strings.gotoProfile}
                     segmentOneImage={images.home_img}
@@ -431,57 +443,72 @@ class MatchTabScreen extends PureComponent {
         </MediaModel>
         {/* <Header props={this.props} /> */}
         <View style={[TabStyle.container, { marginTop: -hp(1) }]}>
-          <CustomTwoSegmentCoponent
-            segmentOneTitle={strings.findMatch}
-            segmentOneImage={images.find_img}
-            segmentTwoTitle={strings.createMatch}
-            segmentTwoImage={images.add_img}
-            isSelectedTab={isSelectedTab}
-            onPressSegmentOne={() => this.gotoSelectedTab("Find_Match")}
-            onPressSegmentTwo={() => this.gotoSelectedTab("Create_Match")}
-          />
+          <HStack width="full" space={4} mt={`${vs(20)}`} mb={`${vs(30)}px`}>
+            <Button
+              flex={1}
+              borderRadius={5}
+              borderWidth={1}
+              borderColor={Colors.DARK_GREY}
+              _text={{ fontStyle: "italic", color: Colors.DARK_GREY }}
+              onPress={() => this.gotoSelectedTab("Find_Match")}
+            >
+              Find a Match
+            </Button>
+            <Button
+              flex={1}
+              borderWidth={1}
+              borderRadius={5}
+              borderColor={Colors.DARK_GREY}
+              _text={{ fontStyle: "italic", color: Colors.DARK_GREY }}
+              onPress={() => this.gotoSelectedTab("Create_Match")}
+            >
+              Create a Match
+            </Button>
+          </HStack>
+
           <View style={{ flex: confirmedMatchesData.length == 0 ? 1 : 0.7 }}>
-            <HeadingWithText
-              titleText={"My Matches"}
-              marginVerticalview={hp(0)}
-            />
-            {upComingMatchList.length == 0 ? (
-              <Text style={[TabStyle.subtitleview, { marginVertical: hp(2) }]}>
-                {strings.noUpcomingMatches}
-              </Text>
+            <HeadingWithText titleText={"My Matches"} marginVerticalview={hp(0)} />
+
+            <HStack width="full" space={4} mt={`${vs(20)}`}>
+              <Button
+                flex={1}
+                bgColor={upComingOrCompleted === "upcoming" ? Colors.ORANGE : Colors.WHITE}
+                borderWidth={upComingOrCompleted !== "upcoming" ? 1 : 0}
+                borderRadius={5}
+                borderColor={Colors.DARK_GREY}
+                _text={{
+                  color: upComingOrCompleted === "upcoming" ? Colors.WHITE : Colors.DARK_GREY,
+                  fontStyle: "italic",
+                }}
+                onPress={() => this.setState({ upComingOrCompleted: "upcoming" })}
+              >
+                Upcoming
+              </Button>
+              <Button
+                flex={1}
+                bgColor={upComingOrCompleted !== "upcoming" ? Colors.ORANGE : Colors.WHITE}
+                borderWidth={upComingOrCompleted === "upcoming" ? 1 : 0}
+                borderRadius={5}
+                borderColor={Colors.DARK_GREY}
+                _text={{
+                  color: upComingOrCompleted === "completed" ? Colors.WHITE : Colors.DARK_GREY,
+                  fontStyle: "italic",
+                }}
+                onPress={() => this.setState({ upComingOrCompleted: "completed" })}
+              >
+                Completed
+              </Button>
+            </HStack>
+
+            {testMatches.upcomingMatchList.length == 0 ? (
+              <Text style={[TabStyle.subtitleview, { marginVertical: hp(2) }]}>{strings.noUpcomingMatches}</Text>
             ) : (
               <FlatList
                 style={{ marginVertical: hp(1.5) }}
-                data={upComingMatchList}
-                renderItem={({ item, index }) =>
-                  this.renderMatchesview(item, index)
-                }
+                data={testMatches.upcomingMatchList}
+                renderItem={({ item, index }) => this.renderMatchesview(item, index)}
                 extraData={upComingMatchList}
                 bounces={false}
-                showsVerticalScrollIndicator={false}
-                listKey={(item, index) => "D" + index.toString()}
-                keyExtractor={(item, index) => "D" + index.toString()}
-              />
-            )}
-          </View>
-          <View style={{ flex: 0.4 }}>
-            <HeadingWithText
-              titleText={"My Completed Matches"}
-              marginVerticalview={hp(0)}
-            />
-            {confirmedMatchesData.length == 0 ? (
-              <Text style={[TabStyle.subtitleview, { marginVertical: hp(2) }]}>
-                {strings.noCompletedMatches}
-              </Text>
-            ) : (
-              <FlatList
-                style={{ marginVertical: hp(1.5) }}
-                data={confirmedMatchesData}
-                renderItem={({ item, index }) =>
-                  this.renderMatchesview(item, index)
-                }
-                bounces={false}
-                extraData={confirmedMatchesData}
                 showsVerticalScrollIndicator={false}
                 listKey={(item, index) => "D" + index.toString()}
                 keyExtractor={(item, index) => "D" + index.toString()}

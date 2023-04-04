@@ -13,6 +13,7 @@ import DeviceInfo from "react-native-device-info";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../resources/constants";
 import * as globals from "../../utils/Globals";
+import { showErrorMessage } from "../../utils/helpers";
 
 const styles = StyleSheet.create({
   headerText: {

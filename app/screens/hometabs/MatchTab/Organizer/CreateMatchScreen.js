@@ -342,6 +342,7 @@ class CreateMatchScreen extends PureComponent {
       selectedAge,
       selectedLevel,
       selectedPlayerId,
+      sportsTitle,
       crrntLat,
       crrntLong,
       matchDetail,
@@ -394,8 +395,20 @@ class CreateMatchScreen extends PureComponent {
           matchDetail: {},
         });
       } else {
+        let sport_id;
+
+        for (let i = 0; i < sportsTitle.length; i++) {
+          let data = sportData[i];
+
+          data.children.map((lvl, dindex) => {
+            if (lvl.name == selectedSport) {
+              sport_id = lvl.id;
+            }
+          });
+        }
+
         const params = {
-          sport_id: selectedSport,
+          sport_id,
           level: selectedLevel,
           gender: JSON.stringify(selectedGender),
           age: JSON.stringify(selectedAge),
@@ -526,7 +539,7 @@ class CreateMatchScreen extends PureComponent {
 
       data.children.map((lvl, dindex) => {
         if (innerindex == dindex && lvl.name == row.name) {
-          this.setState({ selectedSport: lvl.id });
+          this.setState({ selectedSport: lvl.name });
           lvl.isChecked = true;
         } else {
           lvl.isChecked = false;
