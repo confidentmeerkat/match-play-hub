@@ -29,51 +29,6 @@ import { CommonActions } from "@react-navigation/native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 import { Box, Button, HStack, Image } from "native-base";
 
-const testMatches = {
-  upcomingMatchList: [
-    {
-      match_month: "Oct",
-      match_date: "12",
-      match_day: "Sun",
-      match_time: "10:00 PM",
-      sport: "Tennis",
-      location: "Florida State University",
-      confirmed_player: [{ name: "1" }, { name: "2" }],
-      is_status: "Invited",
-    },
-    {
-      match_month: "Oct",
-      match_date: "12",
-      match_day: "Sun",
-      match_time: "10:00 PM",
-      sport: "Tennis",
-      location: "Florida State University",
-      confirmed_player: [{ name: "1" }, { name: "2" }],
-      is_status: "Invited",
-    },
-    {
-      match_month: "Oct",
-      match_date: "12",
-      match_day: "Sun",
-      match_time: "10:00 PM",
-      sport: "Tennis",
-      location: "Florida State University",
-      confirmed_player: [{ name: "1" }, { name: "2" }],
-      is_status: "Invited",
-    },
-    {
-      match_month: "Oct",
-      match_date: "12",
-      match_day: "Sun",
-      match_time: "10:00 PM",
-      sport: "Tennis",
-      location: "Florida State University",
-      confirmed_player: [{ name: "1" }, { name: "2" }],
-      is_status: "Invited",
-    },
-  ],
-};
-
 class MatchTabScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -500,14 +455,14 @@ class MatchTabScreen extends PureComponent {
               </Button>
             </HStack>
 
-            {testMatches.upcomingMatchList.length == 0 ? (
+            {matches.length == 0 ? (
               <Text style={[TabStyle.subtitleview, { marginVertical: hp(2) }]}>{strings.noUpcomingMatches}</Text>
             ) : (
               <FlatList
                 style={{ marginVertical: hp(1.5) }}
-                data={testMatches.upcomingMatchList}
+                data={matches}
                 renderItem={({ item, index }) => this.renderMatchesview(item, index)}
-                extraData={upComingMatchList}
+                extraData={matches}
                 bounces={false}
                 showsVerticalScrollIndicator={false}
                 listKey={(item, index) => "D" + index.toString()}
