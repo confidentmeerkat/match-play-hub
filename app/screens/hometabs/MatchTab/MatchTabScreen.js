@@ -28,6 +28,7 @@ import CustomOnebuttonComponent from "../../../components/buttons/CustomOnebutto
 import { CommonActions } from "@react-navigation/native";
 import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../utils/metrics";
 import { Box, Button, HStack, Image } from "native-base";
+import moment from "moment";
 
 class MatchTabScreen extends PureComponent {
   constructor(props) {
@@ -51,6 +52,8 @@ class MatchTabScreen extends PureComponent {
     if (prevProps.responseGetUpcomingMatchdata !== this.props.responseGetUpcomingMatchdata) {
       if (this.props.responseGetUpcomingMatchdata !== undefined) {
         const { success, message, matches, status_code } = this.props.responseGetUpcomingMatchdata;
+        console.log("this.props.responseGetUpcomingMatchdata :", this.props.responseGetUpcomingMatchdata);
+        console.log("matches :", matches);
         if (status_code == 200 && success == true) {
           this.setUpcomingMatchList(matches);
         } else if (success == false) {
@@ -254,7 +257,7 @@ class MatchTabScreen extends PureComponent {
               {item.match_day ? item.match_day : ""}
             </Text>
             <Text numberOfLines={1} style={[TabStyle.dayTimeView, { fontSize: ms(9), lineHeight: ms(18) }]}>
-              {item.match_time ? item.match_time : ""}
+              {item.match_start_at ? moment(item.match_start_at).format("h:mmA") : ""}
             </Text>
           </View>
           <View style={TabStyle.lineView} />
@@ -268,6 +271,13 @@ class MatchTabScreen extends PureComponent {
               <Text numberOfLines={1} style={[{ fontSize: hs(20), color: Colors.YELLOW, fontWeight: "400" }]}>
                 {item.sport ? item.sport : ""}
               </Text>
+              {(item.is_status === "Confirmed" || item.is_status === "Organizer") && (
+                <FastImage
+                  resizeMode="contain"
+                  style={{ width: hs(15), height: hs(15), marginTop: -hs(7.5) }}
+                  source={images.confirmed_img}
+                ></FastImage>
+              )}
             </HStack>
             <View style={{ flexDirection: "row", marginTop: hs(8) }}>
               <FastImage
@@ -330,7 +340,7 @@ class MatchTabScreen extends PureComponent {
                   { color: Colors.DARK_GREY, backgroundColor: Colors.WHISPER, fontSize: ms(15) },
                 ]}
               >
-                {item.is_status ? item.is_status : ""}
+                {item.is_status ? (item.is_status === "Organizer" ? "Organizer" : "Player") : ""}
               </Text>
             )}
           </View>

@@ -194,7 +194,7 @@ export const doCreateSports = (body) => {
       dispatch({ type: types.POST_CREATE_SPORT_REQUEST });
       const result = await postRequestWithTokenandData(ApiUrls.CREATE_SPORT, body);
       dispatch({ type: types.POST_CREATE_SPORT_SUCCESS, payload: result });
-      console.log('result :', result);
+      console.log("result :", result);
       return result;
     } catch (error) {
       console.log(error);
@@ -211,7 +211,7 @@ export const doGetUpcomingMatch = () => {
   return async (dispatch) => {
     try {
       dispatch({ type: types.GET_UPCOMING_MATCH_REQUEST });
-      const result = await makeGetHeaders(ApiUrls.GET_UPCOMING_MATCH);
+      const result = await makePostHeaderswithToken(ApiUrls.GET_UPCOMING_MATCH);
       dispatch({ type: types.GET_UPCOMING_MATCH_SUCCESS, payload: result });
       return result;
     } catch (error) {

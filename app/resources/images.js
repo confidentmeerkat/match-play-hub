@@ -66,6 +66,7 @@ const images = {
   golf_img: require("../../assets/images/golf.png"),
   outline: require("../../assets/images/outline.png"),
   location_img: require("../../assets/images/location.png"),
+  confirmed_img: require("../../assets/images/confirmed.png"),
 };
 
 export default images;

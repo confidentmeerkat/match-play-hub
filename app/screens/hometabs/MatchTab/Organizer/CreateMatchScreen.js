@@ -398,7 +398,7 @@ class CreateMatchScreen extends PureComponent {
         let sport_id;
 
         for (let i = 0; i < sportsTitle.length; i++) {
-          let data = sportData[i];
+          let data = sportsTitle[i];
 
           data.children.map((lvl, dindex) => {
             if (lvl.name == selectedSport) {
