@@ -52,8 +52,6 @@ class MatchTabScreen extends PureComponent {
     if (prevProps.responseGetUpcomingMatchdata !== this.props.responseGetUpcomingMatchdata) {
       if (this.props.responseGetUpcomingMatchdata !== undefined) {
         const { success, message, matches, status_code } = this.props.responseGetUpcomingMatchdata;
-        console.log("this.props.responseGetUpcomingMatchdata :", this.props.responseGetUpcomingMatchdata);
-        console.log("matches :", matches);
         if (status_code == 200 && success == true) {
           this.setUpcomingMatchList(matches);
         } else if (success == false) {

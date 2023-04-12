@@ -2,12 +2,9 @@ import { Dimensions } from "react-native";
 
 const guidelineBaseWidth = 500;
 const guidelineBaseHeight = 680;
-const scale = (size) =>
-  (Dimensions.get("window").width / guidelineBaseWidth) * size;
-export const moderateScale = (size, factor = 0.65) =>
-  size + (scale(size) - size) * factor;
-export const moderatePixel = (size, factor = 0.5) =>
-  size + (scale(size) - size) * factor;
+const scale = (size) => (Dimensions.get("window").width / guidelineBaseWidth) * size;
+export const moderateScale = (size, factor = 0.65) => size + (scale(size) - size) * factor;
+export const moderatePixel = (size, factor = 0.5) => size + (scale(size) - size) * factor;
 // SCALE PIXELS BASED ON SCREEN SIZE
 
 // END TO SETUP FONT-TYPE AND FONT-SIZE
@@ -39,4 +36,11 @@ export const howOften = {
 export const howLong = {
   NO_END_DATE: 5,
   END_DATE: 6,
+};
+
+export const sportLevels = {
+  B: "Biginners",
+  P: "Professionals",
+  I: "Intermediate",
+  A: "Advanced",
 };

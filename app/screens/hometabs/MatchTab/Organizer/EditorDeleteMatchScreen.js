@@ -1,27 +1,20 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import { View, Platform, TouchableOpacity, Alert } from "react-native";
+import { View, Platform, TouchableOpacity, Alert, ImageBackground } from "react-native";
 import { TabCommonStyle } from "../../../../../assets/styles/TabCommonStyle";
-import Header from "../../../../components/Header/Header";
 import strings from "../../../../resources/languages/strings";
 import { TabStyle } from "../../../../../assets/styles/TabStyle";
 import CustomTwoSegmentCoponent from "../../../../components/buttons/CustomTwoSegmentCoponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { prefEnum } from "../../../../resources/constants";
+import { prefEnum, sportLevels } from "../../../../resources/constants";
 import errors from "../../../../resources/languages/errors";
 import Loader from "../../../../components/loaders/Loader";
 import images from "../../../../resources/images";
-import {
-  doSentFriendRequest,
-  doDeleteMatch,
-} from "../../../../redux/actions/AppActions";
+import { doSentFriendRequest, doDeleteMatch } from "../../../../redux/actions/AppActions";
 import { doRefreshToken } from "../../../../redux/actions/AuthActions";
 import MatchDetailComponent from "../../../../components/RenderFlatlistComponent/MatchDetailComponent";
-import {
-  showErrorMessage,
-  showSuccessMessage,
-} from "../../../../utils/helpers";
+import { showErrorMessage, showSuccessMessage } from "../../../../utils/helpers";
 import * as globals from "../../../../utils/Globals";
 import * as AddCalendarEvent from "react-native-add-calendar-event";
 import moment from "moment";
@@ -29,12 +22,26 @@ import MediaModel from "../../../../components/modals/MediaModel";
 import { ProfileStyle } from "../../../../../assets/styles/ProfileStyle";
 import Colors from "../../../../constants/Colors";
 import FastImage from "react-native-fast-image";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import CustomOnebuttonComponent from "../../../../components/buttons/CustomOnebuttonComponent";
 import { EventRegister } from "react-native-event-listeners";
+import {
+  Box,
+  Button,
+  Center,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FlatList,
+  HStack,
+  IconButton,
+  Image,
+  ScrollView,
+  Text,
+  VStack,
+} from "native-base";
+import { horizontalScale as hs, verticalScale as vs, moderateScale as ms } from "../../../../utils/metrics";
+import HeadingWithText from "../../../../components/RenderFlatlistComponent/HeadingWithText";
 
 class EditorDeleteMatchScreen extends PureComponent {
   constructor(props) {
@@ -42,7 +49,7 @@ class EditorDeleteMatchScreen extends PureComponent {
     this.state = {
       confirmedPlayersList: [],
       matchDetail: props.route.params.matchDetail,
-      organizer: [],
+      organizer: {},
       isCalandarPicker: false,
       isOrganizer: false,
     };
@@ -53,12 +60,9 @@ class EditorDeleteMatchScreen extends PureComponent {
    * @prevProps is old props which compare this new props
    */
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.responseDeleteMatchdata !== this.props.responseDeleteMatchdata
-    ) {
+    if (prevProps.responseDeleteMatchdata !== this.props.responseDeleteMatchdata) {
       if (this.props.responseDeleteMatchdata !== undefined) {
-        const { success, message, status_code } =
-          this.props.responseDeleteMatchdata;
+        const { success, message, status_code } = this.props.responseDeleteMatchdata;
         if (status_code == 200 && success == true) {
           showSuccessMessage(message);
           EventRegister.emit("RefreshMatchList");
@@ -79,13 +83,9 @@ class EditorDeleteMatchScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseSentFriendRequestdata !==
-      this.props.responseSentFriendRequestdata
-    ) {
+    if (prevProps.responseSentFriendRequestdata !== this.props.responseSentFriendRequestdata) {
       if (this.props.responseSentFriendRequestdata !== undefined) {
-        const { success, message, status_code } =
-          this.props.responseSentFriendRequestdata;
+        const { success, message, status_code } = this.props.responseSentFriendRequestdata;
 
         if (status_code == 200 && success == true) {
           showSuccessMessage(message);
@@ -107,12 +107,9 @@ class EditorDeleteMatchScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -131,12 +128,9 @@ class EditorDeleteMatchScreen extends PureComponent {
   }
 
   async componentDidMount() {
-    this.listenerone = EventRegister.addEventListener(
-      "UpdateMatchList",
-      async ({ updatedMatchData }) => {
-        await this.updateMatchDetails(updatedMatchData);
-      }
-    );
+    this.listenerone = EventRegister.addEventListener("UpdateMatchList", async ({ updatedMatchData }) => {
+      await this.updateMatchDetails(updatedMatchData);
+    });
     await this.updateMatchDetails(this.state.matchDetail);
   }
 
@@ -263,14 +257,10 @@ class EditorDeleteMatchScreen extends PureComponent {
 
   utcDateToString = (momentInUTC) => {
     if (Platform.OS == "android") {
-      let platformwiseDateFormated = moment(momentInUTC)
-        .utc()
-        .format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+      let platformwiseDateFormated = moment(momentInUTC).utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
       return platformwiseDateFormated;
     } else {
-      let platformwiseDateFormated = moment(momentInUTC).format(
-        "YYYY-MM-DDTHH:mm:ss.SSSZ"
-      );
+      let platformwiseDateFormated = moment(momentInUTC).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
       return platformwiseDateFormated;
     }
   };
@@ -279,19 +269,12 @@ class EditorDeleteMatchScreen extends PureComponent {
     const { matchDetail } = this.state;
     const eventConfig = {
       title: matchDetail.sport ? matchDetail.sport : "",
-      startDate: matchDetail.formated_start_date
-        ? this.utcDateToString(matchDetail.formated_start_date)
-        : "",
-      endDate: matchDetail.formated_end_date
-        ? this.utcDateToString(matchDetail.formated_end_date)
-        : "",
+      startDate: matchDetail.formated_start_date ? this.utcDateToString(matchDetail.formated_start_date) : "",
+      endDate: matchDetail.formated_end_date ? this.utcDateToString(matchDetail.formated_end_date) : "",
     };
     AddCalendarEvent.presentEventCreatingDialog(eventConfig)
       .then(({ calendarItemIdentifier, eventIdentifier }) => {
-        if (
-          calendarItemIdentifier != undefined &&
-          eventIdentifier != undefined
-        ) {
+        if (calendarItemIdentifier != undefined && eventIdentifier != undefined) {
         }
       })
       .catch((error) => {
@@ -303,133 +286,348 @@ class EditorDeleteMatchScreen extends PureComponent {
   };
 
   render() {
-    const {
-      confirmedPlayersList,
-      isOrganizer,
-      matchDetail,
-      organizer,
-      isCalandarPicker,
-    } = this.state;
+    const { confirmedPlayersList, isOrganizer, matchDetail, isCalandarPicker } = this.state;
     return (
       <View style={[TabCommonStyle.container]}>
-        <Header isHideBack props={this.props} />
-        <View
-          style={[
-            TabStyle.dropdownmargins,
-            { marginVertical: hp(3), marginTop: -hp(1) },
-          ]}
-        >
-          <CustomTwoSegmentCoponent
-            segmentOneTitle={strings.editMatch}
-            segmentOneImage={images.edit_img}
-            segmentTwoTitle={strings.deleteMatch}
-            segmentTwoImage={images.close_img}
-            isSelectedTab={"true"}
-            onPressSegmentOne={() => this.gotoApproveRequest("edit")}
-            onPressSegmentTwo={() => this.gotoApproveRequest("delete")}
-          />
-          <CustomOnebuttonComponent
-            segmentOneTitle={strings.managePlayers}
-            segmentOneImage={images.allUsers_img}
-            segmentOneTintColor={Colors.PRIMARY}
-            onPressSegmentOne={() => this.gotoManagePlayers()}
-          />
-        </View>
+        <HStack width="full">
+          <IconButton _icon={{ color: "black" }} icon={<ChevronLeftIcon />} />
+          <HStack flexGrow={1} mx={`${wp(5)}px`} alignItems="center" space="8">
+            <Button
+              flex={1}
+              bgColor={Colors.ORANGE}
+              borderRadius={5}
+              borderColor={Colors.DARK_GREY}
+              _text={{
+                color: Colors.WHITE,
+                fontSize: `${ms(15)}px`,
+                fontStyle: "italic",
+              }}
+              height={`${vs(28)}px`}
+              padding="0"
+            >
+              Edit Match
+            </Button>
+            <Button
+              flex={1}
+              bgColor={Colors.ORANGE}
+              borderRadius={5}
+              borderColor={Colors.DARK_GREY}
+              _text={{
+                color: Colors.WHITE,
+                fontSize: `${ms(15)}px`,
+                fontStyle: "italic",
+              }}
+              height={`${vs(28)}px`}
+              padding="0"
+            >
+              Delete Match
+            </Button>
+          </HStack>
+        </HStack>
 
-        <MediaModel
-          modalVisible={isCalandarPicker}
-          onBackdropPress={() => this.displayCalandarPicker()}
-        >
-          <View style={ProfileStyle.modelContainer}>
-            <View style={[ProfileStyle.modelView]}>
-              <View
-                style={[ProfileStyle.titleviewstyle, { marginVertical: hp(1) }]}
+        <Box bgColor="black">
+          <ImageBackground source={images.match_bg_img} resizeMode="cover" imageStyle={{ opacity: 0.4 }}>
+            <VStack alignItems="center" my={4}>
+              <HStack justifyContent="center" alignItems="center" flexGrow={1}>
+                <HStack alignContent="center">
+                  <Image
+                    source={images.calendar1_img}
+                    style={{ width: hs(32), height: hs(36) }}
+                    resizeMode="contain"
+                    mt={1}
+                  />
+                  <VStack alignItems="center" mx={3}>
+                    <Text lineHeight={`${ms(24)}px`} fontWeight="bold" fontSize={`${ms(14)}px`} color="white">
+                      {matchDetail.match_month}
+                    </Text>
+                    <Text lineHeight={`${ms(24)}px`} fontWeight="bold" fontSize={`${ms(14)}px`} color="white">
+                      {matchDetail.match_date}
+                    </Text>
+                  </VStack>
+                </HStack>
+
+                <View style={[TabStyle.lineView, { backgroundColor: "white", width: 1 }]} />
+
+                <VStack>
+                  <Text color={Colors.YELLOW} fontSize={`${ms(20)}px`} fontWeight="bold" lineHeight={`${ms(28)}px`}>
+                    {matchDetail.sport}
+                  </Text>
+                  <Text color="white" fontSize={`${ms(14)}px`} fontWeight="bold" lineHeight={`${ms(28)}px`}>
+                    {matchDetail.match_day
+                      ? matchDetail.match_day + ", " + matchDetail.match_time_period
+                      : matchDetail.match_time_period}
+                  </Text>
+                </VStack>
+              </HStack>
+
+              <Text color="white" fontSize={`${ms(11)}px`} lineHeight={`${ms(28)}px`}>
+                {matchDetail.location}
+              </Text>
+
+              <Button
+                p={0}
+                rightIcon={<ChevronRightIcon />}
+                _icon={{ color: "white", size: `${hs(12)}px` }}
+                _stack={{ space: 0, alignItems: "center" }}
+                _text={{ fontSize: `${ms(12)}px`, fontWeight: "bold" }}
+                onPress={() => this.gotoMapScreen()}
               >
-                <TouchableOpacity
-                  onPress={() => this.displayCalandarPicker()}
-                  style={TabStyle.closeCalendarPopup}
-                >
-                  <FastImage
-                    style={[ProfileStyle.calendarimg]}
-                    source={images.close_img}
-                  ></FastImage>
-                </TouchableOpacity>
-                <View style={{ marginBottom: -hp(5), marginTop: hp(1) }}>
-                  <MatchDetailComponent
-                    date={matchDetail.match_date ? matchDetail.match_date : ""}
-                    month={
-                      matchDetail.match_month ? matchDetail.match_month : ""
-                    }
-                    matchLevel={matchDetail.level ? matchDetail.level : ""}
-                    matchName={matchDetail.sport ? matchDetail.sport : ""}
-                    datetime={
-                      matchDetail.match_time ? matchDetail.match_time : ""
-                    }
-                    day={matchDetail.match_day ? matchDetail.match_day : ""}
-                    location={matchDetail.location ? matchDetail.location : ""}
-                  />
-                </View>
+                View on Map
+              </Button>
+            </VStack>
+          </ImageBackground>
+        </Box>
 
-                <View
-                  style={[
-                    TabStyle.calandarPopupView,
-                    { marginVertical: hp(1) },
-                  ]}
+        <ScrollView>
+          <HeadingWithText titleText={"Match Details"} marginVerticalview={hp(2)} marginLeftview={wp(3)} />
+
+          <HStack mx={`${wp(5)}px`} flexWrap="wrap">
+            {matchDetail.cost ? (
+              <Box width="1/3">
+                <Center
+                  borderColor="primary"
+                  rounded="full"
+                  width={`${hs(100)}px`}
+                  height={`${vs(28)}px`}
+                  alignItems="center"
+                  borderWidth={1}
+                  mb={`${hs(18)}px`}
                 >
-                  <CustomOnebuttonComponent
-                    segmentOneTitle={strings.addtoCalander}
-                    segmentOneImage={images.calander_img}
-                    segmentOneTintColor={Colors.PRIMARY}
-                    onPressSegmentOne={() => this.onClickAddtoCalendar()}
-                  />
-                </View>
+                  <Text
+                    textAlign="center"
+                    color="primary"
+                    fontStyle="italic"
+                    fontWeight="light"
+                    fontSize={`${ms(12)}px`}
+                  >
+                    {"$$$: " + matchDetail.cost}
+                  </Text>
+                </Center>
+              </Box>
+            ) : null}
+
+            <Box width="1/3">
+              <Center
+                borderColor="primary"
+                rounded="full"
+                width={`${hs(100)}px`}
+                height={`${vs(28)}px`}
+                alignItems="center"
+                flexDirection="row"
+                borderWidth={1}
+                mb={`${hs(18)}px`}
+              >
+                <Image source={images.confirmed_img} />
+                <Text
+                  textAlign="center"
+                  ml={`${hs(6)}px`}
+                  fontStyle="italic"
+                  fontWeight="light"
+                  fontSize={`${ms(12)}px`}
+                >
+                  {matchDetail.is_status === "Organizer" || matchDetail.is_status === "Confirmed" ? "Yes" : "No"}
+                </Text>
+              </Center>
+            </Box>
+
+            {JSON.parse(matchDetail.gender).map(({ name }) => (
+              <Box width="1/3">
+                <Center
+                  borderColor="primary"
+                  rounded="full"
+                  width={`${hs(100)}px`}
+                  height={`${vs(28)}px`}
+                  alignItems="center"
+                  flexDirection="row"
+                  borderWidth={1}
+                  mb={`${hs(18)}px`}
+                >
+                  <Text
+                    textAlign="center"
+                    ml={`${hs(6)}px`}
+                    fontStyle="italic"
+                    fontWeight="light"
+                    color="primary"
+                    fontSize={`${ms(12)}px`}
+                  >
+                    {name}
+                  </Text>
+                </Center>
+              </Box>
+            ))}
+
+            {JSON.parse(matchDetail.age).map(({ name }) => (
+              <Box width="1/3">
+                <Center
+                  borderColor="primary"
+                  rounded="full"
+                  width={`${hs(100)}px`}
+                  height={`${vs(28)}px`}
+                  alignItems="center"
+                  flexDirection="row"
+                  borderWidth={1}
+                  mb={`${hs(18)}px`}
+                >
+                  <Text
+                    textAlign="center"
+                    ml={`${hs(6)}px`}
+                    fontStyle="italic"
+                    fontWeight="light"
+                    color="primary"
+                    fontSize={`${ms(12)}px`}
+                  >
+                    {"Age: " + name}
+                  </Text>
+                </Center>
+              </Box>
+            ))}
+
+            {matchDetail.level ? (
+              <Box width="1/3">
+                <Center
+                  borderColor="primary"
+                  rounded="full"
+                  width={`${hs(100)}px`}
+                  height={`${vs(28)}px`}
+                  alignItems="center"
+                  flexDirection="row"
+                  borderWidth={1}
+                  mb={`${hs(18)}px`}
+                >
+                  <Text
+                    textAlign="center"
+                    ml={`${hs(6)}px`}
+                    fontStyle="italic"
+                    fontWeight="light"
+                    fontSize={`${ms(12)}px`}
+                  >
+                    {sportLevels[matchDetail.level]}
+                  </Text>
+                </Center>
+              </Box>
+            ) : null}
+          </HStack>
+
+          <HeadingWithText titleText={"Organizer"} marginVerticalview={hp(2)} marginLeftview={wp(3)} />
+
+          <HStack borderColor={Colors.YELLOW} borderWidth={1} rounded="md" p={2} mx={`${wp(5)}px`}>
+            <View style={[TabStyle.FlatinnerView, { width: wp(13) }]}>
+              <Image
+                rounded="full"
+                width={`${hs(50)}px`}
+                height={`${hs(50)}px`}
+                source={
+                  matchDetail.Organizer.profile_url ? { uri: matchDetail.Organizer.profile_url } : images.dummy_user_img
+                }
+              />
+            </View>
+            <View style={TabStyle.lineView} />
+            <View style={{ marginHorizontal: wp(1) }}>
+              <HStack space={1} alignItems="center">
+                <FastImage
+                  resizeMode="contain"
+                  style={{ width: hs(20), height: hs(20) }}
+                  source={images.tennis_img}
+                ></FastImage>
+                <Text numberOfLines={1} style={[{ fontSize: hs(20), fontWeight: "400" }]}>
+                  {matchDetail.Organizer.name || matchDetail.Organizer.username}
+                </Text>
+              </HStack>
+              <View style={{ flexDirection: "row", marginTop: hs(8) }}>
+                <FastImage
+                  resizeMode="contain"
+                  style={{ width: hs(15), height: hs(15), marginRight: hs(6) }}
+                  source={images.location_img}
+                ></FastImage>
+                <Text
+                  numberOfLines={1}
+                  style={[TabStyle.smallConfirmplayertext, { color: Colors.GREY, width: "80%", fontSize: ms(12) }]}
+                >
+                  {matchDetail.Organizer.location}
+                </Text>
+              </View>
+              <View style={[TabStyle.rowFlexDiretion, { alignItems: "center", marginTop: hs(4) }]}>
+                <Text numberOfLines={1} fontSize={`${ms(11)}px`} mr={1}>
+                  Other sports
+                </Text>
+
+                {matchDetail.Organizer.assign_sport.slice(0, 3).map(() => (
+                  <Image source={images.tennis_img} />
+                ))}
               </View>
             </View>
-          </View>
-        </MediaModel>
-        <MatchDetailComponent
-          date={matchDetail.match_date ? matchDetail.match_date : ""}
-          month={matchDetail.match_month ? matchDetail.match_month : ""}
-          matchName={matchDetail.sport ? matchDetail.sport : ""}
-          matchLevel={matchDetail.level ? matchDetail.level : ""}
-          datetime={matchDetail.match_time ? matchDetail.match_time : ""}
-          day={matchDetail.match_day ? matchDetail.match_day : ""}
-          location={matchDetail.location ? matchDetail.location : ""}
-          cost={matchDetail.cost ? "Cost: " + matchDetail.cost : ""}
-          age={matchDetail.age_string ? "Age: " + matchDetail.age_string : ""}
-          gender={
-            matchDetail.gender_string
-              ? "Gender: " + matchDetail.gender_string
-              : ""
-          }
-          message={matchDetail.message ? matchDetail.message : ""}
-          firstheadingtitle={strings.confirmPlayers}
-          firstheadingdata={confirmedPlayersList}
-          secondheadingtitle={strings.openSlot}
-          secondheadingdata={
-            matchDetail.open_sports ? matchDetail.open_sports : ""
-          }
-          organizertitle={strings.organizer}
-          organizerImage={
-            organizer.profile_url === ""
-              ? images.dummy_user_img
-              : { uri: organizer.profile_url }
-          }
-          organizerUsername={organizer.username ? organizer.username : ""}
-          organizerGender={organizer.gender ? organizer.gender : ""}
-          organizerAgePreference={organizer.age ? organizer.age : ""}
-          isOrganizer={isOrganizer}
-          organizerLocation={organizer.location ? organizer.location : ""}
-          organizerMessages={strings.messageOrganizer}
-          gotoMapScreen={() => this.gotoMapScreen()}
-          onMatchClick={() => this.gotoonMatchClick()}
-          onPressSegmentOne={() => this.gotoOrganizerMessage()}
-          is_friend={matchDetail.is_friend}
-          is_request={matchDetail.is_request}
-          is_receive_request={matchDetail.is_receive_request}
-          onPressmanageRequest={() => this.onPressmanageRequest()}
-          onPresssendRequest={() => this.onPresssendRequest()}
-        />
+          </HStack>
+
+          <HeadingWithText titleText={"Confirmed Players"} marginVerticalview={hp(2)} marginLeftview={wp(3)} />
+
+          <FlatList
+            ml={`${wp(5)}px`}
+            horizontal={true}
+            data={[...matchDetail.confirmed_player, { name: "empty" }]}
+            bounces={false}
+            renderItem={({ item, index }) => {
+              return (
+                <Center
+                  width={`${hs(84)}px`}
+                  mx={2}
+                  rounded="lg"
+                  borderWidth={1}
+                  borderColor="gray.700"
+                  backgroundColor="white"
+                >
+                  {item.name === "empty" && matchDetail.open_sports > 0 ? (
+                    <Text fontSize={`${ms(10)}px`} lineHeight={`${ms(28)}px`} textAlign="center">
+                      {matchDetail.open_sports + " more \n open sports"}
+                    </Text>
+                  ) : (
+                    <>
+                      <Image
+                        mt={2}
+                        source={images.dummy_user_img}
+                        width={`${hs(40)}px`}
+                        height={`${hs(40)}px`}
+                        resizeMode="contain"
+                        resizeMethod="resize"
+                        rounded="full"
+                      />
+                      <Text fontSize={`${ms(10)}px`}>{item.name || item.username + " " + item.age}</Text>
+                      <Text fontSize={`${ms(8)}px`} textAlign="center">{`${item.city}, ${item.state}`}</Text>
+                      <Text fontSize={`${ms(8)}px`} textAlign="center">{`(${
+                        item.assign_sport.find(({ title, status }) => title === matchDetail.sport).status || "B"
+                      }) ${matchDetail.sport}`}</Text>
+                      <HStack my="1.5" space={`${hs(10)}px`} justifyContent="center">
+                        <Button
+                          _text={{ fontSize: `${ms(5)}px`, lineHeight: `${ms(9)}px` }}
+                          p={0}
+                          bgColor="blue.600"
+                          rounded="full"
+                          width={`${hs(50)}px`}
+                          onPress={() => this.props.navigation.navigate("ChatListing")}
+                        >
+                          Message
+                        </Button>
+                      </HStack>
+                    </>
+                  )}
+                </Center>
+              );
+            }}
+          />
+
+          <HStack justifyContent="center" width="full" my={6}>
+            <Button
+              bgColor={Colors.ORANGE}
+              width="1/2"
+              height={`${hs(27)}px`}
+              _text={{ fontSize: `${ms(15)}px`, fontStyle: "italic", fontWeight: "light" }}
+              py={0}
+              onPress={() => this.gotoManagePlayers()}
+            >
+              Manage Players
+            </Button>
+          </HStack>
+        </ScrollView>
+
         {this.props.isBusyDeleteMatch ? <Loader /> : null}
       </View>
     );
@@ -461,7 +659,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditorDeleteMatchScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EditorDeleteMatchScreen);

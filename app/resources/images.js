@@ -67,6 +67,8 @@ const images = {
   outline: require("../../assets/images/outline.png"),
   location_img: require("../../assets/images/location.png"),
   confirmed_img: require("../../assets/images/confirmed.png"),
+  match_bg_img: require("../../assets/images/match_bg.png"),
+  calendar1_img: require("../../assets/images/Calendar1.png"),
 };
 
 export default images;
