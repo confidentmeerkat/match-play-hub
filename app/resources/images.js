@@ -69,6 +69,8 @@ const images = {
   confirmed_img: require("../../assets/images/confirmed.png"),
   match_bg_img: require("../../assets/images/match_bg.png"),
   calendar1_img: require("../../assets/images/Calendar1.png"),
+  home1_img: require("../../assets/images/home1.png"),
+  tennis_racket_img: require("../../assets/images/tennis-racket.png"),
 };
 
 export default images;

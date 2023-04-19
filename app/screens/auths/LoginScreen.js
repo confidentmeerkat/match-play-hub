@@ -1,43 +1,23 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import {
-  Text,
-  View,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  TextInput,
-  Platform,
-  SafeAreaView,
-} from "react-native";
+import { Text, View, Image, Keyboard, TouchableOpacity, TextInput, Platform, SafeAreaView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Colors from "../../constants/Colors";
 import images from "../../resources/images";
 import BackgroundButton from "../../components/buttons/BackgroundButton";
 import { AuthStyle } from "../../../assets/styles/AuthStyle";
 import strings from "../../resources/languages/strings";
 import errors from "../../resources/languages/errors";
-import {
-  isPassword,
-  isValidMobile,
-  showErrorMessage,
-} from "../../utils/helpers";
+import { isPassword, isValidMobile, showErrorMessage } from "../../utils/helpers";
 import font_type from "../../resources/fonts";
 import Loader from "../../components/loaders/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { prefEnum } from "../../resources/constants";
 import * as globals from "../../utils/Globals";
-import {
-  doLogin,
-  doRefreshToken,
-  doGetUser,
-} from "../../redux/actions/AuthActions";
+import { doLogin, doRefreshToken, doGetUser } from "../../redux/actions/AuthActions";
 import { CommonActions } from "@react-navigation/native";
 import TextTicker from "react-native-text-ticker";
 import DeviceInfo from "react-native-device-info";
@@ -65,8 +45,7 @@ class LoginScreen extends PureComponent {
   componentDidUpdate = async (prevProps) => {
     if (prevProps.responseLogin !== this.props.responseLogin) {
       if (this.props.responseLogin !== undefined) {
-        const { token, success, error, message, status_code } =
-          this.props.responseLogin;
+        const { token, success, error, message, status_code } = this.props.responseLogin;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -84,8 +63,7 @@ class LoginScreen extends PureComponent {
     }
     if (prevProps.responseUserdata !== this.props.responseUserdata) {
       if (this.props.responseUserdata !== undefined) {
-        const { user, success, message, status_code } =
-          this.props.responseUserdata;
+        const { user, success, message, status_code } = this.props.responseUserdata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_USER, JSON.stringify(user));
           this.doFinish("Home", "login");
@@ -104,12 +82,9 @@ class LoginScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -238,8 +213,7 @@ class LoginScreen extends PureComponent {
   };
 
   render() {
-    const { mobilenum, password, errPassword, isHidePassword, errMobile } =
-      this.state;
+    const { mobilenum, password, errPassword, isHidePassword, errMobile } = this.state;
 
     return (
       <SafeAreaView style={AuthStyle.container}>
@@ -268,16 +242,9 @@ class LoginScreen extends PureComponent {
           <View style={AuthStyle.titleviewStyle}>
             <Text style={[AuthStyle.titleText]}>{strings.letsSignIn}</Text>
 
-            <Text style={[AuthStyle.smalltitleText]}>
-              {strings.loginText}
-            </Text>
+            <Text style={[AuthStyle.smalltitleText]}>{strings.loginText}</Text>
           </View>
-          <View
-            style={[
-              AuthStyle.usernameView,
-              errMobile !== "" ? AuthStyle.errorStyle : AuthStyle.noErrorStyle,
-            ]}
-          >
+          <View style={[AuthStyle.usernameView, errMobile !== "" ? AuthStyle.errorStyle : AuthStyle.noErrorStyle]}>
             <Image
               source={images.call_img}
               style={{
@@ -315,14 +282,7 @@ class LoginScreen extends PureComponent {
             />
           </View>
 
-          <View
-            style={[
-              AuthStyle.usernameView,
-              errPassword !== ""
-                ? AuthStyle.errorStyle
-                : AuthStyle.noErrorStyle,
-            ]}
-          >
+          <View style={[AuthStyle.usernameView, errPassword !== "" ? AuthStyle.errorStyle : AuthStyle.noErrorStyle]}>
             <Image
               source={images.lock_img}
               style={{
@@ -361,9 +321,7 @@ class LoginScreen extends PureComponent {
                 }}
               >
                 <Image
-                  source={
-                    isHidePassword ? images.eye_hide_img : images.eye_show_img
-                  }
+                  source={isHidePassword ? images.eye_hide_img : images.eye_show_img}
                   style={{
                     width: wp(6),
                     height: wp(6),
@@ -374,18 +332,13 @@ class LoginScreen extends PureComponent {
           </View>
           {errPassword.trim() !== "" && (
             <View style={AuthStyle.errorView}>
-              <Image
-                source={images.alert_img}
-                style={{ width: wp(5), height: wp(5), marginRight: wp(1) }}
-              />
+              <Image source={images.alert_img} style={{ width: wp(5), height: wp(5), marginRight: wp(1) }} />
               <Text style={AuthStyle.txtError}>{errPassword}</Text>
             </View>
           )}
           <View style={[AuthStyle.forgotPasswordContainer]}>
             <TouchableOpacity onPress={() => this.doClickForgot()}>
-              <Text
-                style={[AuthStyle.txtForgotPassword, { color: Colors.PRIMARY }]}
-              >
+              <Text style={[AuthStyle.txtForgotPassword, { color: Colors.PRIMARY }]}>
                 {strings.header_forgot_password}
               </Text>
             </TouchableOpacity>
@@ -405,20 +358,14 @@ class LoginScreen extends PureComponent {
             </TouchableOpacity>
           </View>
           <View style={AuthStyle.txtForgotpassview}>
-            <Text style={[AuthStyle.alreadyAccounttxt]}>
-              {strings.noacount}
-            </Text>
+            <Text style={[AuthStyle.alreadyAccounttxt]}>{strings.noacount}</Text>
 
             <TouchableOpacity onPress={() => this.doClickRegister()}>
-              <Text style={[AuthStyle.alreadyAccounttxtLink]}>
-                {strings.signup}
-              </Text>
+              <Text style={[AuthStyle.alreadyAccounttxtLink]}>{strings.signup}</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-        {this.props.isBusyLogin || this.props.isBusyUserdata ? (
-          <Loader />
-        ) : null}
+        {this.props.isBusyLogin || this.props.isBusyUserdata ? <Loader /> : null}
       </SafeAreaView>
     );
   }

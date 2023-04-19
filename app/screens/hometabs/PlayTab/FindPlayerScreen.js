@@ -1,22 +1,10 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import React, { PureComponent } from "react";
-import {
-  Text,
-  Platform,
-  View,
-  TouchableOpacity,
-  FlatList,
-  Keyboard,
-  Animated,
-  PanResponder,
-} from "react-native";
+import { Text, Platform, View, TouchableOpacity, FlatList, Keyboard, Animated, PanResponder } from "react-native";
 import strings from "../../../resources/languages/strings";
 import Search from "../../../components/Search/Search";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { TabStyle } from "../../../../assets/styles/TabStyle";
 import FastImage from "react-native-fast-image";
 import Colors from "../../../constants/Colors";
@@ -49,31 +37,32 @@ class FindPlayerScreen extends PureComponent {
       isFilterEnable: 0,
       isProfilePicker: this.props.currentUser.location == "" ? true : false,
       location_long_name: "",
-      currentPlayerIndex: 0
+      currentPlayerIndex: 0,
     };
     this.position = new Animated.ValueXY();
     this.rotate = this.position.x.interpolate({
       inputRange: [-wp(100) / 2, 0, wp(100) / 2],
-      outputRange: ['-10deg', '0deg', '10deg'],
-      extrapolate: 'clamp'
+      outputRange: ["-10deg", "0deg", "10deg"],
+      extrapolate: "clamp",
     });
     this.rotateAndTranslate = {
-      transform: [{
-        rotate: this.rotate
-      },
-      ...this.position.getTranslateTransform()
-      ]
+      transform: [
+        {
+          rotate: this.rotate,
+        },
+        ...this.position.getTranslateTransform(),
+      ],
     };
     this.nextCardOpacity = this.position.x.interpolate({
-       inputRange: [-wp(100) / 2, 0, wp(100) / 2],
-       outputRange: [1, 0, 1],
-       extrapolate: 'clamp'
-    })
+      inputRange: [-wp(100) / 2, 0, wp(100) / 2],
+      outputRange: [1, 0, 1],
+      extrapolate: "clamp",
+    });
     this.nextCardScale = this.position.x.interpolate({
-       inputRange: [-wp(100) / 2, 0, wp(100) / 2],
-       outputRange: [1, 0.8, 1],
-       extrapolate: 'clamp'
-    })
+      inputRange: [-wp(100) / 2, 0, wp(100) / 2],
+      outputRange: [1, 0.8, 1],
+      extrapolate: "clamp",
+    });
   }
 
   /**
@@ -81,12 +70,9 @@ class FindPlayerScreen extends PureComponent {
    * @prevProps is old props which compare this new props
    */
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.responseGetAllUsersdata !== this.props.responseGetAllUsersdata
-    ) {
+    if (prevProps.responseGetAllUsersdata !== this.props.responseGetAllUsersdata) {
       if (this.props.responseGetAllUsersdata !== undefined) {
-        const { success, message, status_code, userData, locationInfo } =
-          this.props.responseGetAllUsersdata;
+        const { success, message, status_code, userData, locationInfo } = this.props.responseGetAllUsersdata;
         if (status_code == 200 && success == true) {
           this.setAllConnectionData(userData, locationInfo);
         } else if (success == false) {
@@ -105,12 +91,9 @@ class FindPlayerScreen extends PureComponent {
       }
     }
 
-    if (
-      prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata
-    ) {
+    if (prevProps.responseRefreshTokendata !== this.props.responseRefreshTokendata) {
       if (this.props.responseRefreshTokendata !== undefined) {
-        const { success, token, message, status_code } =
-          this.props.responseRefreshTokendata;
+        const { success, token, message, status_code } = this.props.responseRefreshTokendata;
         if (status_code == 200 && success == true) {
           AsyncStorage.setItem(prefEnum.TAG_API_TOKEN, token);
           globals.access_token = token;
@@ -138,23 +121,20 @@ class FindPlayerScreen extends PureComponent {
     this.listener = EventRegister.addEventListener("refreshPlayersList", () => {
       this.getAllPlayers();
     });
-    this.listenerone = EventRegister.addEventListener(
-      "addFilters",
-      ({ finalReturendObject }) => {
-        this.setState(
-          {
-            selectedCallbackFiltersData: finalReturendObject,
-            selectedFilters: this.state.selectedFilters
-              ? finalReturendObject.TotalNumberofSearch + 1
-              : finalReturendObject.TotalNumberofSearch,
-            location: finalReturendObject.location
-          },
-          () => {
-            this.getAllPlayers();
-          }
-        );
-      }
-    );
+    this.listenerone = EventRegister.addEventListener("addFilters", ({ finalReturendObject }) => {
+      this.setState(
+        {
+          selectedCallbackFiltersData: finalReturendObject,
+          selectedFilters: this.state.selectedFilters
+            ? finalReturendObject.TotalNumberofSearch + 1
+            : finalReturendObject.TotalNumberofSearch,
+          location: finalReturendObject.location,
+        },
+        () => {
+          this.getAllPlayers();
+        }
+      );
+    });
     this.listenertwo = EventRegister.addEventListener("initializeApp", () => {
       this.setCurrentUser();
     });
@@ -166,28 +146,28 @@ class FindPlayerScreen extends PureComponent {
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dx > 120) {
           Animated.spring(this.position, {
-            toValue: { x: wp(100) + 100, y: gestureState.dy }
+            toValue: { x: wp(100) + 100, y: gestureState.dy },
           }).start(() => {
             this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
-              this.position.setValue({ x: 0, y: 0 })
-            })
-          })
+              this.position.setValue({ x: 0, y: 0 });
+            });
+          });
         } else if (gestureState.dx < -120) {
           Animated.spring(this.position, {
-            toValue: { x: -wp(100) - 100, y: gestureState.dy }
+            toValue: { x: -wp(100) - 100, y: gestureState.dy },
           }).start(() => {
             this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
-              this.position.setValue({ x: 0, y: 0 })
-            })
-          })
+              this.position.setValue({ x: 0, y: 0 });
+            });
+          });
         } else {
           Animated.spring(this.position, {
-           toValue: { x: 0, y: 0 },
-           friction: 4
-           }).start()
+            toValue: { x: 0, y: 0 },
+            friction: 4,
+          }).start();
         }
-      }
-    })
+      },
+    });
   }
 
   componentWillUnmount() {
@@ -220,8 +200,8 @@ class FindPlayerScreen extends PureComponent {
       };
       this.props.doSentFriendRequest(param);
       this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
-        this.position.setValue({ x: 0, y: 0 })
-      })
+        this.position.setValue({ x: 0, y: 0 });
+      });
     } else {
       showErrorMessage(errors.no_internet);
     }
@@ -229,8 +209,8 @@ class FindPlayerScreen extends PureComponent {
 
   clickSkipRequest = () => {
     this.setState({ currentPlayerIndex: this.state.currentPlayerIndex + 1 }, () => {
-      this.position.setValue({ x: 0, y: 0 })
-    })
+      this.position.setValue({ x: 0, y: 0 });
+    });
   };
 
   setCurrentUser = () => {
@@ -261,21 +241,11 @@ class FindPlayerScreen extends PureComponent {
         longitude: crrntLong,
         location: location,
         location_long_name: location_long_name,
-        gender: selectedCallbackFiltersData.Gender
-          ? selectedCallbackFiltersData.Gender
-          : "",
-        age_preference: selectedCallbackFiltersData.Age
-          ? selectedCallbackFiltersData.Age
-          : [],
-        distance: selectedCallbackFiltersData.Distance
-          ? selectedCallbackFiltersData.Distance
-          : "",
-        level: selectedCallbackFiltersData.Level
-          ? selectedCallbackFiltersData.Level
-          : "",
-        sport: selectedCallbackFiltersData.Sport
-          ? selectedCallbackFiltersData.Sport
-          : [],
+        gender: selectedCallbackFiltersData.Gender ? selectedCallbackFiltersData.Gender : "",
+        age_preference: selectedCallbackFiltersData.Age ? selectedCallbackFiltersData.Age : [],
+        distance: selectedCallbackFiltersData.Distance ? selectedCallbackFiltersData.Distance : "",
+        level: selectedCallbackFiltersData.Level ? selectedCallbackFiltersData.Level : "",
+        sport: selectedCallbackFiltersData.Sport ? selectedCallbackFiltersData.Sport : [],
         is_filter: selectedFilters != 0 ? 1 : isFilterEnable,
       };
       this.props.doGetAllUsers(params);
@@ -304,7 +274,7 @@ class FindPlayerScreen extends PureComponent {
     if (item.assign_sport) {
       sportsData = item.assign_sport.map((data, index, sportsData) => {
         return (
-          <Text key={index} numberOfLines={2} style={[TabStyle.smalltextview, {color: Colors.WHITE}]}>
+          <Text key={index} numberOfLines={2} style={[TabStyle.smalltextview, { color: Colors.WHITE }]}>
             {data.title + " (" + data.status + ")"}
             {index != sportsData.length - 1 ? ", " : ""}
           </Text>
@@ -312,29 +282,26 @@ class FindPlayerScreen extends PureComponent {
       });
     }
     return (
-      <View
-        key={index}
-        style={TabStyle.horizontalFlatView}
-      >
-        <View style={{ alignItems: "center", justifyContent: "center", position: 'relative' }}>
+      <View key={index} style={TabStyle.horizontalFlatView}>
+        <View style={{ alignItems: "center", justifyContent: "center", position: "relative" }}>
           <FastImage
             resizeMethod="resize"
-            style={[TabStyle.imageStyle,{width:wp(90),height:hp(50),borderRadius:15}]}
-            source={
-              item.profile_url === ""
-                ? images.dummy_user_img
-                : { uri: item.profile_url }
-            }
+            style={[TabStyle.imageStyle, { width: wp(90), height: hp(50), borderRadius: 15 }]}
+            source={item.profile_url === "" ? images.dummy_user_img : { uri: item.profile_url }}
           ></FastImage>
           <TouchableOpacity
             onPress={() => this.gotoDetailofPlayer(item, index)}
-            style={{position: 'absolute', bottom: 0, left: 0, flexDirection: "column", paddingVertical: hp(3) }}
+            style={{ position: "absolute", bottom: 0, left: 0, flexDirection: "column", paddingVertical: hp(3) }}
           >
             <Text
               numberOfLines={1}
-              style={[TabStyle.headertext, { marginVertical: hp(0), color:Colors.WHITE, bottom: hp(.5), paddingHorizontal: wp(5)}]}
+              style={[
+                TabStyle.headertext,
+                { marginVertical: hp(0), color: Colors.WHITE, bottom: hp(0.5), paddingHorizontal: wp(5) },
+              ]}
             >
-              {item.username ? item.username : ""}{item.age ? ", " + item.age : ""}
+              {item.username ? item.username : ""}
+              {item.age ? ", " + item.age : ""}
             </Text>
             <View style={{ flexDirection: "row", paddingHorizontal: wp(5), marginBottom: hp(0.5) }}>
               {item.location ? (
@@ -347,31 +314,31 @@ class FindPlayerScreen extends PureComponent {
 
               <Text
                 numberOfLines={1}
-                style={[TabStyle.smalltextview, { marginBottom: hp(0), marginLeft: wp(1.0), color:Colors.WHITE }]}
+                style={[TabStyle.smalltextview, { marginBottom: hp(0), marginLeft: wp(1.0), color: Colors.WHITE }]}
               >
-                {item.location ? item.location : ""}{item.distance ? ", " + item.distance + " mi. away" : ""}
+                {item.location ? item.location : ""}
+                {item.distance ? ", " + item.distance + " mi. away" : ""}
               </Text>
             </View>
 
             {sportsData.length > 2 ? (
               <View style={{ flexDirection: "row", paddingHorizontal: wp(5) }}>
                 <Text
-                  style={[TabStyle.singleSports, { marginVertical: hp(.25), color: Colors.WHITE }]}
+                  style={[TabStyle.singleSports, { marginVertical: hp(0.25), color: Colors.WHITE }]}
                   numberOfLines={1}
                 >
                   {sportsData}
                 </Text>
-                <Text style={[TabStyle.multipleSports, {color: Colors.WHITE, marginVertical: 0 }]} numberOfLines={1}>
+                <Text style={[TabStyle.multipleSports, { color: Colors.WHITE, marginVertical: 0 }]} numberOfLines={1}>
                   {"+" + sportsData.length + " Sports"}
                 </Text>
               </View>
             ) : (
-              <Text style={[TabStyle.singleSports, {color: Colors.WHITE, marginVertical: 0}]} numberOfLines={1}>
+              <Text style={[TabStyle.singleSports, { color: Colors.WHITE, marginVertical: 0 }]} numberOfLines={1}>
                 {sportsData}
               </Text>
             )}
           </TouchableOpacity>
-
         </View>
         <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginVertical: hp(1.5) }}>
           <TouchableOpacity
@@ -384,13 +351,13 @@ class FindPlayerScreen extends PureComponent {
                 borderRadius: wp(15),
                 width: wp(15),
                 height: wp(15),
-                marginHorizontal: wp(8)
+                marginHorizontal: wp(8),
               },
             ]}
           >
             <FastImage
               tintColor={Colors.PRIMARY}
-              style={{width: wp(7), height: wp(7)}}
+              style={{ width: wp(7), height: wp(7) }}
               source={images.close_img}
               resizeMode="contain"
             ></FastImage>
@@ -405,13 +372,13 @@ class FindPlayerScreen extends PureComponent {
                 borderRadius: wp(15),
                 width: wp(15),
                 height: wp(15),
-                marginHorizontal: wp(8)
+                marginHorizontal: wp(8),
               },
             ]}
           >
             <FastImage
               tintColor={Colors.WHITE}
-              style={{width: wp(9), height: wp(9)}}
+              style={{ width: wp(9), height: wp(9) }}
               source={images.rightsign_img}
               resizeMode="contain"
             ></FastImage>
@@ -449,21 +416,11 @@ class FindPlayerScreen extends PureComponent {
 
     if (parseInt(currentUser.percentage) >= parseInt("50%")) {
       let finalObject = {
-        gender: selectedCallbackFiltersData.Gender
-          ? selectedCallbackFiltersData.Gender
-          : "",
-        age: selectedCallbackFiltersData.Age
-          ? selectedCallbackFiltersData.Age
-          : "",
-        location_radius: selectedCallbackFiltersData.Distance
-          ? selectedCallbackFiltersData.Distance
-          : "",
-        skill_level: selectedCallbackFiltersData.Level
-          ? selectedCallbackFiltersData.Level
-          : "",
-        sports: selectedCallbackFiltersData.Sport
-          ? selectedCallbackFiltersData.Sport
-          : "",
+        gender: selectedCallbackFiltersData.Gender ? selectedCallbackFiltersData.Gender : "",
+        age: selectedCallbackFiltersData.Age ? selectedCallbackFiltersData.Age : "",
+        location_radius: selectedCallbackFiltersData.Distance ? selectedCallbackFiltersData.Distance : "",
+        skill_level: selectedCallbackFiltersData.Level ? selectedCallbackFiltersData.Level : "",
+        sports: selectedCallbackFiltersData.Sport ? selectedCallbackFiltersData.Sport : "",
       };
       this.props.props.navigation.navigate("SearchFilters", {
         props: this.props,
@@ -507,10 +464,7 @@ class FindPlayerScreen extends PureComponent {
   };
 
   onChangeTexttoRemove = (text) => {
-    if (
-      this.state.location == this.props.currentUser.location &&
-      text.trim() == ""
-    ) {
+    if (this.state.location == this.props.currentUser.location && text.trim() == "") {
       this.setState({ location: this.props.currentUser.location });
     } else {
       this.setState({ location: "" }, () => {
@@ -524,38 +478,20 @@ class FindPlayerScreen extends PureComponent {
   };
 
   render() {
-    const {
-      findplayersData,
-      isProfilePicker,
-      isFilterEnable,
-      locationInfo,
-      selectedFilters,
-      location,
-    } = this.state;
+    const { findplayersData, isProfilePicker, isFilterEnable, locationInfo, selectedFilters, location } = this.state;
     return (
       <>
-        <MediaModel
-          modalVisible={isProfilePicker}
-          onBackdropPress={() => this.displayProfilePicker()}
-        >
+        <MediaModel modalVisible={isProfilePicker} onBackdropPress={() => this.displayProfilePicker()}>
           <View style={ProfileStyle.modelContainer}>
             <View style={[ProfileStyle.modelView]}>
               <View style={[ProfileStyle.titleviewstyle, {}]}>
                 <View style={TabStyle.alrtview}>
-                  <FastImage
-                    style={[ProfileStyle.calendarimg]}
-                    source={images.alert_red_img}
-                  ></FastImage>
+                  <FastImage style={[ProfileStyle.calendarimg]} source={images.alert_red_img}></FastImage>
                   <Text numberOfLines={2} style={[TabStyle.alrtTexts]}>
                     {strings.completeProfileFirst}
                   </Text>
                 </View>
-                <View
-                  style={[
-                    TabStyle.calandarPopupView,
-                    { marginVertical: hp(1) },
-                  ]}
-                >
+                <View style={[TabStyle.calandarPopupView, { marginVertical: hp(1) }]}>
                   <CustomOnebuttonComponent
                     segmentOneTitle={strings.gotoProfile}
                     segmentOneImage={images.home_img}
@@ -620,52 +556,58 @@ class FindPlayerScreen extends PureComponent {
         ) : (
           <View>
             <View style={{ flex: 1 }}>
-              {findplayersData.map((item, index) => {
-                console.log(item);
-                if (index < this.state.currentPlayerIndex) {
-                  return null;
-                } else if (index == this.state.currentPlayerIndex) {
-                  return (
-                    <Animated.View
-                      {...this.PanResponder.panHandlers}
-                      key={index}
-                      style={[
-                        this.rotateAndTranslate,
-                        { height: hp(50), width: wp(90), padding: 0, position:'absolute' }
-                      ]}
-                    >
-                       {this.renderfindplayersDataview(item, index)}
-                    </Animated.View>
-                  );
-                } else {
-                  return (
-                    <Animated.View
-                      key={index}
-                      style={[
-                        { opacity: this.nextCardOpacity, transform: [{ scale: this.nextCardScale }], height: hp(50), width: wp(90), padding: 0, position:'absolute' }
-                      ]}
-                    >
-                       {this.renderfindplayersDataview(item, index)}
-                    </Animated.View>
-                  );
-                }
-              }).reverse()}
+              {findplayersData
+                .map((item, index) => {
+                  if (index < this.state.currentPlayerIndex) {
+                    return null;
+                  } else if (index == this.state.currentPlayerIndex) {
+                    return (
+                      <Animated.View
+                        {...this.PanResponder.panHandlers}
+                        key={index}
+                        style={[
+                          this.rotateAndTranslate,
+                          { height: hp(50), width: wp(90), padding: 0, position: "absolute" },
+                        ]}
+                      >
+                        {this.renderfindplayersDataview(item, index)}
+                      </Animated.View>
+                    );
+                  } else {
+                    return (
+                      <Animated.View
+                        key={index}
+                        style={[
+                          {
+                            opacity: this.nextCardOpacity,
+                            transform: [{ scale: this.nextCardScale }],
+                            height: hp(50),
+                            width: wp(90),
+                            padding: 0,
+                            position: "absolute",
+                          },
+                        ]}
+                      >
+                        {this.renderfindplayersDataview(item, index)}
+                      </Animated.View>
+                    );
+                  }
+                })
+                .reverse()}
             </View>
-            {1 === 3 ?
-            <FlatList
-              style={{ marginVertical: hp(2) }}
-              data={findplayersData}
-              renderItem={({ item, index }) =>
-                this.renderfindplayersDataview(item, index)
-              }
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              bounces={false}
-              showsVerticalScrollIndicator={false}
-              listKey={(item, index) => "D" + index.toString()}
-              keyExtractor={(item, index) => "D" + index.toString()}
-            />
-            : null }
+            {1 === 3 ? (
+              <FlatList
+                style={{ marginVertical: hp(2) }}
+                data={findplayersData}
+                renderItem={({ item, index }) => this.renderfindplayersDataview(item, index)}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                showsVerticalScrollIndicator={false}
+                listKey={(item, index) => "D" + index.toString()}
+                keyExtractor={(item, index) => "D" + index.toString()}
+              />
+            ) : null}
           </View>
         )}
         {this.props.isBusyGetAllUsersRequest ? <Loader isFrom="Play" /> : null}
